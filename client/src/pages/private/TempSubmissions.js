@@ -2,13 +2,11 @@ import React, { useEffect, useState } from 'react';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import { Field, Form, Formik } from 'formik';
 import { useHistory, useParams } from 'react-router-dom';
 
 import { Routes } from '../../constants';
 
 import { Button, Page, Table } from '../../components/generic';
-import { RenderSearchField } from '../../components/fields';
 
 export default () => {
   const history = useHistory();
@@ -16,8 +14,7 @@ export default () => {
   const [lookupError, setLookupError] = useState(null);
   const [isLoading, setLoading] = useState(false);
   const [rows, setRows] = useState([]);
-  const columns = ['Arrival Date', 'Last Name', 'First Name', 'Arrival City, Country', 'Confirmation Number'];
-  const initialValuesQuery = { query: params.lastName };
+  const columns = ['Date Submitted', 'Business Name', 'Decision'];
 
   /**
    * On page load / on search, grab the name from the url and perform a search
@@ -49,11 +46,9 @@ export default () => {
       //   );
       const rows = [{
         date: '10/10/2020',
-        lastName: 'Jourdan',
-        firstName: 'Mauricio',
-        cityCountry: 'Brazil',
-        confirmationNumber: '1AB34532',
-        viewMore: <Button /* onClick={() => history.push(Routes.LookupConfirmationNumber.dynamicRoute(traveller.id))} */
+        businessName: 'Farm',
+        decision: 'Pending',
+        viewMore: <Button /* onClick={() => history.push('/temp-submission-details')} */
           size="small" text="View" />,
       }]
       setRows(rows)

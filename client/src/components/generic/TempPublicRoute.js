@@ -21,7 +21,7 @@ const TempPublicRoute = ({ adminRedirect, component: Component, ...rest }) => {
   return isValid === null ? <LinearProgress /> : (
     <Route {...rest} render={(props) => (
       (isValid && adminRedirect)
-        ? <Redirect to={'/temp-lookup-last-name'} />
+        ? <Redirect to={'/temp-submissions'} />
         : <Component {...props} />
     )}
     />

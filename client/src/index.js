@@ -15,7 +15,8 @@ import { TempPrivateRoute, TempPublicRoute, PrivateRoute, PublicRoute } from './
 // TODO: Delete
 const TempForm = lazy(() => import('./pages/public/TempForm'));
 const TempLogin = lazy(() => import('./pages/public/TempLogin'));
-const TempLookupLastName = lazy(() => import('./pages/private/TempLookupLastName'));
+const TempSubmissions = lazy(() => import('./pages/private/TempSubmissions'));
+const TempSubmissionDetails = lazy(() => import('./pages/private/TempSubmissionDetails'));
 
 const Form = lazy(() => import('./pages/public/Form'));
 const Confirmation = lazy(() => import('./pages/public/Confirmation'));
@@ -49,7 +50,8 @@ const App = () => (
             <PrivateRoute exact path={Routes.LookupConfirmationNumber.staticRoute} component={LookupConfirmationNumber} />
 
             {/* TODO: Delete */}
-            <TempPrivateRoute exact path="/temp-lookup-last-name" component={TempLookupLastName} />
+            <TempPrivateRoute exact path="/temp-submissions" component={TempSubmissions} />
+            <TempPrivateRoute exact path="/temp-submission-details" component={TempSubmissionDetails} />
 
             {/* Invalid route - default to form */}
             <Route component={Form} />

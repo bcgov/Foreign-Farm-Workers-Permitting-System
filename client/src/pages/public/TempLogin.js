@@ -31,12 +31,12 @@ export default () => {
     // if (response.ok) {
     //   const { token } = await response.json();
     //   window.localStorage.setItem('jwt', token);
-    //   history.push('/temp-lookup-last-name');
+    //   history.push('/temp-submissions');
     //   return;
     // } else {
     //   setSubmitError(response.error || response.statusText || response);
     // }
-    history.push('/temp-lookup-last-name');
+    history.push('/temp-submissions');
 
     setSubmitLoading(false);
   };
