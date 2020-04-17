@@ -67,10 +67,6 @@ export default () => {
     })();
   }, [params.lastName]);
 
-  const handleSearch = (values) => {
-
-  };
-
 
   return (
     <Page>
@@ -82,36 +78,8 @@ export default () => {
               {/** Title */}
               <Grid item xs={12}>
                 <Typography color="primary" variant="h2" gutterBottom noWrap>
-                  Submission Lookup
+                  Submissions
                </Typography>
-              </Grid>
-
-              <Grid item xs={12}>
-                <Grid container alignItems="center" justify="space-between">
-
-                  {/** Results Text */}
-                  <Grid item>
-                    <Typography variant="subtitle2" gutterBottom noWrap>
-                      {lookupError ? lookupError.message || lookupError : `${rows.length} Records found for ${params.lastName}`}
-                    </Typography>
-                  </Grid>
-
-                  {/** Search Bar */}
-                  <Grid item xs={12} sm={6}>
-                    <Formik
-                      initialValues={initialValuesQuery}
-                      onSubmit={handleSearch}
-                    >
-                      <Form>
-                        <Field
-                          name="query"
-                          component={RenderSearchField}
-                          placeholder="Search last name..."
-                        />
-                      </Form>
-                    </Formik>
-                  </Grid>
-                </Grid>
               </Grid>
 
               {/** Table */}

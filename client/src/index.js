@@ -10,7 +10,7 @@ import 'react-app-polyfill/ie11';
 
 import { Routes, Theme } from './constants';
 
-import { PrivateRoute, PublicRoute } from './components/generic';
+import { TempPrivateRoute, TempPublicRoute, PrivateRoute, PublicRoute } from './components/generic';
 
 // TODO: Delete
 const TempForm = lazy(() => import('./pages/public/TempForm'));
@@ -35,7 +35,7 @@ const App = () => (
 
             {/* TODO: Delete */}
             <PublicRoute exact path="/temp-form" component={TempForm} />
-            <PublicRoute exact path="/temp-login" component={TempLogin} adminRedirect={true} />
+            <TempPublicRoute exact path="/temp-login" component={TempLogin} adminRedirect={true} />
 
             {/* Public routes */}
             <PublicRoute exact path={Routes.Form} component={Form} />
@@ -49,7 +49,7 @@ const App = () => (
             <PrivateRoute exact path={Routes.LookupConfirmationNumber.staticRoute} component={LookupConfirmationNumber} />
 
             {/* TODO: Delete */}
-            <PrivateRoute exact path="/temp-lookup-last-name" component={TempLookupLastName} />
+            <TempPrivateRoute exact path="/temp-lookup-last-name" component={TempLookupLastName} />
 
             {/* Invalid route - default to form */}
             <Route component={Form} />
