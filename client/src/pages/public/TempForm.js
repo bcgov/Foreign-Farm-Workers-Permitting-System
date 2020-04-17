@@ -34,6 +34,7 @@ const steps = [
   'Review',
 ];
 
+
 function getStepFields(step) {
   switch (step) {
     case 0:
