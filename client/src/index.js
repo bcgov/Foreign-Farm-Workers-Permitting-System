@@ -33,7 +33,6 @@ const App = () => (
       <BrowserRouter>
         <Suspense fallback={<LinearProgress />}>
           <Switch>
-
             {/* Public routes */}
             <PublicRoute exact path={Routes.Form} component={Form} />
             <PublicRoute exact path={Routes.Confirmation} component={Confirmation} />

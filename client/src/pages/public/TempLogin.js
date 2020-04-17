@@ -36,7 +36,6 @@ export default () => {
     // } else {
     //   setSubmitError(response.error || response.statusText || response);
     // }
-    history.push('/temp-submissions');
 
     setSubmitLoading(false);
   };
