@@ -47,7 +47,10 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "echo test && npm run lint:fix"
+      "pre-commit": "lint-staged"
     }
+  },
+  "lint-staged": {
+    "*.js": "eslint --cache --fix"
   }
 }
