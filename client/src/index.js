@@ -12,6 +12,9 @@ import { Routes, Theme } from './constants';
 
 import { PrivateRoute, PublicRoute } from './components/generic';
 
+// TODO: Delete
+const TempForm = lazy(() => import('./pages/public/TempForm'));
+
 const Form = lazy(() => import('./pages/public/Form'));
 const Confirmation = lazy(() => import('./pages/public/Confirmation'));
 const PDF = lazy(() => import('./pages/public/PDF'));
@@ -27,12 +30,16 @@ const App = () => (
       <BrowserRouter>
         <Suspense fallback={<LinearProgress />}>
           <Switch>
+
+            {/* TODO: Delete */}
+            <PublicRoute exact path="/temp-form" component={TempForm} />
+
             {/* Public routes */}
             <PublicRoute exact path={Routes.Form} component={Form} />
             <PublicRoute exact path={Routes.Confirmation} component={Confirmation} />
             <PublicRoute exact path={Routes.RenderPDF.staticRoute} component={PDF} />
             <PublicRoute exact path={Routes.Login} component={Login} adminRedirect={Routes.Lookup} />
-            
+
             {/* Private routes */}
             <PrivateRoute exact path={Routes.Lookup} component={Lookup} />
             <PrivateRoute exact path={Routes.LookupLastName.staticRoute} component={LookupLastName} />
