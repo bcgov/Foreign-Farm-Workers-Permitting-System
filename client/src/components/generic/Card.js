@@ -10,6 +10,9 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: '8px',
     backgroundColor: '#FFFFFF',
     boxShadow: '0 0 5px 0 #E5E9F2',
+    [theme.breakpoints.down('xs')]: {
+      padding: theme.spacing(1.5),
+    }
   },
   title: {
     textAlign: 'center',

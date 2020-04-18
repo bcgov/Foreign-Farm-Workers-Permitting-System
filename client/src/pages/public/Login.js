@@ -5,7 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import { Formik, Form, Field } from 'formik';
 import { useHistory } from 'react-router-dom';
 
-import { Routes, LoginSchema } from '../../constants';
+import { LoginSchema, Routes } from '../../constants';
 
 import { Page, Button, Card } from '../../components/generic';
 import { RenderTextField } from '../../components/fields';
@@ -21,21 +21,24 @@ export default () => {
 
   const handleSubmit = async (values) => {
     setSubmitLoading(true);
-    const response = await fetch('/api/v1/login', {
-      headers: { 'Accept': 'application/json', 'Content-type': 'application/json' },
-      method: 'POST',
-      body: JSON.stringify({ ...values })
-    });
-
-    if (response.ok) {
-      const { token } = await response.json();
-      window.localStorage.setItem('jwt', token);
-      history.push(Routes.Lookup);
-      return;
-    } else {
-      setSubmitError(response.error || response.statusText || response);
-    }
+    //TODO: Uncomment once backend work complete
+    // const response = await fetch('/api/v1/login', {
+    //   headers: { 'Accept': 'application/json', 'Content-type': 'application/json' },
+    //   method: 'POST',
+    //   body: JSON.stringify({ ...values })
+    // });
+    // if (response.ok) {
+    //   const { token } = await response.json();
+    //   window.localStorage.setItem('jwt', token);
+    //   history.push(Routes.Submissions);
+    //   return;
+    // } else {
+    //   setSubmitError(response.error || response.statusText || response);
+    // }
     setSubmitLoading(false);
+
+    // TODO: Remove once backend work complete
+    history.push(Routes.Submissions);
   };
 
   return (

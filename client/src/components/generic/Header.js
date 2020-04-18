@@ -43,12 +43,10 @@ const Header = () => {
   const params = useParams();
   const classes = useStyles();
 
-  const isLookupScreen = location.pathname.includes(Routes.Lookup);
-  const isLookupResultsScreen = (location.pathname === Routes.LookupConfirmationNumber.dynamicRoute(params.confirmationNumber)) ||
-    (location.pathname === Routes.LookupLastName.dynamicRoute(params.lastName));
-
+  const isSubmissionsScreen = location.pathname.includes(Routes.Submissions);
+  const isSubmissionDetailsScreen = (location.pathname === Routes.SubmissionDetails.dynamicRoute(params.confirmationNumber));
   const handleLogoClick = () => history.push(Routes.Form);
-  const handleSubmissionLookupClick = () => history.push(Routes.Lookup);
+  const handleSubmissionsClick = () => history.push(Routes.Submissions);
   const handleLogoutClick = () => {
     localStorage.removeItem('jwt');
     history.push(Routes.Login);
@@ -76,17 +74,17 @@ const Header = () => {
               />
             </Hidden>
           </div>
-          {isLookupResultsScreen && (
+          {isSubmissionDetailsScreen && (
             <Button
               className={classes.button}
               variant="outlined"
               color="inherit"
-              onClick={handleSubmissionLookupClick}
+              onClick={handleSubmissionsClick}
             >
-              <Hidden smDown>Submission</Hidden> Lookup
+              Submissions
             </Button>
           )}
-          {(isLookupScreen || isLookupResultsScreen) && (
+          {(isSubmissionsScreen || isSubmissionDetailsScreen) && (
             <Button
               className={classes.button}
               variant="outlined"

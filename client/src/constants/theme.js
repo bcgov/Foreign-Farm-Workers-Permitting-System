@@ -161,5 +161,10 @@ export default createMuiTheme({
         paddingBottom: '11px',
       },
     },
+    MuiExpansionPanelDetails: {
+      root: {
+        display: 'block',
+      },
+    },
   },
 });

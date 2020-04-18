@@ -14,11 +14,9 @@ import { PrivateRoute, PublicRoute } from './components/generic';
 
 const Form = lazy(() => import('./pages/public/Form'));
 const Confirmation = lazy(() => import('./pages/public/Confirmation'));
-const PDF = lazy(() => import('./pages/public/PDF'));
 const Login = lazy(() => import('./pages/public/Login'));
-const Lookup = lazy(() => import('./pages/private/Lookup'));
-const LookupConfirmationNumber = lazy(() => import('./pages/private/LookupConfirmationNumber'));
-const LookupLastName = lazy(() => import('./pages/private/LookupLastName'));
+const Submissions = lazy(() => import('./pages/private/Submissions'));
+const SubmissionDetails = lazy(() => import('./pages/private/SubmissionDetails'));
 
 const App = () => (
   <ThemeProvider theme={Theme}>
@@ -30,13 +28,11 @@ const App = () => (
             {/* Public routes */}
             <PublicRoute exact path={Routes.Form} component={Form} />
             <PublicRoute exact path={Routes.Confirmation} component={Confirmation} />
-            <PublicRoute exact path={Routes.RenderPDF.staticRoute} component={PDF} />
-            <PublicRoute exact path={Routes.Login} component={Login} adminRedirect={Routes.Lookup} />
-            
+            <PublicRoute exact path={Routes.Login} component={Login} />
+
             {/* Private routes */}
-            <PrivateRoute exact path={Routes.Lookup} component={Lookup} />
-            <PrivateRoute exact path={Routes.LookupLastName.staticRoute} component={LookupLastName} />
-            <PrivateRoute exact path={Routes.LookupConfirmationNumber.staticRoute} component={LookupConfirmationNumber} />
+            <PrivateRoute exact path={Routes.Submissions} component={Submissions} />
+            <PrivateRoute exact path={Routes.SubmissionDetails.staticRoute} component={SubmissionDetails} />
 
             {/* Invalid route - default to form */}
             <Route component={Form} />

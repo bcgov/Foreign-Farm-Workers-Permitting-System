@@ -6,7 +6,7 @@
  */
 export const handleSubmission = (submission) => {
   const modified = { ...submission };
-  delete modified.numberOfAdditionalTravellers;
+
   return modified;
 };
 
@@ -20,10 +20,6 @@ export const handleSubmission = (submission) => {
  */
 export const adaptSubmission = (submission) => {
   const modified = { ...submission };
-  if (submission.includeAdditionalTravellers === true
-    && typeof submission.numberOfAdditionalTravellers === 'undefined'
-    && Array.isArray(submission.additionalTravellers)) {
-    modified.numberOfAdditionalTravellers = submission.additionalTravellers.length;
-  }
+
   return modified;
 };
