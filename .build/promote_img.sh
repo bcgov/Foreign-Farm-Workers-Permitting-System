@@ -1,7 +1,11 @@
 #!/bin/bash
 
 PROFILE=covid
+<<<<<<< HEAD
 PROJECT=farm-operator-screening
+=======
+PROJECT=temporary-farm-workers
+>>>>>>> refactored project name and removed migration
 PROMOTE_FROM_TAG=9327e64
 PROMOTE_TO_TAG=9327e64-prod
 
