@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import Alert from '@material-ui/lab/Alert';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
@@ -18,12 +18,12 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import PhoneIcon from '@material-ui/icons/Phone';
-import { Formik, Form as FormikForm, Field } from 'formik';
+import { Formik, Form as FormikForm, Field, FieldArray, useFormikContext } from 'formik';
 
 import { FormSchema } from '../../constants';
 
 import { Card, Divider, Page } from '../../components/generic';
-import { RenderCheckbox, RenderSelectField, RenderTextField } from '../../components/fields';
+import { RenderCheckbox, RenderRadioGroup, RenderSelectField, RenderTextField } from '../../components/fields';
 
 const steps = [
   'Before You Begin',
@@ -37,17 +37,27 @@ const steps = [
 function getStepFields(step) {
   switch (step) {
     case 0:
-      return ['firstName', 'lastName', 'dob', 'telephone', 'email', 'address', 'city', 'province', 'postalCode'];
+      return [
+        'hasDownloadedBCMinistryAgricultureCovid19Requirements',
+        'hasCompletedCovid19WorkplaceRiskAssessment',
+        'hasCreatedCovid19InfectionPreventionAndControlProtocol',
+      ];
     case 1:
-      return ['firstName', 'lastName', 'dob', 'telephone', 'email', 'address', 'city', 'province', 'postalCode'];
-    case 2:
-      return ['firstName', 'lastName', 'dob', 'telephone', 'email', 'address', 'city', 'province', 'postalCode'];
-    case 3:
-      return ['firstName', 'lastName', 'dob', 'telephone', 'email', 'address', 'city', 'province', 'postalCode'];
-    case 4:
-      return ['firstName', 'lastName', 'dob', 'telephone', 'email', 'address', 'city', 'province', 'postalCode'];
-    case 5:
-      return ['firstName', 'lastName', 'dob', 'telephone', 'email', 'address', 'city', 'province', 'postalCode'];
+      return [
+        'registeredBusinessName',
+        'firstName',
+        'lastName',
+        'phoneNumber',
+        'alternatePhoneNumber',
+        'emailAddress',
+        'addressLine1',
+        'addressLine2',
+        'city',
+        'province',
+        'postalCode',
+        'isSameAsBusinessAddress',
+        'temporaryForeignWorkerFacilityAddresses',
+      ];
   }
 }
 
@@ -183,7 +193,7 @@ const SectionOne = () => {
       </ul>
       <Box mt={4} mb={4}>
         <Alert severity="warning">
-          <Typography variant="body2" paragraph>
+          <Typography variant="body2" gutterBottom>
             <b>
               If you fail to comply with these requirements, the arrival of temporary foreign workers at your farm will
               be delayed or denied.
@@ -235,17 +245,34 @@ const SectionOne = () => {
 };
 
 const SectionTwo = () => {
+  const { values, setFieldValue } = useFormikContext();
+  const { isSameAsBusinessAddress, temporaryForeignWorkerFacilityAddresses } = values;
+
+  useEffect(() => {
+    if (isSameAsBusinessAddress === false) {
+      setFieldValue('temporaryForeignWorkerFacilityAddresses', [{
+        type: '',
+        addressLine1: '',
+        addressLine2: '',
+        city: '',
+        province: '',
+        postalCode: '',
+      }]);
+    } else {
+      setFieldValue('temporaryForeignWorkerFacilityAddresses', []);
+    }
+  }, [setFieldValue, isSameAsBusinessAddress]);
+
   return (
     <Fragment>
-
-      {/** Title */}
-      <Typography variant="subtitle1" paragraph>
-        Apply for authorization from the BC Provincial Health Officer to receive temporary
-        foreign workers at your workplace and protect workers during the COVID-19 pandemic
-      </Typography>
-      <Divider />
-
       <Grid container spacing={2}>
+
+        <Grid item xs={12}>
+          <Typography variant="subtitle1" paragraph>
+            Apply for authorization from the BC Provincial Health Officer to receive temporary
+            foreign workers at your workplace and protect workers during the COVID-19 pandemic
+          </Typography>
+        </Grid>
         <Grid item xs={12} sm={6}>
           <Field
             name="registeredBusinessName"
@@ -378,66 +405,94 @@ const SectionTwo = () => {
           />
         </Grid>
 
-        {true && (
-          <Fragment>
-            <Grid item xs={12}>
-              <Typography variant="subtitle2">
-                Facility address 1
-              </Typography>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <Field
-                name="firstName"
-                component={RenderTextField}
-                label="Address line 2"
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <Field
-                name="firstName"
-                component={RenderTextField}
-                label="City"
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <Field
-                name="firstName"
-                component={RenderTextField}
-                label="Address line 2"
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <Field
-                name="firstName"
-                component={RenderTextField}
-                label="City"
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <Field
-                name="firstName"
-                component={RenderTextField}
-                label="Address line 2"
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <Field
-                name="firstName"
-                component={RenderTextField}
-                label="City"
-              />
-            </Grid>
+        {isSameAsBusinessAddress === false && (
+          <Grid item xs={12}>
+            <FieldArray
+              name="temporaryForeignWorkerFacilityAddresses"
+              render={arrayHelpers => (
+                <Fragment>
+                  {temporaryForeignWorkerFacilityAddresses.map((item, index) => (
+                    <Grid container key={index} spacing={3}>
 
-            <Grid item xs={12}>
-              <Button color="primary">Add another facility +</Button>
-            </Grid>
+                      {/* Title */}
+                      <Grid item xs={12}>
+                        <Grid container alignItems="center" spacing={1}>
+                          <Grid item>
+                            <Typography variant="subtitle2">Facility address {index + 1}</Typography>
+                          </Grid>
+                          <Grid item>
+                            <Button color="secondary" onClick={() => arrayHelpers.remove(index)}>
+                              Remove
+                            </Button>
+                          </Grid>
+                        </Grid>
+                      </Grid>
 
-          </Fragment>
+                      {/* Fields */}
+                      <Grid item xs={12} sm={6}>
+                        <Field
+                          name={`temporaryForeignWorkerFacilityAddresses[${index}].type`}
+                          component={RenderTextField}
+                          label="Facility type"
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <Field
+                          name={`temporaryForeignWorkerFacilityAddresses[${index}].addressLine1`}
+                          component={RenderTextField}
+                          label="Address line 1"
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <Field
+                          name={`temporaryForeignWorkerFacilityAddresses[${index}].addressLine2`}
+                          component={RenderTextField}
+                          label="Address line 2"
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <Field
+                          name={`temporaryForeignWorkerFacilityAddresses[${index}].city`}
+                          component={RenderTextField}
+                          label="City"
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <Field
+                          name={`temporaryForeignWorkerFacilityAddresses[${index}].province`}
+                          component={RenderTextField}
+                          label="Province"
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <Field
+                          name={`temporaryForeignWorkerFacilityAddresses[${index}].postalCode`}
+                          component={RenderTextField}
+                          label="Postal code"
+                        />
+                      </Grid>
+                    </Grid>
+                  ))}
+                  <Box mt={2}>
+                    <Button
+                      color="primary"
+                      onClick={() => arrayHelpers.push({
+                        type: '',
+                        addressLine1: '',
+                        addressLine2: '',
+                        city: '',
+                        province: '',
+                        postalCode: '',
+                      })}
+                    >
+                      Add another facility +
+                    </Button>
+                  </Box>
+                </Fragment>
+              )}
+            />
+          </Grid>
         )}
-
-
-
-
       </Grid>
     </Fragment>
   );
@@ -446,7 +501,228 @@ const SectionTwo = () => {
 const SectionThree = () => {
   return (
     <Fragment>
+      <Grid container spacing={3}>
 
+        {/** First Block */}
+        <Grid item xs={12}>
+          <Typography variant="subtitle1">
+            Before workers arrive at your farm, please certify
+          </Typography>
+          <Box mt={3} mb={1}>
+            <Alert severity="warning">
+              <Typography variant="body2" gutterBottom>
+                <b>
+                  All tasks in this form (checked or left blank) will be subject to inspection.
+                </b>
+              </Typography>
+              <Typography variant="body2" gutterBottom>
+                <b>
+                  If you have not completed a task, you will need to show your inspector your plan
+                  to complete it before your workers arrive.
+                </b>
+              </Typography>
+            </Alert>
+          </Box>
+        </Grid>
+
+        {/** Second Block */}
+        <Grid item xs={12}>
+          <Typography variant="subtitle2" paragraph>
+            Be COVID-19 Aware
+          </Typography>
+          <Typography variant="body1" paragraph>
+            Farm operators need to make all farm workers aware of the risks of COVID-19 and be prepared
+            if workers have questions about COVID-19.
+          </Typography>
+          <Field
+            name="hasSignage"
+            component={RenderCheckbox}
+            label="I have signage in place in the appropriate language on how workers can protect themselves from COVID-19."
+          />
+          <Field
+            name="hasSomeoneIdentified"
+            component={RenderCheckbox}
+            label="I have someone identified that workers can go to if they have questions on COVID-19."
+          />
+          <Field
+            name="hasContactedLocalMedicalHealthOfficer"
+            component={RenderCheckbox}
+            label="I have contacted my local Medical Health Officer to alert them to the arrival of temporary foreign workers to the region."
+          />
+        </Grid>
+
+        {/** Third Block */}
+        <Grid item xs={12}>
+          <Typography variant="subtitle2" paragraph>
+            Provide safe lodging and accommodation for all workers
+          </Typography>
+          <Typography variant="body1" gutterBottom>
+            Farm operators must be able to provide accommodations that minimize crowding, social interactions,
+            and provide sufficient physical distance (beds 2m apart and head-to-toe in shared accommodations).
+          </Typography>
+          <Field
+            name="doCommonAreasAllowPhysicalDistancing"
+            component={RenderCheckbox}
+            label="Common areas allow physical distancing of 2m / 6ft at all times."
+          />
+          <Box mt={1}>
+            <Field
+              name="bedroomAccommodation"
+              component={RenderRadioGroup}
+              label="Do you have:"
+              options={[
+                { value: 'single', label: 'Single occupancy bedrooms' },
+                { value: 'shared', label: 'Shared occupancy bedrooms' },
+                { value: '', label: 'Both' },
+              ]}
+            />
+          </Box>
+        </Grid>
+
+        {/** Fourth Block */}
+        <Grid item xs={12}>
+          <Typography variant="subtitle2" paragraph>
+            Provide self-isolation space if any worker comes down with COVID-19-like symptoms
+          </Typography>
+          <Typography variant="body1" gutterBottom>
+            Self-isolation of any worker that becomes ill is a critical part of preventing the spread of COVID-19.
+          </Typography>
+          <Field
+            name="doesUnderstandNeedsForSelfIsolation"
+            component={RenderCheckbox}
+            label="I understand what is needed for a person to self-isolate."
+          />
+          <Field
+            name="hasSeparateAccommodationForWorker"
+            component={RenderCheckbox}
+            label="I have separate accommodation to let a worker self-isolate away from other workers or have arranged for separate accommodation."
+          />
+        </Grid>
+
+        {/** Fifth Block */}
+        <Grid item xs={12}>
+          <Typography variant="subtitle2" paragraph>
+            Make sure laundry facilities are available and handled safely
+          </Typography>
+          <Typography variant="body1" gutterBottom>
+            Laundry must be performed properly to ensure the spread and transmission of COVID-19, including using
+            hot water for laundry machines and having adequate supply of detergent.
+          </Typography>
+          <Field
+            name="hasLaundryServices"
+            component={RenderCheckbox}
+            label="I have laundry services available for regular use."
+          />
+        </Grid>
+
+        {/** Sixth Block */}
+        <Grid item xs={12}>
+          <Typography variant="subtitle2" paragraph>
+            Practice good waste management at your work site and housing
+          </Typography>
+          <Typography variant="body1" gutterBottom>
+            Proper collection and removal of garbage is crucial to reducing the risk of disease transmission.
+            This includes wearing disposable gloves to remove waste from rooms and common areas and using sturdy,
+            leak resistant garbage bags for containing waste.
+          </Typography>
+          <Field
+            name="hasDisposableGloves"
+            component={RenderCheckbox}
+            label="I have disposable gloves for the handling of garbage or there is access to hand hygiene facilities either through hand hygiene stations or the provisions of hand sanitizer."
+          />
+          <Field
+            name="hasWasteRemovalSchedule"
+            component={RenderCheckbox}
+            label="I have a waste removal schedule."
+          />
+          <Field
+            name="hasSturdyLeakResistantGarbageBags"
+            component={RenderCheckbox}
+            label="I have sturdy, leak resistant garbage bags."
+          />
+        </Grid>
+
+        {/** Seventh Block */}
+        <Grid item xs={12}>
+          <Typography variant="subtitle2" paragraph>
+            Have proper hand-washing facilities at your work site and housing
+          </Typography>
+          <Typography variant="body1" gutterBottom>
+            Helping workers to engage in hand hygiene prevents or reduces the spread of COVID-19 and
+            other illnesses. Farm operators should ensure easy access to hand hygiene facilities either
+            through hand hygiene stations or the provisions of hand sanitizer.
+          </Typography>
+          <Field
+            name="hasHandWashingSinks"
+            component={RenderCheckbox}
+            label="I have disposable gloves for the handling of garbage or there is access to hand hygiene facilities either through hand hygiene stations or the provisions of hand sanitizer."
+          />
+          <Field
+            name="hasAppropriateSupplyOfSinkWater"
+            component={RenderCheckbox}
+            label="There is an appropriate supply of warm water for all sinks."
+          />
+          <Field
+            name="hasPlainSoap"
+            component={RenderCheckbox}
+            label="I have provided plain soap."
+          />
+          <Field
+            name="hasPaperTowels"
+            component={RenderCheckbox}
+            label="I have provided disposable paper towels."
+          />
+          <Field
+            name="hasHandWashingSigns"
+            component={RenderCheckbox}
+            label="I have put up signs to promote regular hand washing."
+          />
+        </Grid>
+
+        {/** Eighth Block */}
+        <Grid item xs={12}>
+          <Typography variant="subtitle2" paragraph>
+            Create and maintain physical distancing barriers
+          </Typography>
+          <Typography variant="body1" paragraph>
+            Keeping a 2 meter distance between people is one of the most important ways to break the chain of
+            transmission of COVID-19.  Farm operators can take practical steps to ensure physical distancing
+            is maintained while workers are transported to or from the work site, while working indoors or
+            outdoors, during break times.
+          </Typography>
+          <Typography variant="body1" gutterBottom>
+            Physical barriers such as the use of plexi-glass, face shields, masks, and other techniques can
+            be used where physical distancing is not possible.
+          </Typography>
+          <Field
+            name="hasSleepingArrangements"
+            component={RenderCheckbox}
+            label="I have sleeping arrangements that maintains physical distancing or uses physical barriers."
+          />
+          <Field
+            name="hasPhysicalBarriers"
+            component={RenderCheckbox}
+            label="I have physical barriers like face shields or masks for situations where physical distancing is not possible."
+          />
+        </Grid>
+
+        {/** Ninth Block */}
+        <Grid item xs={12}>
+          <Typography variant="subtitle2" paragraph>
+            Have a cleaning and disinfecting schedule
+          </Typography>
+          <Typography variant="body1" gutterBottom>
+            All common areas and surfaces should be cleaned at the start and end of each day. Examples of common
+            areas and surfaces include washrooms, common tables, desks, light switches, and door handles. Regular
+            household cleaners are effective against COVID-19, following the instructions on the label.
+          </Typography>
+          <Field
+            name="hasSchedule"
+            component={RenderCheckbox}
+            label="I have a schedule to ensure common and high touch areas are cleaned or disinfected at the start and end of each day."
+          />
+        </Grid>
+      </Grid>
     </Fragment>
   );
 };
@@ -500,8 +776,29 @@ export default () => {
     city: '',
     province: '',
     postalCode: '',
-    isSameAsBusinessAddress: false, // TODO
+    isSameAsBusinessAddress: true,
     temporaryForeignWorkerFacilityAddresses: [],
+
+    // Third Section
+    hasSignage: null,
+    hasSomeoneIdentified: null,
+    hasContactedLocalMedicalHealthOfficer: null,
+    doCommonAreasAllowPhysicalDistancing: null,
+    bedroomAccommodation: null,
+    doesUnderstandNeedsForSelfIsolation: null,
+    hasSeparateAccommodationForWorker: null,
+    hasLaundryServices: null,
+    hasDisposableGloves: null,
+    hasWasteRemovalSchedule: null,
+    hasSturdyLeakResistantGarbageBags: null,
+    hasHandWashingSinks: null,
+    hasAppropriateSupplyOfSinkWater: null,
+    hasPlainSoap: null,
+    hasPaperTowels: null,
+    hasHandWashingSigns: null,
+    hasSleepingArrangements: null,
+    hasPhysicalBarriers: null,
+    hasSchedule: null,
   };
 
   const handleSubmit = async (values) => {
@@ -621,12 +918,12 @@ export default () => {
                       position="static"
                       activeStep={activeStep}
                       backButton={(
-                        <Button size="small" onClick={handleBackClicked} disabled={activeStep === 0}>
+                        <Button size="small" onClick={handleBackClicked} disabled={isFirstStep}>
                           <KeyboardArrowLeft /> Back
                         </Button>
                       )}
                       nextButton={(
-                        <Button size="small" onClick={() => handleNextClicked(submitForm, setTouched)} disabled={activeStep === 5}>
+                        <Button size="small" onClick={() => handleNextClicked(submitForm, setTouched)} disabled={isLastStep}>
                           Next <KeyboardArrowRight />
                         </Button>
                       )}
