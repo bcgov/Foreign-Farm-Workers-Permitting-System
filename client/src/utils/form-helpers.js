@@ -6,7 +6,7 @@
  */
 export const handleSubmission = (submission) => {
   const modified = { ...submission };
-
+  delete modified.numberOfAdditionalAddresses;
   return modified;
 };
 
@@ -20,6 +20,10 @@ export const handleSubmission = (submission) => {
  */
 export const adaptSubmission = (submission) => {
   const modified = { ...submission };
-
+  if (submission.isSameAsBusinessAddress === false
+    && typeof submission.numberOfAdditionalAddresses === 'undefined'
+    && Array.isArray(submission.temporaryForeignWorkerFacilityAddresses)) {
+    modified.numberOfAdditionalAddresses = submission.temporaryForeignWorkerFacilityAddresses.length;
+  }
   return modified;
 };

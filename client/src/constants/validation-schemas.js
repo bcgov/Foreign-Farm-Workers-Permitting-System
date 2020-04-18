@@ -6,7 +6,7 @@ export const LoginSchema = yup.object().shape({
 });
 
 export const DeterminationSchema = yup.object().shape({
-  determination: yup.string().oneOf(['support', 'accepted']).required('Determination is required'),
+  determination: yup.string().oneOf(['incomplete', 'complete']).required('Determination is required'),
   notes: yup.string().required('Notes are required'),
 });
 

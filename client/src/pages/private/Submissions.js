@@ -50,7 +50,7 @@ export default () => {
       // setLoading(false);
 
       // TODO: Remove once backend work complete
-      const rows = [{
+      const rows = [...Array(20)].map(() => ({
         dateSubmitted: '10/10/2020',
         businessName: 'Farm',
         decision: 'Pending',
@@ -62,7 +62,7 @@ export default () => {
             text="View"
           />
         ),
-      }];
+      }));
       setRows(rows);
       setLoading(false);
     })();
