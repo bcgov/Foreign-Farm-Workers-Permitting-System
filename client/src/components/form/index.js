@@ -11,8 +11,9 @@ import Hidden from '@material-ui/core/Hidden';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import { Formik, Form as FormikForm } from 'formik';
+import { useHistory } from 'react-router-dom';
 
-import { FormSchema } from '../../constants';
+import { FormSchema, Routes } from '../../constants';
 
 import { SectionOne } from './SectionOne';
 import { SectionTwo } from './SectionTwo';
@@ -112,7 +113,8 @@ function getStepFields(step) {
   }
 }
 
-export const Form = ({ confirmationNumber, initialValues, isDisabled }) => {
+export const Form = ({ initialValues, isDisabled }) => {
+  const history = useHistory();
   const [activeStep, setActiveStep] = useState(0);
 
   const isFirstStep = activeStep === 0;
@@ -188,9 +190,14 @@ export const Form = ({ confirmationNumber, initialValues, isDisabled }) => {
     doesAgree: false,
   };
 
+  // TODO: Implement backend hookup...
   const handleSubmit = async (values) => {
-    // TODO: ...
+    const { id } = (() => ({ id: 'abc' }))();
+    history.push(Routes.Confirmation, { formValues: values, id });
+    scrollUp();
   };
+
+  const scrollUp = () => window.scrollTo(0, 0);
 
   const moveStepper = (index) => {
     setActiveStep(index);
@@ -210,7 +217,7 @@ export const Form = ({ confirmationNumber, initialValues, isDisabled }) => {
       const errors = await setTouched(fieldsToTouch);
       const hasOutstandingErrors = Object.keys(errors).some((key) => fieldsForCurrentStep.includes(key));
       if (!hasOutstandingErrors) {
-        window.scrollTo(0, 0);
+        scrollUp();
         moveStepper(activeStep + 1)
       }
     }

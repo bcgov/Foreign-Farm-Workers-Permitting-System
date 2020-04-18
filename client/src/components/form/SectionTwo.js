@@ -54,7 +54,7 @@ export const SectionTwo = ({ isDisabled }) => {
         </Grid>
 
         <Grid item xs={12}>
-          <Divider />
+          <Divider isLight />
         </Grid>
 
         <Grid item xs={12}>
@@ -104,7 +104,7 @@ export const SectionTwo = ({ isDisabled }) => {
         </Grid>
 
         <Grid item xs={12}>
-          <Divider />
+          <Divider isLight />
         </Grid>
 
         <Grid item xs={12}>
@@ -170,7 +170,7 @@ export const SectionTwo = ({ isDisabled }) => {
         </Grid>
 
         <Grid item xs={12}>
-          <Divider />
+          <Divider isLight />
         </Grid>
 
         <Grid item xs={12}>
