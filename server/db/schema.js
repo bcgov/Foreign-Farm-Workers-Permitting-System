@@ -3,8 +3,13 @@
  */
 
 const collections = {
+<<<<<<< HEAD
   FORMS: 'fos-forms',
   USERS: 'fos-users',
+=======
+  FORMS: 'tfw-forms',
+  USERS: 'tfw-users',
+>>>>>>> refactored project name and removed migration
 };
 
 const schema = [
