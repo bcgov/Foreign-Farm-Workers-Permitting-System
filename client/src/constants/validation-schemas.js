@@ -96,8 +96,8 @@ export const FormSchema = yup.object().noUnknown('Unknown field for form').shape
   province: yup.string().required(errorMessage),
   postalCode: yup.string().required(errorMessage),
   isSameAsBusinessAddress: yup.boolean().typeError(errorMessage).required(errorMessage),
-  temporaryForeignWorkerFacilityAddresses: yup.array().when('numberOfAdditionalAddresses', {
-    is: (v) => Number.isInteger(v) && v > 0,
+  temporaryForeignWorkerFacilityAddresses: yup.array().when('isSameAsBusinessAddress', {
+    is: false,
     then: yup.array().required('Facility information is required').of(
       yup.object().noUnknown('Unknown field for facility information').shape({
         type: yup.string().required('Facility type is required').oneOf(['working', 'housed'], 'Invalid facility type'),
