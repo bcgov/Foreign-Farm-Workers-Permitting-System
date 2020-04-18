@@ -1,4 +1,5 @@
 import React, { Fragment, useEffect } from 'react';
+import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { Field, FieldArray, useFormikContext } from 'formik';
@@ -189,94 +190,96 @@ export const SectionTwo = ({ isDisabled }) => {
         </Grid>
 
         {isSameAsBusinessAddress === false && (
-          <FieldArray
-            name="temporaryForeignWorkerFacilityAddresses"
-            render={() => (
-              <Fragment>
-                <Grid item xs={12} sm={6}>
-                  <Field
-                    name="numberOfAdditionalAddresses"
-                    component={RenderSelectField}
-                    label="Number of additional addresses?"
-                    disabled={isDisabled}
-                    options={[...Array(15)].map((_, index) => ({
-                      value: index + 1,
-                      label: index + 1,
-                    }))}
-                  />
-                </Grid>
-                <Grid container spacing={3}>
-                  {temporaryForeignWorkerFacilityAddresses.map((item, index) => (
-                    <Grid key={index} item xs={12} container spacing={3}>
+          <Grid item xs={12}>
+            <FieldArray
+              name="temporaryForeignWorkerFacilityAddresses"
+              render={() => (
+                <Fragment>
+                  <Box mb={3}>
+                    <Field
+                      name="numberOfAdditionalAddresses"
+                      component={RenderSelectField}
+                      label="Number of additional addresses?"
+                      disabled={isDisabled}
+                      options={[...Array(15)].map((_, index) => ({
+                        value: index + 1,
+                        label: index + 1,
+                      }))}
+                    />
+                  </Box>
+                  <Grid container spacing={3}>
+                    {temporaryForeignWorkerFacilityAddresses.map((item, index) => (
+                      <Grid key={index} item xs={12} container spacing={3}>
 
-                      {/* Title */}
-                      <Grid item xs={12}>
-                        <Grid container alignItems="center" spacing={2}>
-                          <Grid item>
-                            <Typography variant="subtitle2">Facility address {index + 1}</Typography>
+                        {/* Title */}
+                        <Grid item xs={12}>
+                          <Grid container alignItems="center" spacing={2}>
+                            <Grid item>
+                              <Typography variant="subtitle2">Facility address {index + 1}</Typography>
+                            </Grid>
                           </Grid>
                         </Grid>
-                      </Grid>
 
-                      {/* Fields */}
-                      <Grid item xs={12} sm={6}>
-                        <Field
-                          name={`temporaryForeignWorkerFacilityAddresses[${index}].type`}
-                          component={RenderRadioGroup}
-                          label="Facility type"
-                          disabled={isDisabled}
-                          options={[
-                            { value: 'working', label: 'Where the TFWs will be working' },
-                            { value: 'housed', label: 'Where the TFWs will be housed' },
-                          ]}
-                        />
+                        {/* Fields */}
+                        <Grid item xs={12} sm={6}>
+                          <Field
+                            name={`temporaryForeignWorkerFacilityAddresses[${index}].type`}
+                            component={RenderRadioGroup}
+                            label="Facility type"
+                            disabled={isDisabled}
+                            options={[
+                              { value: 'working', label: 'Where the TFWs will be working' },
+                              { value: 'housed', label: 'Where the TFWs will be housed' },
+                            ]}
+                          />
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                          <Field
+                            name={`temporaryForeignWorkerFacilityAddresses[${index}].addressLine1`}
+                            component={RenderTextField}
+                            label="Address line 1"
+                            disabled={isDisabled}
+                          />
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                          <Field
+                            name={`temporaryForeignWorkerFacilityAddresses[${index}].addressLine2`}
+                            component={RenderTextField}
+                            label="Address line 2 (optional)"
+                            disabled={isDisabled}
+                          />
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                          <Field
+                            name={`temporaryForeignWorkerFacilityAddresses[${index}].city`}
+                            component={RenderTextField}
+                            label="City"
+                            disabled={isDisabled}
+                          />
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                          <Field
+                            name={`temporaryForeignWorkerFacilityAddresses[${index}].province`}
+                            component={RenderTextField}
+                            label="Province"
+                            disabled={isDisabled}
+                          />
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                          <Field
+                            name={`temporaryForeignWorkerFacilityAddresses[${index}].postalCode`}
+                            component={RenderTextField}
+                            label="Postal code"
+                            disabled={isDisabled}
+                          />
+                        </Grid>
                       </Grid>
-                      <Grid item xs={12} sm={6}>
-                        <Field
-                          name={`temporaryForeignWorkerFacilityAddresses[${index}].addressLine1`}
-                          component={RenderTextField}
-                          label="Address line 1"
-                          disabled={isDisabled}
-                        />
-                      </Grid>
-                      <Grid item xs={12} sm={6}>
-                        <Field
-                          name={`temporaryForeignWorkerFacilityAddresses[${index}].addressLine2`}
-                          component={RenderTextField}
-                          label="Address line 2 (optional)"
-                          disabled={isDisabled}
-                        />
-                      </Grid>
-                      <Grid item xs={12} sm={6}>
-                        <Field
-                          name={`temporaryForeignWorkerFacilityAddresses[${index}].city`}
-                          component={RenderTextField}
-                          label="City"
-                          disabled={isDisabled}
-                        />
-                      </Grid>
-                      <Grid item xs={12} sm={6}>
-                        <Field
-                          name={`temporaryForeignWorkerFacilityAddresses[${index}].province`}
-                          component={RenderTextField}
-                          label="Province"
-                          disabled={isDisabled}
-                        />
-                      </Grid>
-                      <Grid item xs={12} sm={6}>
-                        <Field
-                          name={`temporaryForeignWorkerFacilityAddresses[${index}].postalCode`}
-                          component={RenderTextField}
-                          label="Postal code"
-                          disabled={isDisabled}
-                        />
-                      </Grid>
-                    </Grid>
-                  ))}
-                </Grid>
-              </Fragment>
-            )}
-          />
+                    ))}
+                  </Grid>
+                </Fragment>
+              )}
+            />
+          </Grid>
         )}
       </Grid>
     </Fragment>
