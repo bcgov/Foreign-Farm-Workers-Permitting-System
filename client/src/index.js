@@ -34,10 +34,6 @@ const App = () => (
         <Suspense fallback={<LinearProgress />}>
           <Switch>
 
-            {/* TODO: Delete */}
-            <PublicRoute exact path="/temp-form" component={TempForm} />
-            <TempPublicRoute exact path="/temp-login" component={TempLogin} adminRedirect={true} />
-
             {/* Public routes */}
             <PublicRoute exact path={Routes.Form} component={Form} />
             <PublicRoute exact path={Routes.Confirmation} component={Confirmation} />
@@ -50,6 +46,8 @@ const App = () => (
             <PrivateRoute exact path={Routes.LookupConfirmationNumber.staticRoute} component={LookupConfirmationNumber} />
 
             {/* TODO: Delete */}
+            <TempPublicRoute exact path="/temp-form" component={TempForm} />
+            <TempPublicRoute exact path="/temp-login" component={TempLogin} adminRedirect={true} />
             <TempPrivateRoute exact path="/temp-submissions" component={TempSubmissions} />
             <TempPrivateRoute exact path="/temp-submission-details" component={TempSubmissionDetails} />
 

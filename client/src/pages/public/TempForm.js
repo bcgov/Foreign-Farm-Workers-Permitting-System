@@ -1,6 +1,4 @@
-import { Link } from '@material-ui/core';
 import React, { Fragment, useState } from 'react';
-import moment from 'moment';
 import Alert from '@material-ui/lab/Alert';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
@@ -10,6 +8,7 @@ import MobileStepper from '@material-ui/core/MobileStepper';
 import Step from '@material-ui/core/Step';
 import StepButton from '@material-ui/core/StepButton';
 import StepLabel from '@material-ui/core/StepLabel';
+import Link from '@material-ui/core/Link';
 import Button from '@material-ui/core/Button';
 import Hidden from '@material-ui/core/Hidden';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
@@ -19,12 +18,12 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import PhoneIcon from '@material-ui/icons/Phone';
-import { Formik, Form as FormikForm } from 'formik';
+import { Formik, Form as FormikForm, Field } from 'formik';
 
-import { dateToString } from '../../utils';
 import { FormSchema } from '../../constants';
 
 import { Card, Divider, Page } from '../../components/generic';
+import { RenderCheckbox, RenderSelectField, RenderTextField } from '../../components/fields';
 
 const steps = [
   'Before You Begin',
@@ -78,7 +77,7 @@ const SectionOne = () => {
       <Divider />
       <Box pt={2} pb={2}>
         <ExpansionPanel>
-          <Box pt={2.5} pb={2.5} pl={3} pr={3}>
+          <Box pt={3.5} pb={3.5} pl={3} pr={3}>
             <Typography variant="body1" gutterBottom>
               <b>Download and read the Province of BC's COVID-19 farm guidance document:</b>
             </Typography>
@@ -154,10 +153,10 @@ const SectionOne = () => {
           </ExpansionPanelDetails>
         </ExpansionPanel>
       </Box>
-      <Divider />
+      {/*<Divider />*/}
       <Box mt={3} mb={4}>
         <Alert severity="info" icon={<PhoneIcon />}>
-          <Typography variant="body1">
+          <Typography variant="body2">
             If you need assistance completing these risk assessment or infection prevention tasks, please
             contact the Ministry of Agriculture (Toll-free: 1-888-xxx-xxxx) for help.
           </Typography>
@@ -184,13 +183,13 @@ const SectionOne = () => {
       </ul>
       <Box mt={4} mb={4}>
         <Alert severity="warning">
-          <Typography variant="body1" paragraph>
+          <Typography variant="body2" paragraph>
             <b>
               If you fail to comply with these requirements, the arrival of temporary foreign workers at your farm will
               be delayed or denied.
             </b>
           </Typography>
-          <Typography>
+          <Typography variant="body2">
             (source:&nbsp;
             <Link
               href="https://www2.gov.bc.ca/assets/gov/health/about-bc-s-health-care-system/office-of-the-provincial-health-officer/covid-19/covid-19-pho-order-travellers-employers.pdf"
@@ -206,7 +205,31 @@ const SectionOne = () => {
       <Typography variant="subtitle2" paragraph>
         To begin your application, please certify:
       </Typography>
-
+      <Field
+        name="hasDownloadedBCMinistryAgricultureCovid19Requirements"
+        component={RenderCheckbox}
+        label={(
+          <Typography component="span">
+            I have downloaded and read the BC Ministry of Agriculture’s COVID-19 requirements,&nbsp;
+            <Link
+              href="https://www2.gov.bc.ca/assets/gov/health/about-bc-s-health-care-system/office-of-the-provincial-health-officer/covid-19/covid-19-pho-guidance-farms-farm-workers.pdf"
+              target="noreferrer noopenner"
+            >
+              Protecting BC Farmers and Farm Workers During the COVID-19 Pandemic.
+            </Link>
+          </Typography>
+        )}
+      />
+      <Field
+        name="hasCompletedCovid19WorkplaceRiskAssessment"
+        component={RenderCheckbox}
+        label="I have completed a COVID-19 workplace risk assessment of my farm operation"
+      />
+      <Field
+        name="hasCreatedCovid19InfectionPreventionAndControlProtocol"
+        component={RenderCheckbox}
+        label="I have created a COVID-19 Infection Prevention and Control Protocol"
+      />
     </Fragment>
   );
 };
@@ -215,6 +238,207 @@ const SectionTwo = () => {
   return (
     <Fragment>
 
+      {/** Title */}
+      <Typography variant="subtitle1" paragraph>
+        Apply for authorization from the BC Provincial Health Officer to receive temporary
+        foreign workers at your workplace and protect workers during the COVID-19 pandemic
+      </Typography>
+      <Divider />
+
+      <Grid container spacing={2}>
+        <Grid item xs={12} sm={6}>
+          <Field
+            name="registeredBusinessName"
+            component={RenderTextField}
+            label="Registered Business Name"
+          />
+        </Grid>
+
+        <Grid item xs={12}>
+          <Divider />
+        </Grid>
+
+        <Grid item xs={12}>
+          <Typography variant="subtitle2">
+            Primary Contact
+          </Typography>
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <Field
+            name="firstName"
+            component={RenderTextField}
+            label="First Name"
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <Field
+            name="lastName"
+            component={RenderTextField}
+            label="Last Name"
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <Field
+            name="phoneNumber"
+            component={RenderTextField}
+            label="Phone Number"
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <Field
+            name="alternatePhoneNumber"
+            component={RenderTextField}
+            label="Alternate phone number"
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <Field
+            name="emailAddress"
+            component={RenderTextField}
+            label="E-mail Address"
+          />
+        </Grid>
+
+        <Grid item xs={12}>
+          <Divider />
+        </Grid>
+
+        <Grid item xs={12}>
+          <Typography variant="subtitle2">
+            Business Address
+          </Typography>
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <Field
+            name="addressLine1"
+            component={RenderTextField}
+            label="Address line 1"
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <Field
+            name="addressLine2"
+            component={RenderTextField}
+            label="Address line 2"
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <Field
+            name="city"
+            component={RenderTextField}
+            label="City"
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <Field
+            name="province"
+            component={RenderSelectField}
+            label="Province"
+            options={[
+              { value: 'Alberta', label: 'Alberta' },
+              { value: 'British Columbia', label: 'British Columbia' },
+              { value: 'Manitoba', label: 'Manitoba' },
+              { value: 'New Brunswick', label: 'New Brunswick' },
+              { value: 'Newfoundland and Labrador', label: 'Newfoundland and Labrador' },
+              { value: 'Northwest Territories', label: 'Northwest Territories' },
+              { value: 'Nova Scotia', label: 'Nova Scotia' },
+              { value: 'Nunavut', label: 'Nunavut' },
+              { value: 'Ontario', label: 'Ontario' },
+              { value: 'Prince Edward Island', label: 'Prince Edward Island' },
+              { value: 'Québec', label: 'Québec' },
+              { value: 'Saskatchewan', label: 'Saskatchewan' },
+              { value: 'Yukon', label: 'Yukon' },
+              { value: 'Other', label: 'Other' },
+            ]}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <Field
+            name="postalCode"
+            component={RenderTextField}
+            label="Postal code"
+          />
+        </Grid>
+
+        <Grid item xs={12}>
+          <Divider />
+        </Grid>
+
+        <Grid item xs={12}>
+          <Typography variant="subtitle2">
+            Temporary Foreign Worker facility address(es)
+          </Typography>
+        </Grid>
+
+        <Grid item xs={12}>
+          <Field
+            name="isSameAsBusinessAddress"
+            component={RenderCheckbox}
+            label="Same as business address."
+          />
+        </Grid>
+
+        {true && (
+          <Fragment>
+            <Grid item xs={12}>
+              <Typography variant="subtitle2">
+                Facility address 1
+              </Typography>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Field
+                name="firstName"
+                component={RenderTextField}
+                label="Address line 2"
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Field
+                name="firstName"
+                component={RenderTextField}
+                label="City"
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Field
+                name="firstName"
+                component={RenderTextField}
+                label="Address line 2"
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Field
+                name="firstName"
+                component={RenderTextField}
+                label="City"
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Field
+                name="firstName"
+                component={RenderTextField}
+                label="Address line 2"
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Field
+                name="firstName"
+                component={RenderTextField}
+                label="City"
+              />
+            </Grid>
+
+            <Grid item xs={12}>
+              <Button color="primary">Add another facility +</Button>
+            </Grid>
+
+          </Fragment>
+        )}
+
+
+
+
+      </Grid>
     </Fragment>
   );
 };
@@ -259,41 +483,25 @@ export default () => {
 
   const initialValues = {
 
-    // Primary contact information
+    // First section
+    hasDownloadedBCMinistryAgricultureCovid19Requirements: false,
+    hasCompletedCovid19WorkplaceRiskAssessment: false,
+    hasCreatedCovid19InfectionPreventionAndControlProtocol: false,
+
+    // Second section
+    registeredBusinessName: '',
     firstName: '',
     lastName: '',
-    dob: '',
-    telephone: '',
-    email: '',
-    address: '',
+    phoneNumber: '',
+    alternatePhoneNumber: '',
+    emailAddress: '',
+    addressLine1: '',
+    addressLine2: '',
     city: '',
     province: '',
     postalCode: '',
-
-    // Travel information
-    includeAdditionalTravellers: null,
-    numberOfAdditionalTravellers: 1,
-    additionalTravellers: [],
-    arrival: {
-      date: dateToString(moment.now()),
-      by: '',
-      from: '',
-      flight: '',
-    },
-
-    // Self isolation plan
-    accomodations: null,
-    isolationPlan: {
-      type: '',
-      city: '',
-      address: '',
-    },
-    ableToIsolate: null,
-    supplies: null,
-    transportation: [],
-
-    // Certified
-    certified: false,
+    isSameAsBusinessAddress: false, // TODO
+    temporaryForeignWorkerFacilityAddresses: [],
   };
 
   const handleSubmit = async (values) => {
@@ -312,12 +520,13 @@ export default () => {
     if (isLastStep) {
       await submitForm();
     } else {
-      const relevantFields = getStepFields(activeStep);
-      const fieldsToTouch = {};
-      relevantFields.forEach((field) => fieldsToTouch[field] = true);
-      const errors = await setTouched(fieldsToTouch);
-      const hasOutstandingErrors = Object.keys(errors).some((key) => relevantFields.includes(key));
-      if (!hasOutstandingErrors) moveStepper(activeStep + 1);
+      // const relevantFields = getStepFields(activeStep);
+      // const fieldsToTouch = {};
+      // relevantFields.forEach((field) => fieldsToTouch[field] = true);
+      // const errors = await setTouched(fieldsToTouch);
+      // const hasOutstandingErrors = Object.keys(errors).some((key) => relevantFields.includes(key));
+      // if (!hasOutstandingErrors) moveStepper(activeStep + 1);
+      moveStepper(activeStep + 1);
     }
   };
 
@@ -379,19 +588,23 @@ export default () => {
                   {/** Desktop Prev / Next */}
                   <Hidden xsDown>
                     <Box mt={3}>
-                      <Button
-                        disabled={isFirstStep}
-                        onClick={handleBackClicked}
-                      >
-                        Back
-                      </Button>
-                      <Button
-                        onClick={() => handleNextClicked(submitForm, setTouched)}
-                        variant="contained"
-                        color="primary"
-                      >
-                        {isLastStep ? 'Submit' : 'Next'}
-                      </Button>
+                      <Grid container justify="flex-end">
+                        <Grid item>
+                          <Button
+                            disabled={isFirstStep}
+                            onClick={handleBackClicked}
+                          >
+                            Back
+                          </Button>
+                          <Button
+                            onClick={() => handleNextClicked(submitForm, setTouched)}
+                            variant="contained"
+                            color="primary"
+                          >
+                            {isLastStep ? 'Submit' : 'Next'}
+                          </Button>
+                        </Grid>
+                      </Grid>
                     </Box>
                   </Hidden>
                 </Card>
@@ -409,12 +622,12 @@ export default () => {
                       activeStep={activeStep}
                       backButton={(
                         <Button size="small" onClick={handleBackClicked} disabled={activeStep === 0}>
-                          <KeyboardArrowLeft />Back
+                          <KeyboardArrowLeft /> Back
                         </Button>
                       )}
                       nextButton={(
                         <Button size="small" onClick={() => handleNextClicked(submitForm, setTouched)} disabled={activeStep === 5}>
-                          Next<KeyboardArrowRight />
+                          Next <KeyboardArrowRight />
                         </Button>
                       )}
                     />
