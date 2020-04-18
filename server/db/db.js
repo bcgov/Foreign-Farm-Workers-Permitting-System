@@ -1,6 +1,5 @@
 const { MongoClient } = require('mongodb');
 const fs = require('fs');
-const path = require('path');
 const logger = require('../logger.js');
 
 /**
@@ -86,7 +85,7 @@ class DBClient {
       options.ssl = true;
       options.sslValidate = true;
       // Specify the Amazon DocumentDB cert
-      options.sslCA = [fs.readFileSync(path.join(__dirname, 'certificates', 'rds-combined-ca-bundle.pem'))];
+      options.sslCA = [fs.readFileSync(`${__dirname}/certificates/rds-combined-ca-bundle.pem`)];
     }
 
     // Create a MongoDB client opening a connection to Amazon DocumentDB as a replica set,
@@ -101,7 +100,7 @@ class DBClient {
       this._connection = await MongoClient.connect(uri, options);
       this.db = this._connection.db(dbName);
     } catch (err) {
-      logger.error(`Failed to disconnect to database: ${err}`);
+      logger.error(`Failed to connect to database: ${err}`);
       throw new Error('DBError');
     }
   }
