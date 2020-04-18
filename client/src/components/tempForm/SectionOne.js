@@ -65,7 +65,7 @@ export const SectionOne = ({ isDisabled }) => {
                   Assessing each section in the guidance document will help you identify areas
                   that do not sufficiently prevent or reduce the risk of COVID-19 transmission.
                 </Typography>
-                <Card style={{ backgroundColor: '#e6e8e9', padding: '18px', marginBottom: '16px' }}>
+                <Card style={{ backgroundColor: '#E6E8E9', padding: '18px', marginBottom: '16px' }}>
                   <Typography variant="body1" paragraph>
                     <b>Example: Physical Distancing Risk</b>
                   </Typography>
@@ -96,7 +96,7 @@ export const SectionOne = ({ isDisabled }) => {
                   and Control (IPC) protocol. For each section of the guide where you identified a risk,
                   the risk needs to be controlled.
                 </Typography>
-                <Card style={{ backgroundColor: '#e6e8e9', padding: '18px', marginBottom: '16px' }}>
+                <Card style={{ backgroundColor: '#E6E8E9', padding: '18px', marginBottom: '16px' }}>
                   <Typography variant="body1" paragraph>
                     <b>Example: Physical Distancing Risk</b>
                   </Typography>

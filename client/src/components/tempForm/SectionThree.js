@@ -93,7 +93,7 @@ export const SectionThree = ({ isDisabled }) => {
               options={[
                 { value: 'single', label: 'Single occupancy bedrooms' },
                 { value: 'shared', label: 'Shared occupancy bedrooms' },
-                { value: '', label: 'Both' },
+                { value: 'both', label: 'Both' },
               ]}
             />
           </Box>

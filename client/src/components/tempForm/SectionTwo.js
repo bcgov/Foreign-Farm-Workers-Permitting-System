@@ -4,7 +4,7 @@ import Typography from '@material-ui/core/Typography';
 import { Field, FieldArray, useFormikContext } from 'formik';
 
 import { Divider } from '../../components/generic';
-import { RenderCheckbox, RenderSelectField, RenderTextField } from '../../components/fields';
+import { RenderCheckbox, RenderRadioGroup, RenderSelectField, RenderTextField } from '../../components/fields';
 
 export const SectionTwo = ({ isDisabled }) => {
   const { values, setFieldValue } = useFormikContext();
@@ -90,7 +90,7 @@ export const SectionTwo = ({ isDisabled }) => {
           <Field
             name="alternatePhoneNumber"
             component={RenderTextField}
-            label="Alternate phone number"
+            label="Alternate phone number (optional)"
             disabled={isDisabled}
           />
         </Grid>
@@ -124,7 +124,7 @@ export const SectionTwo = ({ isDisabled }) => {
           <Field
             name="addressLine2"
             component={RenderTextField}
-            label="Address line 2"
+            label="Address line 2 (optional)"
             disabled={isDisabled}
           />
         </Grid>
@@ -230,9 +230,13 @@ export const SectionTwo = ({ isDisabled }) => {
                       <Grid item xs={12} sm={6}>
                         <Field
                           name={`temporaryForeignWorkerFacilityAddresses[${index}].type`}
-                          component={RenderTextField}
+                          component={RenderRadioGroup}
                           label="Facility type"
                           disabled={isDisabled}
+                          options={[
+                            { value: 'working', label: 'Where the TFWs will be working' },
+                            { value: 'housed', label: 'Where the TFWs will be housed' },
+                          ]}
                         />
                       </Grid>
                       <Grid item xs={12} sm={6}>
@@ -247,7 +251,7 @@ export const SectionTwo = ({ isDisabled }) => {
                         <Field
                           name={`temporaryForeignWorkerFacilityAddresses[${index}].addressLine2`}
                           component={RenderTextField}
-                          label="Address line 2"
+                          label="Address line 2 (optional)"
                           disabled={isDisabled}
                         />
                       </Grid>

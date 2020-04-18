@@ -198,14 +198,15 @@ export const Form = () => {
     if (isLastStep) {
       await submitForm();
     } else {
-      const relevantFields = getStepFields(activeStep);
+      const fieldsForCurrentStep = getStepFields(activeStep);
       const fieldsToTouch = {};
-      relevantFields.forEach((field) => fieldsToTouch[field] = true);
+      fieldsForCurrentStep.forEach((field) => fieldsToTouch[field] = true);
       const errors = await setTouched(fieldsToTouch);
-      const hasOutstandingErrors = Object.keys(errors).some((key) => relevantFields.includes(key));
-      if (!hasOutstandingErrors) moveStepper(activeStep + 1);
-      window.scrollTo(0, 0);
-      moveStepper(activeStep + 1);
+      const hasOutstandingErrors = Object.keys(errors).some((key) => fieldsForCurrentStep.includes(key));
+      if (!hasOutstandingErrors) {
+        window.scrollTo(0, 0);
+        moveStepper(activeStep + 1)
+      }
     }
   };
 
