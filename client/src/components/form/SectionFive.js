@@ -75,7 +75,7 @@ export const SectionFive = ({ isDisabled }) => {
           <Field
             name="isPreparedToCleanAndDisinfectRooms"
             component={RenderCheckbox}
-            label=" am prepared to clean and disinfect any rooms that the person has been in while symptomatic."
+            label="I am prepared to clean and disinfect any rooms that the person has been in while symptomatic."
             disabled={isDisabled}
           />
           <Field

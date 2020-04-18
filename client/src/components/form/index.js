@@ -53,6 +53,7 @@ function getStepFields(step) {
         'province',
         'postalCode',
         'isSameAsBusinessAddress',
+        'numberOfAdditionalAddresses',
         'temporaryForeignWorkerFacilityAddresses',
       ];
     case 2:
@@ -62,6 +63,7 @@ function getStepFields(step) {
         'hasContactedLocalMedicalHealthOfficer',
         'doCommonAreasAllowPhysicalDistancing',
         'bedroomAccommodation',
+        'areBedsInRightConfiguration',
         'doesUnderstandNeedsForSelfIsolation',
         'hasSeparateAccommodationForWorker',
         'hasLaundryServices',
@@ -145,6 +147,7 @@ export const Form = ({ confirmationNumber, initialValues, isDisabled }) => {
     hasContactedLocalMedicalHealthOfficer: false,
     doCommonAreasAllowPhysicalDistancing: false,
     bedroomAccommodation: null,
+    areBedsInRightConfiguration: false,
     doesUnderstandNeedsForSelfIsolation: false,
     hasSeparateAccommodationForWorker: false,
     hasLaundryServices: false,

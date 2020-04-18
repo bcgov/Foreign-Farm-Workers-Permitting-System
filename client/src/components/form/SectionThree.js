@@ -3,11 +3,13 @@ import Alert from '@material-ui/lab/Alert';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import { Field } from 'formik';
+import { Field, useFormikContext } from 'formik';
 
 import { RenderCheckbox, RenderRadioGroup, } from '../../components/fields';
 
 export const SectionThree = ({ isDisabled }) => {
+  const { values } = useFormikContext();
+  const { bedroomAccommodation } = values;
   return (
     <Fragment>
       <Grid container spacing={3}>
@@ -97,6 +99,14 @@ export const SectionThree = ({ isDisabled }) => {
               ]}
             />
           </Box>
+          {['shared', 'both'].includes(bedroomAccommodation) && (
+            <Field
+              name="areBedsInRightConfiguration"
+              component={RenderCheckbox}
+              label="Beds in the right configuration with the right distance apart."
+              disabled={isDisabled}
+            />
+          )}
         </Grid>
 
         {/** Fourth Block */}
@@ -189,7 +199,7 @@ export const SectionThree = ({ isDisabled }) => {
           <Field
             name="hasHandWashingSinks"
             component={RenderCheckbox}
-            label="I have disposable gloves for the handling of garbage or there is access to hand hygiene facilities either through hand hygiene stations or the provisions of hand sanitizer."
+            label="I have an adequate number of hand washing sinks available to workers."
             disabled={isDisabled}
           />
           <Field

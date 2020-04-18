@@ -20,14 +20,13 @@ export const SectionOne = ({ isDisabled }) => {
       {!isDisabled && (
         <Fragment>
           <Typography variant="subtitle1" paragraph>
-            Apply for authorization from the BC Provincial Health Officer to receive temporary
-            foreign workers at your workplace and protect workers during the COVID-19 pandemic
+            Apply for authorization from the BC Provincial Health Officer to receive temporary foreign
+            workers at your workplace and protect workers during the COVID-19 pandemic
           </Typography>
           <Typography variant="body1" paragraph>
-            Farm operators must ensure a safe workplace for their workers and demonstrate proof
-            of a COVID-19 Infection Prevention and Control (IPC) protocol with the Ministry of
-            Agriculture. While you have workers on the farm, you are still subject to all
-            provincial laws and regulations.
+            Farm operators must ensure a safe workplace for their workers and demonstrate proof of a
+            COVID-19 Infection Prevention and Control (IPC) protocol. While you have workers on the farm,
+            you are still subject to all provincial laws and regulations.
           </Typography>
 
           {/** First Block */}
@@ -98,7 +97,7 @@ export const SectionOne = ({ isDisabled }) => {
                 </Typography>
                 <Card style={{ backgroundColor: '#E6E8E9', padding: '18px', marginBottom: '16px' }}>
                   <Typography variant="body1" paragraph>
-                    <b>Example: Physical Distancing Risk</b>
+                    <b>Example: Physical Distancing Control</b>
                   </Typography>
                   <Typography variant="body1">
                     If your workers ride together in a vehicle to the work site, and you follow the instructions
@@ -113,12 +112,19 @@ export const SectionOne = ({ isDisabled }) => {
               </ExpansionPanelDetails>
             </ExpansionPanel>
           </Box>
-          {/*<Divider />*/}
+          <Box mt={3} mb={4}>
+            <Typography variant="subtitle2" paragraph>
+              Risk assessment and IPC protocol must be available upon inspection
+            </Typography>
+          </Box>
+
           <Box mt={3} mb={4}>
             <Alert severity="info" icon={<PhoneIcon />}>
               <Typography variant="body2">
                 If you need assistance completing these risk assessment or infection prevention tasks, please
-                contact the Ministry of Agriculture (Toll-free: 1-888-xxx-xxxx) for help.
+                contact the Ministry of Agriculture (Toll-free:&nbsp;
+                <Link href="tel:">1-888-xxx-xxxx</Link>
+                &nbsp;) for help.
               </Typography>
             </Alert>
           </Box>
@@ -131,7 +137,7 @@ export const SectionOne = ({ isDisabled }) => {
             <li>
               <Typography variant="body1" gutterBottom>
                 You <b>will be subject to a site inspection</b> of your farm worksites and accommodations prior to the
-                release of temporary foreign workers after their mandatory 14 day self-isolation period.
+                release of temporary foreign workers after their mandatory 14 day quarantine period.
               </Typography>
             </li>
             <li>
