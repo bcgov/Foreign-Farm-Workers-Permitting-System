@@ -28,15 +28,17 @@ export const SectionSix = ({ handleEditClick, isDisabled }) => {
                     1. Declarations
                   </Typography>
                 </Grid>
-                <Grid item>
-                  <Button
-                    startIcon={<EditIcon />}
-                    size="small"
-                    fullWidth={false}
-                    onClick={() => handleEditClick(0)}
-                    text="Edit"
-                  />
-                </Grid>
+                {!isDisabled && (
+                  <Grid item>
+                    <Button
+                      startIcon={<EditIcon />}
+                      size="small"
+                      fullWidth={false}
+                      onClick={() => handleEditClick(0)}
+                      text="Edit"
+                    />
+                  </Grid>
+                )}
               </Grid>
             </Box>
             <SectionOne isDisabled />
@@ -51,15 +53,17 @@ export const SectionSix = ({ handleEditClick, isDisabled }) => {
                     2. Your business contact information
                   </Typography>
                 </Grid>
-                <Grid item>
-                  <Button
-                    startIcon={<EditIcon />}
-                    fullWidth={false}
-                    size="small"
-                    onClick={() => handleEditClick(1)}
-                    text="Edit"
-                  />
-                </Grid>
+                {!isDisabled && (
+                  <Grid item>
+                    <Button
+                      startIcon={<EditIcon />}
+                      fullWidth={false}
+                      size="small"
+                      onClick={() => handleEditClick(1)}
+                      text="Edit"
+                    />
+                  </Grid>
+                )}
               </Grid>
             </Box>
             <SectionTwo isDisabled />
@@ -74,15 +78,17 @@ export const SectionSix = ({ handleEditClick, isDisabled }) => {
                     3. Before workers arrive at your farm, please certify
                   </Typography>
                 </Grid>
-                <Grid item>
-                  <Button
-                    startIcon={<EditIcon />}
-                    fullWidth={false}
-                    size="small"
-                    onClick={() => handleEditClick(2)}
-                    text="Edit"
-                  />
-                </Grid>
+                {!isDisabled && (
+                  <Grid item>
+                    <Button
+                      startIcon={<EditIcon />}
+                      fullWidth={false}
+                      size="small"
+                      onClick={() => handleEditClick(2)}
+                      text="Edit"
+                    />
+                  </Grid>
+                )}
               </Grid>
             </Box>
             <SectionThree isDisabled />
@@ -97,15 +103,17 @@ export const SectionSix = ({ handleEditClick, isDisabled }) => {
                     4. After temporary foreign workers arrive at your farm
                   </Typography>
                 </Grid>
-                <Grid item>
-                  <Button
-                    startIcon={<EditIcon />}
-                    fullWidth={false}
-                    size="small"
-                    onClick={() => handleEditClick(3)}
-                    text="Edit"
-                  />
-                </Grid>
+                {!isDisabled && (
+                  <Grid item>
+                    <Button
+                      startIcon={<EditIcon />}
+                      fullWidth={false}
+                      size="small"
+                      onClick={() => handleEditClick(3)}
+                      text="Edit"
+                    />
+                  </Grid>
+                )}
               </Grid>
             </Box>
             <SectionFour isDisabled />
@@ -120,15 +128,17 @@ export const SectionSix = ({ handleEditClick, isDisabled }) => {
                     5. If workers become ill at the farm
                   </Typography>
                 </Grid>
-                <Grid item>
-                  <Button
-                    startIcon={<EditIcon />}
-                    fullWidth={false}
-                    size="small"
-                    onClick={() => handleEditClick(4)}
-                    text="Edit"
-                  />
-                </Grid>
+                {!isDisabled && (
+                  <Grid item>
+                    <Button
+                      startIcon={<EditIcon />}
+                      fullWidth={false}
+                      size="small"
+                      onClick={() => handleEditClick(4)}
+                      text="Edit"
+                    />
+                  </Grid>
+                )}
               </Grid>
             </Box>
             <SectionFive isDisabled />

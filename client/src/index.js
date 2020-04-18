@@ -32,7 +32,7 @@ const App = () => (
 
             {/* Private routes */}
             <PrivateRoute exact path={Routes.Submissions} component={Submissions} />
-            <PrivateRoute exact path={Routes.SubmissionDetails} component={SubmissionDetails} />
+            <PrivateRoute exact path={Routes.SubmissionDetails.staticRoute} component={SubmissionDetails} />
 
             {/* Invalid route - default to form */}
             <Route component={Form} />

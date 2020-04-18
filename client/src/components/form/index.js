@@ -104,6 +104,9 @@ function getStepFields(step) {
         'doesCertify',
         'doesAgree',
       ];
+
+    default:
+      return [];
   }
 }
 
@@ -211,7 +214,7 @@ export const Form = ({ confirmationNumber, initialValues, isDisabled }) => {
   };
 
   return (
-    <Grid item xs={12} sm={11} md={10} lg={8} xl={6}>
+    <Grid item xs={12} sm={isDisabled ? 12 : 11} md={isDisabled ? 12 : 10} lg={isDisabled ? 12 : 8} xl={isDisabled ? 12 : 6}>
       <Formik
         initialValues={formValues}
         validationSchema={FormSchema}
@@ -220,109 +223,121 @@ export const Form = ({ confirmationNumber, initialValues, isDisabled }) => {
         {({ submitForm, setTouched }) => (
           <FormikForm>
 
-            <Box pt={4} pb={2} pl={2} pr={2}>
-              <Card noPadding>
+            {!isDisabled && (
+              <Box pt={4} pb={2} pl={2} pr={2}>
+                <Card noPadding>
 
-                {/** Desktop Stepper */}
-                <Hidden xsDown>
-                  <Stepper
-                    alternativeLabel
-                    activeStep={activeStep}
-                  >
-                    {steps.map((label, index) => (
-                      <Step key={label}>
-                        <StepButton onClick={() => moveStepper(index)}>
-                          <StepLabel>{label}</StepLabel>
-                        </StepButton>
-                      </Step>
-                    ))}
-                  </Stepper>
-                </Hidden>
+                  {/** Desktop Stepper */}
+                  <Hidden xsDown>
+                    <Stepper
+                      alternativeLabel
+                      activeStep={activeStep}
+                    >
+                      {steps.map((label, index) => (
+                        <Step key={label}>
+                          <StepButton onClick={() => moveStepper(index)}>
+                            <StepLabel>{label}</StepLabel>
+                          </StepButton>
+                        </Step>
+                      ))}
+                    </Stepper>
+                  </Hidden>
 
-                {/** Mobile Stepper - Text */}
-                <Hidden smUp>
-                  <Box p={2}>
-                    <Typography variant="body1" color="primary" gutterBottom>
-                      Step {activeStep + 1} of {steps.length}
-                    </Typography>
-                    <Typography variant="body1">
-                      <b>{activeStep + 1}. {steps[activeStep]}</b>
-                    </Typography>
-                  </Box>
-                </Hidden>
-              </Card>
-            </Box>
+                  {/** Mobile Stepper - Text */}
+                  <Hidden smUp>
+                    <Box p={2}>
+                      <Typography variant="body1" color="primary" gutterBottom>
+                        Step {activeStep + 1} of {steps.length}
+                      </Typography>
+                      <Typography variant="body1">
+                        <b>{activeStep + 1}. {steps[activeStep]}</b>
+                      </Typography>
+                    </Box>
+                  </Hidden>
+                </Card>
+              </Box>
+            )}
 
             <Box pt={2} pb={2} pl={2} pr={2}>
               <Card>
 
                 {/** Form Sections */}
-                {activeStep === 0 && <SectionOne isDisabled={isDisabled} />}
-                {activeStep === 1 && <SectionTwo isDisabled={isDisabled} />}
-                {activeStep === 2 && <SectionThree isDisabled={isDisabled} />}
-                {activeStep === 3 && <SectionFour isDisabled={isDisabled} />}
-                {activeStep === 4 && <SectionFive isDisabled={isDisabled} />}
-                {activeStep === 5 && <SectionSix handleEditClick={moveStepper} isDisabled={isDisabled} />}
+                {!isDisabled ? (
+                  <Fragment>
+                    {activeStep === 0 && <SectionOne isDisabled={isDisabled} />}
+                    {activeStep === 1 && <SectionTwo isDisabled={isDisabled} />}
+                    {activeStep === 2 && <SectionThree isDisabled={isDisabled} />}
+                    {activeStep === 3 && <SectionFour isDisabled={isDisabled} />}
+                    {activeStep === 4 && <SectionFive isDisabled={isDisabled} />}
+                    {activeStep === 5 && <SectionSix handleEditClick={moveStepper} />}
+                  </Fragment>
+                ) : (
+                  <SectionSix isDisabled />
+                )}
 
                 {/** Desktop Prev / Next */}
-                <Hidden xsDown>
-                  <Box mt={3}>
-                    <Grid container justify="flex-end">
-                      <Grid item>
-                        <Grid container spacing={2}>
-                          <Grid item>
-                            <Button
-                              disabled={isFirstStep}
-                              onClick={handleBackClicked}
-                              text="Back"
-                              fullWidth={false}
-                            />
-                          </Grid>
-                          <Grid item>
-                            <Button
-                              onClick={() => handleNextClicked(submitForm, setTouched)}
-                              variant="contained"
-                              color="primary"
-                              fullWidth={false}
-                              text={isLastStep ? 'Submit' : 'Next'}
-                            />
+                {!isDisabled && (
+                  <Hidden xsDown>
+                    <Box mt={3}>
+                      <Grid container justify="flex-end">
+                        <Grid item>
+                          <Grid container spacing={2}>
+                            <Grid item>
+                              <Button
+                                disabled={isFirstStep}
+                                onClick={handleBackClicked}
+                                text="Back"
+                                fullWidth={false}
+                              />
+                            </Grid>
+                            <Grid item>
+                              <Button
+                                onClick={() => handleNextClicked(submitForm, setTouched)}
+                                variant="contained"
+                                color="primary"
+                                fullWidth={false}
+                                text={isLastStep ? 'Submit' : 'Next'}
+                              />
+                            </Grid>
                           </Grid>
                         </Grid>
                       </Grid>
-                    </Grid>
-                  </Box>
-                </Hidden>
+                    </Box>
+                  </Hidden>
+                )}
               </Card>
             </Box>
 
             {/** Mobile Stepper - Prev / Next */}
-            <Hidden smUp>
-              <Box pt={2} pb={4} pl={2} pr={2}>
-                <Card noPadding>
-                  <MobileStepper
-                    style={{ backgroundColor: '#FFFFFF' }}
-                    steps={steps.length}
-                    variant="text"
-                    position="static"
-                    activeStep={activeStep}
-                    backButton={(
-                      <Button
-                        fullWidth={false}
-                        text={(<Fragment><KeyboardArrowLeft /> Back</Fragment>)}
-                        onClick={handleBackClicked} disabled={isFirstStep}
-                      />
-                    )}
-                    nextButton={(
-                      <Button
-                        fullWidth={false}
-                        text={(<Fragment>Next <KeyboardArrowRight /></Fragment>)}
-                        onClick={() => handleNextClicked(submitForm, setTouched)} disabled={isLastStep}
-                      />
-                    )}
-                  />
-                </Card>
-              </Box>
-            </Hidden>
+            {!isDisabled && (
+              <Hidden smUp>
+                <Box pt={2} pb={4} pl={2} pr={2}>
+                  <Card noPadding>
+                    <MobileStepper
+                      style={{ backgroundColor: '#FFFFFF' }}
+                      steps={steps.length}
+                      variant="text"
+                      position="static"
+                      activeStep={activeStep}
+                      backButton={(
+                        <Button
+                          fullWidth={false}
+                          text={(<Fragment><KeyboardArrowLeft /> Back</Fragment>)}
+                          onClick={handleBackClicked} disabled={isFirstStep}
+                        />
+                      )}
+                      nextButton={(
+                        <Button
+                          fullWidth={false}
+                          text={(<Fragment>Next <KeyboardArrowRight /></Fragment>)}
+                          onClick={() => handleNextClicked(submitForm, setTouched)} disabled={isLastStep}
+                        />
+                      )}
+                    />
+                  </Card>
+                </Box>
+              </Hidden>
+            )}
           </FormikForm>
         )}
       </Formik>
