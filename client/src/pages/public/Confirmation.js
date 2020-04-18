@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -16,26 +16,18 @@ export default () => {
 
         {/** Status */}
         <Box pt={5} pb={2} pl={2} pr={2}>
-          {!state?.id ? (
-            <Typography variant="subtitle1" color="error" paragraph>
-              Error: Form was not submitted successfully
-            </Typography>
-          ) : (
-            <Fragment>
-              <Typography variant="subtitle1" paragraph>
-                Write down this confirmation number and print this page for your records.
-              </Typography>
-              <Typography variant="subtitle2" paragraph>
-                Thank you. Your form has been submitted.
-              </Typography>
-              <Typography variant="subtitle2">
-                Confirmation number:
-              </Typography>
-              <Typography variant="subtitle2" paragraph>
-                <b>{state?.id}</b>
-              </Typography>
-            </Fragment>
-          )}
+          <Typography variant="subtitle1" paragraph>
+            Write down this confirmation number and print this page for your records.
+          </Typography>
+          <Typography variant="body1" paragraph>
+            Thank you. Your form has been submitted.
+          </Typography>
+          <Typography variant="body1" gutterBottom>
+            Confirmation number:
+          </Typography>
+          <Typography variant="subtitle2" paragraph>
+            <b>{state?.id || 'Failed to retrieve'}</b>
+          </Typography>
           <Divider />
         </Box>
 

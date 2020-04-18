@@ -14,7 +14,7 @@ export default () => {
   const [isLoading, setLoading] = useState(false);
   const [rows, setRows] = useState([]);
 
-  const columns = ['Date Submitted', 'Business Name', 'Decision', 'Confirmation Number'];
+  const columns = ['Last Name', 'First Name', 'Business Name', 'Confirmation Number'];
 
   /**
    * On page load, perform a query to find all submissions.
@@ -31,9 +31,9 @@ export default () => {
       // if (response.ok) {
       //   const { submissions } = await response.json();
       //   const rows = submissions.map((submission) => ({
-      //     dateSubmitted: submission.dateSubmitted,
-      //     businessName: submission.businessName,
-      //     decision: submission.decision,
+      //     lastName: submission.lastName,
+      //     firstName: submission.firstName,
+      //     registeredBusinessName: submission.registeredBusinessName,
       //     confirmationNumber: submission.id,
       //     viewMore: (
       //       <Button
@@ -50,10 +50,10 @@ export default () => {
       // setLoading(false);
 
       // TODO: Remove once backend work complete
-      const rows = [...Array(20)].map(() => ({
-        dateSubmitted: '10/10/2020',
-        businessName: 'Farm',
-        decision: 'Pending',
+      const rows = [...Array(70)].map(() => ({
+        lastName: 'Bar',
+        firstName: 'Foo',
+        registeredBusinessName: 'The Ranch',
         confirmationNumber: '123ABC',
         viewMore: (
           <Button

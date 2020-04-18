@@ -196,11 +196,13 @@ export const SectionSix = ({ handleEditClick, isDisabled }) => {
             name="doesCertify"
             component={RenderCheckbox}
             label="I certify this information to be accurate"
+            disabled={isDisabled}
           />
           <Field
             name="doesAgree"
             component={RenderCheckbox}
             label="I agree that my farm will be subject to a site inspection"
+            disabled={isDisabled}
           />
 
           {!isDisabled && (

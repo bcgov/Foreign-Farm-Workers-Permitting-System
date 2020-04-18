@@ -122,12 +122,12 @@ export const Form = ({ initialValues, isDisabled }) => {
 
   const formValues = initialValues ? initialValues : {
 
-    // First section
+    // Section one
     hasDownloadedBCMinistryAgricultureCovid19Requirements: false,
     hasCompletedCovid19WorkplaceRiskAssessment: false,
     hasCreatedCovid19InfectionPreventionAndControlProtocol: false,
 
-    // Second section
+    // Section two
     registeredBusinessName: '',
     firstName: '',
     lastName: '',
@@ -143,7 +143,7 @@ export const Form = ({ initialValues, isDisabled }) => {
     numberOfAdditionalAddresses: 1,
     temporaryForeignWorkerFacilityAddresses: [],
 
-    // Third section
+    // Section three
     hasSignage: false,
     hasSomeoneIdentified: false,
     hasContactedLocalMedicalHealthOfficer: false,
@@ -165,7 +165,7 @@ export const Form = ({ initialValues, isDisabled }) => {
     hasPhysicalBarriers: false,
     hasScheduleToEnsureTouchAreasAreCleaned: false,
 
-    // Fourth section
+    // Section four
     hasMaterialsOnRiskOfExposure: false,
     hasMaterialsOnHandWashingPhysicalDistancingCoughSneeze: false,
     hasMaterialsOnHandWashingFacilities: false,
@@ -175,7 +175,7 @@ export const Form = ({ initialValues, isDisabled }) => {
     doWorkersHaveOwnDishware: false,
     isDishwareWashedImmediately: false,
 
-    // Fifth section
+    // Section five
     hasFacilitiesToSeparateAndSelfIsolate: false,
     isPreparedToProvideIndividualsExhibitingSymptoms: false,
     isPreparedToDirectPersonToHealthLinkBC: false,
@@ -185,7 +185,7 @@ export const Form = ({ initialValues, isDisabled }) => {
     isAbleToPerformAdequateHousekeeping: false,
     isAbleToPerformWasteManagement: false,
 
-    // Sixth section
+    // Section six
     doesCertify: false,
     doesAgree: false,
   };
