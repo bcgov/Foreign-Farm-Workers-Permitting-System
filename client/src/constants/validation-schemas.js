@@ -10,7 +10,7 @@ export const DeterminationSchema = yup.object().shape({
   notes: yup.string().required('Notes are required'),
 });
 
-const errorMessage = (path) => {
+const errorMessage = ({ path }) => {
   const errorMessages = {
     // Section one
     hasDownloadedBCMinistryAgricultureCovid19Requirements: 'Must download and read the BC Ministry of Agriculture’s COVID-19 requirements',
