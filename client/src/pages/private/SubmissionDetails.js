@@ -70,39 +70,42 @@ export default () => {
   useEffect(() => {
     (async () => {
       setLookupLoading(true);
-      const jwt = window.localStorage.getItem('jwt');
-      const response = await fetch(`/api/v1/form/${params.confirmationNumber}`, {
-        headers: { 'Accept': 'application/json', 'Content-type': 'application/json', 'Authorization': `Bearer ${jwt}` },
-        method: 'GET',
-      });
 
-      if (response.ok) {
-        const { determination, notes, ...rest } = await response.json();
-        const submission = adaptSubmission(rest);
-        setInitialUserFormValues(submission);
-        setInitialSidebarValues({ determination: determination || '', notes: notes || '' });
-      } else {
-        setLookupError(`Failed to find submission with ID ${params.confirmationNumber}`);
-      }
+      //TODO: Uncomment once backend work complete
+      // const jwt = window.localStorage.getItem('jwt');
+      // const response = await fetch(`/api/v1/form/${params.confirmationNumber}`, {
+      //   headers: { 'Accept': 'application/json', 'Content-type': 'application/json', 'Authorization': `Bearer ${jwt}` },
+      //   method: 'GET',
+      // });
+      // if (response.ok) {
+      //   const { determination, notes, ...rest } = await response.json();
+      //   const submission = adaptSubmission(rest);
+      //   setInitialUserFormValues(submission);
+      //   setInitialSidebarValues({ determination: determination || '', notes: notes || '' });
+      // } else {
+      //   setLookupError(`Failed to find submission with ID ${params.confirmationNumber}`);
+      // }
+
       setLookupLoading(false);
     })();
   }, [params.confirmationNumber]);
 
   const handleSubmit = async (values) => {
     setSubmitLoading(true);
-    const jwt = window.localStorage.getItem('jwt');
-    const response = await fetch(`/api/v1/form/${params.confirmationNumber}`, {
-      headers: { 'Accept': 'application/json', 'Content-type': 'application/json', 'Authorization': `Bearer ${jwt}` },
-      method: 'PATCH',
-      body: JSON.stringify({ ...values })
-    });
 
-    if (response.ok) {
-      setSubmitSuccess(true);
-    } else {
-       setSubmitError(response.error || 'Failed to update this submission.');
-       setSubmitLoading(false);
-     }
+    //TODO: Uncomment once backend work complete
+    // const jwt = window.localStorage.getItem('jwt');
+    // const response = await fetch(`/api/v1/form/${params.confirmationNumber}`, {
+    //   headers: { 'Accept': 'application/json', 'Content-type': 'application/json', 'Authorization': `Bearer ${jwt}` },
+    //   method: 'PATCH',
+    //   body: JSON.stringify({ ...values })
+    // });
+    // if (response.ok) {
+    //   setSubmitSuccess(true);
+    // } else {
+    //    setSubmitError(response.error || 'Failed to update this submission.');
+    //    setSubmitLoading(false);
+    //  }
   };
 
   const renderSidebar = () => (
@@ -128,8 +131,8 @@ export default () => {
                 name="determination"
                 component={RenderButtonGroup}
                 options={[
-                  { value: 'support', label: 'Support Needed', color: 'secondary' },
-                  { value: 'accepted', label: 'No Support Needed', color: 'primary' },
+                  { value: 'incomplete', label: 'Checklist Incomplete', color: 'secondary' },
+                  { value: 'complete', label: 'Checklist Complete', color: 'primary' },
                 ]}
               />
             </Grid>
@@ -182,7 +185,7 @@ export default () => {
     </Container>
   );
 
-  return submitSuccess ? <Redirect to={Routes.Lookup} /> : (
+  return submitSuccess ? <Redirect to={Routes.Submissions} /> : (
    <Page>
      {(lookupLoading || lookupError) ? (
        <div className={classes.statusWrapper}>
@@ -195,10 +198,9 @@ export default () => {
          {/** Form */}
          <Grid className={classes.formWrapper} item xs={12} sm={11} md={8}>
            <Form
+             confirmationNumber={params.confirmationNumber}
              initialValues={initialUserFormValues}
              isDisabled
-             confirmationNumber={params.confirmationNumber}
-             isPdf={false}
            />
            <Hidden mdUp>
              <Box p={4}>

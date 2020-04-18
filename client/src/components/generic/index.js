@@ -6,6 +6,4 @@ export * from './Table';
 export * from './InputFieldLabel';
 export * from './InputFieldError';
 export * from './PrivateRoute';
-export * from './TempPrivateRoute';
-export * from './TempPublicRoute';
 export * from './PublicRoute';
