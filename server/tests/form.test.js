@@ -10,9 +10,9 @@ describe('Server V1 Form Endpoints', () => {
     server = app.listen();
   });
 
-  afterAll(async ()=> {
+  afterAll(async () => {
     await closeDB();
-  })
+  });
 
   const loginEndpoint = '/api/v1/login';
   const formEndpoint = '/api/v1/form';
