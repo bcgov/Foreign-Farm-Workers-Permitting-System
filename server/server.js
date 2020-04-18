@@ -39,7 +39,7 @@ app.post(`${apiBaseUrl}/form`,
 
     // Form ID
     const id = await generateRandomHexId();
-    const decision = 'Pending';
+    const decision = 'Pending Review';
 
     const currentISODate = new Date().toISOString();
     const formItem = {
