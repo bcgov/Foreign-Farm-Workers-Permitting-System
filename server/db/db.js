@@ -48,8 +48,8 @@ class DBClient {
   /**
    * Console log current configuration but password
    */
-  printConfig() {
-    const { dbPassword, ...config } = this.config();
+  static printConfig() {
+    const { dbPassword, ...config } = DBClient.config();
     console.log(config); // eslint-disable-line no-console
   }
 
@@ -70,7 +70,7 @@ class DBClient {
       dbName,
       dbTLSEnabled,
       useReplicaSet,
-    } = this.config();
+    } = DBClient.config();
 
     // https://docs.aws.amazon.com/documentdb/latest/developerguide/connect-from-outside-a-vpc.html
 
