@@ -63,8 +63,8 @@ services:
       - MONGO_INITDB_DATABASE=${DB_NAME}
     volumes:
       - ./.docker/mongo/databaseInit:/docker-entrypoint-initdb.d
-      - ets-mongo-data-configdb:/data/configdb
-      - ets-mongo-data-db:/data/db
+      - ftw-mongo-data-configdb:/data/configdb
+      - ftw-mongo-data-db:/data/db
     networks:
       - frontend
 
@@ -73,5 +73,5 @@ networks:
     driver: "bridge"
 
 volumes:
-    ets-mongo-data-configdb:
-    ets-mongo-data-db:
+    ftw-mongo-data-configdb:
+    ftw-mongo-data-db:

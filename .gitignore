@@ -2,7 +2,7 @@
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
-enhanced-travel-screening*.zip
+temporary-farm-workers*.zip
 
 # Dependencies
 node_modules

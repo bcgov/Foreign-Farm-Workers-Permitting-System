@@ -18,11 +18,6 @@ To set up and run database, backend (server), and frontend (client) applications
 To tear down your environment:
 - Run `make close-local`
 
-To migrate from dynamoDB to MongoDB/DocumentDB database:
-- Make sure of running DynamoDB, `docker run -p 8000:8000 --name dynamoDB --network=enhanced-travel-screening_frontend amazon/dynamodb-local`
-- - `enhanced-travel-screening` represents the folder name of your project directory
-- Run `make local-db-migration`
-
 To seed database:
 - Run `make local-db-seed`
 
