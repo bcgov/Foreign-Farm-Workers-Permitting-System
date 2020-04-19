@@ -3,13 +3,15 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import { useHistory } from 'react-router-dom';
-import { dateToString, mapDetermination } from '../../utils';
+
 import { Routes } from '../../constants';
+import { dateToString, mapDetermination } from '../../utils';
 
 import { Button, Page, Table } from '../../components/generic';
 
 export default () => {
   const history = useHistory();
+
   const [lookupError, setLookupError] = useState(null);
   const [isLoading, setLoading] = useState(false);
   const [rows, setRows] = useState([]);
@@ -22,11 +24,13 @@ export default () => {
   useEffect(() => {
     (async () => {
       setLoading(true);
+
       const jwt = window.localStorage.getItem('jwt');
       const response = await fetch(`/api/v1/forms`, {
         headers: { 'Accept': 'application/json', 'Content-type': 'application/json', 'Authorization': `Bearer ${jwt}` },
         method: 'GET',
       });
+
       if (response.ok) {
         const submissions = await response.json();
         const rows = submissions.map((submission) => ({
@@ -42,11 +46,12 @@ export default () => {
             />
           ),
         }));
-        setLookupError(null)
+        setLookupError(null);
         setRows(rows);
       } else {
         setLookupError(response.error || 'No submissions found');
       }
+
       setLoading(false);
     })();
   }, []);
@@ -67,11 +72,11 @@ export default () => {
 
               {/** Table */}
               <Grid item xs={12}>
-                {
-                  lookupError && <Typography variant="subtitle2" gutterBottom noWrap>
+                {lookupError && (
+                  <Typography variant="subtitle2" gutterBottom noWrap>
                     {lookupError.message || lookupError}
                   </Typography>
-                }
+                )}
                 {!lookupError && (
                   <Table
                     columns={columns}

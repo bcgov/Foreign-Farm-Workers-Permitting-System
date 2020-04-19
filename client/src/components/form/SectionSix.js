@@ -13,6 +13,7 @@ import { SectionThree } from './SectionThree';
 import { SectionFour } from './SectionFour';
 import { SectionFive } from './SectionFive';
 import { Button, Card } from '../generic';
+
 import { RenderCheckbox } from '../../components/fields';
 
 export const SectionSix = ({ handleEditClick, isDisabled }) => {

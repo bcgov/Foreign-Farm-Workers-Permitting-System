@@ -7,10 +7,11 @@ import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
 import Box from '@material-ui/core/Box';
 import { Formik, Form as FormikForm, Field } from 'formik';
-import { Redirect, useHistory, useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 
-import { Routes, DeterminationSchema } from '../../constants';
+import { Routes, DeterminationSchema, ToastStatus } from '../../constants';
+import { useToast } from '../../hooks';
 import { adaptSubmission } from '../../utils';
 
 import { Form } from '../../components/form';
@@ -51,12 +52,12 @@ export default () => {
   const classes = useStyles();
   const history = useHistory();
   const params = useParams();
+
+  const { openToast } = useToast();
   const [isMobileDrawerOpen, setMobileDrawerOpen] = useState(false);
   const [lookupError, setLookupError] = useState(null);
   const [lookupLoading, setLookupLoading] = useState(false);
-  const [submitError, setSubmitError] = useState(null);
   const [submitLoading, setSubmitLoading] = useState(false);
-  const [submitSuccess, setSubmitSuccess] = useState(null);
   const [initialUserFormValues, setInitialUserFormValues] = useState(null);
   const [initialSidebarValues, setInitialSidebarValues] = useState({
     determination: '',
@@ -76,6 +77,7 @@ export default () => {
         headers: { 'Accept': 'application/json', 'Content-type': 'application/json', 'Authorization': `Bearer ${jwt}` },
         method: 'GET',
       });
+
       if (response.ok) {
         const { determination, notes, ...rest } = await response.json();
         const submission = adaptSubmission(rest);
@@ -98,11 +100,13 @@ export default () => {
       method: 'PATCH',
       body: JSON.stringify({ ...values })
     });
+
     if (response.ok) {
-      setSubmitSuccess(true);
+      openToast({ status: ToastStatus.Success, message: response.error || 'Submission updated.' });
+      history.push(Routes.Submissions);
     } else {
-       setSubmitError(response.error || 'Failed to update this submission.');
-       setSubmitLoading(false);
+      openToast({ status: ToastStatus.Error, message: response.error || 'Failed to update this submission.' });
+      setSubmitLoading(false);
      }
   };
 
@@ -157,13 +161,6 @@ export default () => {
                 loading={submitLoading}
               />
             </Grid>
-
-            {/** Submit Error */}
-            {submitError && (
-              <Grid item xs={12}>
-                <Typography variant="body1" color="error">{submitError}</Typography>
-              </Grid>
-            )}
           </Grid>
         </FormikForm>
       </Formik>
@@ -183,7 +180,7 @@ export default () => {
     </Container>
   );
 
-  return submitSuccess ? <Redirect to={Routes.Submissions} /> : (
+  return (
     <Page>
       {(lookupLoading || lookupError) ? (
         <div className={classes.statusWrapper}>

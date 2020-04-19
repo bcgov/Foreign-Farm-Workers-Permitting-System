@@ -13,7 +13,8 @@ import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import { Formik, Form as FormikForm } from 'formik';
 import { useHistory } from 'react-router-dom';
 
-import { FormSchema, Routes } from '../../constants';
+import { FormSchema, Routes, ToastStatus } from '../../constants';
+import { useToast } from '../../hooks';
 import { handleSubmission, mapObjectProps, scrollUp } from '../../utils';
 
 import { SectionOne } from './SectionOne';
@@ -116,9 +117,10 @@ function getStepFields(step) {
 
 export const Form = ({ initialValues, isDisabled }) => {
   const history = useHistory();
+
+  const { openToast } = useToast();
   const [activeStep, setActiveStep] = useState(0);
   const [submitLoading, setSubmitLoading] = useState(false);
-  const [submitError, setSubmitError] = useState(false);
 
   const isFirstStep = activeStep === 0;
   const isLastStep = activeStep === steps.length - 1;
@@ -204,13 +206,13 @@ export const Form = ({ initialValues, isDisabled }) => {
     if (response.ok) {
       const { id, error } = await response.json();
       if (error) {
-        setSubmitError(error.message || 'Failed to submit this form');
+        openToast({ status: ToastStatus.Error, message: error.message || 'Failed to submit this form' });
       } else {
         history.push(Routes.Confirmation, { formValues: modifiedValues, id });
         return;
       }
     } else {
-      setSubmitError(response.error || response.statusText || 'Server error');
+      openToast({ status: ToastStatus.Error, message: response.error || response.statusText || 'Server error' });
     }
     setSubmitLoading(false);
     scrollUp();

@@ -7,7 +7,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
 
 import DesktopLogo from '../../assets/images/desktop-logo.svg';
-import MobileLogo from '../../assets/images/traveller-support-mobile-outlined-v2.svg';
+import MobileLogo from '../../assets/images/mobile-logo.svg';
 import { Routes } from '../../constants';
 
 const useStyles = makeStyles((theme) => ({
@@ -45,6 +45,7 @@ const Header = () => {
 
   const isSubmissionsScreen = location.pathname.includes(Routes.Submissions);
   const isSubmissionDetailsScreen = (location.pathname === Routes.SubmissionDetails.dynamicRoute(params.confirmationNumber));
+
   const handleLogoClick = () => history.push(Routes.Form);
   const handleSubmissionsClick = () => history.push(Routes.Submissions);
   const handleLogoutClick = () => {

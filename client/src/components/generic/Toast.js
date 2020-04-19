@@ -15,7 +15,7 @@ const Toast = () => {
     <Snackbar
       open={isOpen}
       autoHideDuration={6000}
-      onClose={closeToast}
+      onClose={(_, reason) => reason !== 'clickaway' && closeToast()}
       anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
     >
       <Alert
