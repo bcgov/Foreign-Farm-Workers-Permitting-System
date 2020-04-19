@@ -3,7 +3,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import { useHistory } from 'react-router-dom';
-
+import { dateToString, mapDetermination } from '../../utils';
 import { Routes } from '../../constants';
 import { dateToString, mapDetermination } from '../../utils';
 
@@ -24,13 +24,11 @@ export default () => {
   useEffect(() => {
     (async () => {
       setLoading(true);
-
       const jwt = window.localStorage.getItem('jwt');
       const response = await fetch(`/api/v1/forms`, {
         headers: { 'Accept': 'application/json', 'Content-type': 'application/json', 'Authorization': `Bearer ${jwt}` },
         method: 'GET',
       });
-
       if (response.ok) {
         const submissions = await response.json();
         const rows = submissions.map((submission) => ({
@@ -51,7 +49,6 @@ export default () => {
       } else {
         setLookupError(response.error || 'No submissions found');
       }
-
       setLoading(false);
     })();
   }, []);
