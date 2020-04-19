@@ -3,13 +3,15 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import { useHistory } from 'react-router-dom';
-import { dateToString, mapDetermination } from '../../utils';
+
 import { Routes } from '../../constants';
+import { dateToString, mapDetermination } from '../../utils';
 
 import { Button, Page, Table } from '../../components/generic';
 
 export default () => {
   const history = useHistory();
+
   const [lookupError, setLookupError] = useState(null);
   const [isLoading, setLoading] = useState(false);
   const [rows, setRows] = useState([]);
@@ -42,7 +44,7 @@ export default () => {
             />
           ),
         }));
-        setLookupError(null)
+        setLookupError(null);
         setRows(rows);
       } else {
         setLookupError(response.error || 'No submissions found');
@@ -67,11 +69,11 @@ export default () => {
 
               {/** Table */}
               <Grid item xs={12}>
-                {
-                  lookupError && <Typography variant="subtitle2" gutterBottom noWrap>
+                {lookupError && (
+                  <Typography variant="subtitle2" gutterBottom noWrap>
                     {lookupError.message || lookupError}
                   </Typography>
-                }
+                )}
                 {!lookupError && (
                   <Table
                     columns={columns}

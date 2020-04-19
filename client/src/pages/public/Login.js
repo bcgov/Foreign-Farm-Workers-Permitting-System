@@ -1,26 +1,27 @@
 import React, { useState } from 'react';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
-import Typography from '@material-ui/core/Typography';
 import { Formik, Form, Field } from 'formik';
 import { useHistory } from 'react-router-dom';
 
-import { LoginSchema, Routes } from '../../constants';
+import { LoginSchema, Routes, ToastStatus } from '../../constants';
+import { useToast } from '../../hooks';
 
 import { Page, Button, Card } from '../../components/generic';
 import { RenderTextField } from '../../components/fields';
 
 export default () => {
   const history = useHistory();
-  const [submitLoading, setSubmitLoading] = useState(false);
-  const [submitError, setSubmitError] = useState(null);
+
+  const { openToast } = useToast();
+  const [isLoading, setLoading] = useState(false);
   const initialValues = {
     username: '',
     password: '',
   };
 
   const handleSubmit = async (values) => {
-    setSubmitLoading(true);
+    setLoading(true);
     const response = await fetch('/api/v1/login', {
       headers: { 'Accept': 'application/json', 'Content-type': 'application/json' },
       method: 'POST',
@@ -30,11 +31,10 @@ export default () => {
       const { token } = await response.json();
       window.localStorage.setItem('jwt', token);
       history.push(Routes.Submissions);
-      return;
     } else {
-      setSubmitError(response.error || response.statusText || response);
+      openToast({ status: ToastStatus.Error, message: response.error || response.statusText || response });
+      setLoading(false);
     }
-    setSubmitLoading(false);
   };
 
   return (
@@ -76,18 +76,9 @@ export default () => {
                         type="submit"
                         text="Login"
                         size="large"
-                        loading={submitLoading}
+                        loading={isLoading}
                       />
                     </Grid>
-
-                    {/** Submit Errors */}
-                    {submitError && (
-                      <Grid item xs={12}>
-                        <Typography color="error">
-                          Login failed... {submitError.message || submitError}
-                        </Typography>
-                      </Grid>
-                    )}
                   </Grid>
                 </Form>
               </Formik>
