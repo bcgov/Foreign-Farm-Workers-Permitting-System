@@ -1,9 +1,5 @@
 {
-<<<<<<< HEAD
   "name": "farm-operator-screening",
-=======
-  "name": "temporary-farm-workers",
->>>>>>> refactored project name and removed migration
   "version": "1.0.0",
   "description": "",
   "author": "",
