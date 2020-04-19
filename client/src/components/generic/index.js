@@ -7,3 +7,4 @@ export * from './InputFieldLabel';
 export * from './InputFieldError';
 export * from './PrivateRoute';
 export * from './PublicRoute';
+export * from './Toast';
