@@ -42,7 +42,8 @@ export const SectionOne = ({ isDisabled }) => {
                 <Typography variant="body1">
                   <Link
                     href="https://www2.gov.bc.ca/assets/gov/health/about-bc-s-health-care-system/office-of-the-provincial-health-officer/covid-19/covid-19-pho-guidance-farms-farm-workers.pdf"
-                    target="noreferrer noopenner"
+                    rel="noreferrer noopenner"
+                    target="_blank"
                   >
                     Protecting BC Farmers and Farm Workers During the COVID-19 Pandemic
                   </Link>
@@ -116,14 +117,29 @@ export const SectionOne = ({ isDisabled }) => {
               Risk assessment and IPC protocol must be available upon inspection
             </Typography>
           </Box>
-
           <Box mt={3} mb={4}>
             <Alert severity="info" icon={<PhoneIcon />}>
-              <Typography variant="body2">
-                If you need assistance completing these risk assessment or infection prevention tasks, please
-                contact the Ministry of Agriculture (Toll-free:&nbsp;
-                <Link href="tel:">1-888-xxx-xxxx</Link>
-                &nbsp;) for help.
+              <Typography variant="body2" gutterBottom>
+                <b>
+                  If you need assistance completing these risk assessment or infection prevention tasks, please
+                  contact AgSafe for help.
+                </b>
+              </Typography>
+              <Typography variant="body2" component="span">
+                <b>
+                  Toll-free:&nbsp;
+                  <Link href="tel:+18775331789">
+                    1-877-533-1789
+                  </Link>
+                </b>
+              </Typography>
+              <Typography variant="body2" component="span">
+                <b>
+                  &nbsp;| Email&nbsp;
+                  <Link href="mailto:Contact@AgSafeBC.ca">
+                    Contact@AgSafeBC.ca
+                  </Link>
+                </b>
               </Typography>
             </Alert>
           </Box>
@@ -158,7 +174,8 @@ export const SectionOne = ({ isDisabled }) => {
                 (source:&nbsp;
                 <Link
                   href="https://www2.gov.bc.ca/assets/gov/health/about-bc-s-health-care-system/office-of-the-provincial-health-officer/covid-19/covid-19-pho-order-travellers-employers.pdf"
-                  target="noreferrer noopenner"
+                  rel="noreferrer noopenner"
+                  target="_blank"
                 >
                   Order of the Provincial Health Officer / Travellers and Employers Order - April 14, 2020)
                 </Link>
@@ -183,7 +200,8 @@ export const SectionOne = ({ isDisabled }) => {
             I have downloaded and read the BC Ministry of Agriculture’s COVID-19 requirements,&nbsp;
             <Link
               href="https://www2.gov.bc.ca/assets/gov/health/about-bc-s-health-care-system/office-of-the-provincial-health-officer/covid-19/covid-19-pho-guidance-farms-farm-workers.pdf"
-              target="noreferrer noopenner"
+              rel="noreferrer noopenner"
+              target="_blank"
             >
               Protecting BC Farmers and Farm Workers During the COVID-19 Pandemic.
             </Link>

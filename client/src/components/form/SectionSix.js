@@ -179,7 +179,8 @@ export const SectionSix = ({ handleEditClick, isDisabled }) => {
                       (source:&nbsp;
                       <Link
                         href="https://www2.gov.bc.ca/assets/gov/health/about-bc-s-health-care-system/office-of-the-provincial-health-officer/covid-19/covid-19-pho-order-travellers-employers.pdf"
-                        target="noreferrer noopenner"
+                        rel="noreferrer noopenner"
+                        target="_blank"
                       >
                         Order of the Provincial Health Officer / Travellers and Employers Order - April 14, 2020)
                       </Link>

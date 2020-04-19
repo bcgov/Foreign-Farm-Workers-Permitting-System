@@ -101,12 +101,14 @@ export const SectionThree = ({ isDisabled }) => {
             />
           </Box>
           {['shared', 'both'].includes(bedroomAccommodation) && (
-            <Field
-              name="areBedsInRightConfiguration"
-              component={RenderCheckbox}
-              label="Beds in the right configuration with the right distance apart."
-              disabled={isDisabled}
-            />
+            <Box mt={1.5}>
+              <Field
+                name="areBedsInRightConfiguration"
+                component={RenderCheckbox}
+                label="Beds in the right configuration with the right distance apart."
+                disabled={isDisabled}
+              />
+            </Box>
           )}
         </Grid>
 
@@ -141,7 +143,7 @@ export const SectionThree = ({ isDisabled }) => {
           </Typography>
           {!isDisabled && (
             <Typography variant="body1" gutterBottom>
-              Laundry must be performed properly to ensure the spread and transmission of COVID-19, including using
+              Laundry must be performed properly to prevent the spread and transmission of COVID-19, including using
               hot water for laundry machines and having adequate supply of detergent.
             </Typography>
           )}

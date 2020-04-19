@@ -47,6 +47,7 @@ export const SectionFive = ({ isDisabled }) => {
                 <Link
                   href="https://www2.gov.bc.ca/gov/content/health/about-bc-s-health-care-system/office-of-the-provincial-health-officer/medical-health-officers"
                   rel="noreferrer noopener"
+                  target="_blank"
                 >
                   Medical Health Officer
                 </Link>
@@ -97,6 +98,7 @@ export const SectionFive = ({ isDisabled }) => {
                     As COVID-19 recommendations are evolving daily, please keep up-to-date with&nbsp;
                     <Link
                       href="http://www.bccdc.ca/health-info/diseases-conditions/covid-19"
+                      target="_blank"
                       rel="noreferrer noopener"
                     >
                       BC Centre for Disease Control guidance.
