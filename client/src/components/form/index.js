@@ -14,6 +14,7 @@ import { Formik, Form as FormikForm } from 'formik';
 import { useHistory } from 'react-router-dom';
 
 import { FormSchema, Routes } from '../../constants';
+import { handleSubmission, mapObjectProps, scrollUp } from '../../utils';
 
 import { SectionOne } from './SectionOne';
 import { SectionTwo } from './SectionTwo';
@@ -193,11 +194,10 @@ export const Form = ({ initialValues, isDisabled }) => {
   // TODO: Implement backend hookup...
   const handleSubmit = async (values) => {
     const { id } = (() => ({ id: 'abc' }))();
-    history.push(Routes.Confirmation, { formValues: values, id });
+    const modifiedValues = handleSubmission(values);
+    history.push(Routes.Confirmation, { formValues: modifiedValues, id });
     scrollUp();
   };
-
-  const scrollUp = () => window.scrollTo(0, 0);
 
   const moveStepper = (index) => {
     setActiveStep(index);
@@ -207,18 +207,20 @@ export const Form = ({ initialValues, isDisabled }) => {
     moveStepper(activeStep - 1);
   };
 
-  const handleNextClicked = async (submitForm, setTouched) => {
+  const handleNextClicked = async (submitForm, setTouched, values) => {
     if (isLastStep) {
       await submitForm();
     } else {
       const fieldsForCurrentStep = getStepFields(activeStep);
-      const fieldsToTouch = {};
-      fieldsForCurrentStep.forEach((field) => fieldsToTouch[field] = true);
+      const filtered = Object.keys(values)
+        .filter((k) => fieldsForCurrentStep.includes(k))
+        .reduce((a, v) => ({ ...a, [v]: values[v] }), {});
+      const fieldsToTouch = mapObjectProps(filtered, () => true);
       const errors = await setTouched(fieldsToTouch);
       const hasOutstandingErrors = Object.keys(errors).some((key) => fieldsForCurrentStep.includes(key));
       if (!hasOutstandingErrors) {
         scrollUp();
-        moveStepper(activeStep + 1)
+        moveStepper(activeStep + 1);
       }
     }
   };
@@ -230,7 +232,7 @@ export const Form = ({ initialValues, isDisabled }) => {
         validationSchema={FormSchema}
         onSubmit={handleSubmit}
       >
-        {({ submitForm, setTouched }) => (
+        {({ submitForm, setTouched, values }) => (
           <FormikForm>
 
             {!isDisabled && (
@@ -301,7 +303,7 @@ export const Form = ({ initialValues, isDisabled }) => {
                           </Grid>
                           <Grid item>
                             <Button
-                              onClick={() => handleNextClicked(submitForm, setTouched)}
+                              onClick={() => handleNextClicked(submitForm, setTouched, values)}
                               variant="contained"
                               color="primary"
                               fullWidth={false}
@@ -338,7 +340,7 @@ export const Form = ({ initialValues, isDisabled }) => {
                         <Button
                           fullWidth={false}
                           text={(<Fragment>Next <KeyboardArrowRight /></Fragment>)}
-                          onClick={() => handleNextClicked(submitForm, setTouched)} disabled={isLastStep}
+                          onClick={() => handleNextClicked(submitForm, setTouched, values)} disabled={isLastStep}
                         />
                       )}
                     />

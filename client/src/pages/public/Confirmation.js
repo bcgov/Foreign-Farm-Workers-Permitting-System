@@ -33,38 +33,39 @@ export default () => {
     <Page>
       <Grid item xs={12} sm={11} md={10} lg={8} xl={6}>
 
-        {/** Status */}
-        <Box pt={5} pb={2} pl={2} pr={2}>
-          <Box mb={2}>
-            <Grid container alignItems="center" justify="space-between">
-              <Grid item>
-                <Typography variant="subtitle1" paragraph>
-                  Write down this confirmation number and print this page for your records.
-                </Typography>
-              </Grid>
-              <Grid item>
-                <Button
-                  text="Download PDF"
-                  onClick={handlePDFClick}
-                  loading={isPDFLoading}
-                />
-              </Grid>
-            </Grid>
-          </Box>
-          <Typography variant="body1" paragraph>
-            Thank you. Your form has been submitted.
-          </Typography>
-          <Typography variant="body1" gutterBottom>
-            Confirmation number:
-          </Typography>
-          <Typography variant="subtitle2" paragraph>
-            <b>{state?.id || 'Failed to retrieve'}</b>
-          </Typography>
-          <Divider />
-        </Box>
-
-        {/** Form */}
         <div id="form">
+
+          {/** Status */}
+          <Box pt={5} pb={2} pl={2} pr={2}>
+            <Box mb={2}>
+              <Grid container alignItems="center" justify="space-between">
+                <Grid item>
+                  <Typography variant="subtitle1" paragraph>
+                    Write down this confirmation number and print this page for your records.
+                  </Typography>
+                </Grid>
+                <Grid item>
+                  <Button
+                    text="Download PDF"
+                    onClick={handlePDFClick}
+                    loading={isPDFLoading}
+                  />
+                </Grid>
+              </Grid>
+            </Box>
+            <Typography variant="body1" paragraph>
+              Thank you. Your form has been submitted.
+            </Typography>
+            <Typography variant="body1" gutterBottom>
+              Confirmation number:
+            </Typography>
+            <Typography variant="subtitle2" paragraph>
+              <b>{state?.id || 'Failed to retrieve'}</b>
+            </Typography>
+            <Divider />
+          </Box>
+
+          {/** Form */}
           <Form
             initialValues={state?.formValues}
             isDisabled
@@ -72,5 +73,5 @@ export default () => {
         </div>
       </Grid>
     </Page>
-  )
-}
+  );
+};
