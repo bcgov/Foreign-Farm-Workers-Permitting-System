@@ -46,6 +46,8 @@ export const SectionTwo = ({ isDisabled }) => {
         const newValue = temporaryForeignWorkerFacilityAddresses.slice(0, numberOfAdditionalAddresses);
         setFieldValue('temporaryForeignWorkerFacilityAddresses', newValue);
       }
+    } else {
+      setFieldValue('temporaryForeignWorkerFacilityAddresses', []);
     }
   }, [setFieldValue, isSameAsBusinessAddress, numberOfAdditionalAddresses]);
 
