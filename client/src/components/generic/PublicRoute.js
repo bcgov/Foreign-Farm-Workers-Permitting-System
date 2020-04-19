@@ -10,13 +10,9 @@ const PublicRoute = ({ component: Component, ...rest }) => {
 
   useEffect(() => {
     (async () => {
-      //TODO: Add after backend is implemented
-      // const jwt = window.localStorage.getItem('jwt');
-      // if (!jwt) setValidity(false);
-      // else setValidity(await verifyJWT(jwt));
-
-      //TODO: Remove after backend is implemented
-      setValidity(false)
+      const jwt = window.localStorage.getItem('jwt');
+      if (!jwt) setValidity(false);
+      else setValidity(await verifyJWT(jwt));
     })();
   }, []);
 

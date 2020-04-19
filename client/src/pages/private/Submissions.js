@@ -3,7 +3,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import { useHistory } from 'react-router-dom';
-
+import { dateToString, mapDetermination } from '../../utils';
 import { Routes } from '../../constants';
 
 import { Button, Page, Table } from '../../components/generic';
@@ -22,48 +22,31 @@ export default () => {
   useEffect(() => {
     (async () => {
       setLoading(true);
-      //TODO: Uncomment once backend work complete
-      // const jwt = window.localStorage.getItem('jwt');
-      // const response = await fetch(`/api/v1/submissions`, {
-      //   headers: { 'Accept': 'application/json', 'Content-type': 'application/json', 'Authorization': `Bearer ${jwt}` },
-      //   method: 'GET',
-      // });
-      // if (response.ok) {
-      //   const { submissions } = await response.json();
-      //   const rows = submissions.map((submission) => ({
-      //     dateSubmitted: submission.createdAt,
-      //     registeredBusinessName: submission.registeredBusinessName,
-      //     decision: submission.decision,
-      //     confirmationNumber: submission.id,
-      //     viewMore: (
-      //       <Button
-      //         onClick={() => history.push(Routes.SubmissionDetails.dynamicRoute(submission.id))}
-      //         size="small"
-      //         text="View"
-      //       />
-      //     ),
-      //   }));
-      //   setRows(rows);
-      // } else {
-      //   setLookupError(response.error || 'No submissions found');
-      // }
-      // setLoading(false);
-
-      // TODO: Remove once backend work complete
-      const rows = [...Array(70)].map(() => ({
-        dateSubmitted: '1990/01/01',
-        registeredBusinessName: 'The Ranch',
-        decision: 'Pending',
-        confirmationNumber: '123ABC',
-        viewMore: (
-          <Button
-            onClick={() => history.push(Routes.SubmissionDetails.dynamicRoute('123ABC'))}
-            size="small"
-            text="View"
-          />
-        ),
-      }));
-      setRows(rows);
+      const jwt = window.localStorage.getItem('jwt');
+      const response = await fetch(`/api/v1/forms`, {
+        headers: { 'Accept': 'application/json', 'Content-type': 'application/json', 'Authorization': `Bearer ${jwt}` },
+        method: 'GET',
+      });
+      if (response.ok) {
+        const submissions = await response.json();
+        const rows = submissions.map((submission) => ({
+          dateSubmitted: dateToString(submission.createdAt),
+          registeredBusinessName: submission.registeredBusinessName,
+          decision: mapDetermination(submission.determination),
+          confirmationNumber: submission.id,
+          viewMore: (
+            <Button
+              onClick={() => history.push(Routes.SubmissionDetails.dynamicRoute(submission.id))}
+              size="small"
+              text="View"
+            />
+          ),
+        }));
+        setLookupError(null)
+        setRows(rows);
+      } else {
+        setLookupError(response.error || 'No submissions found');
+      }
       setLoading(false);
     })();
   }, []);
@@ -84,6 +67,11 @@ export default () => {
 
               {/** Table */}
               <Grid item xs={12}>
+                {
+                  lookupError && <Typography variant="subtitle2" gutterBottom noWrap>
+                    {lookupError.message || lookupError}
+                  </Typography>
+                }
                 {!lookupError && (
                   <Table
                     columns={columns}
