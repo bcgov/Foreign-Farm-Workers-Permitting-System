@@ -307,7 +307,7 @@ export const Form = ({ initialValues, isDisabled }) => {
               {!isDisabled && (
                 <Hidden xsDown>
                   <Box mt={3}>
-                    <Grid container justify="flex-end">
+                    <Grid container spacing={2}>
                       <Grid item>
                         <Grid container spacing={2}>
                           <Grid item>

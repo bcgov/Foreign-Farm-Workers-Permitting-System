@@ -166,5 +166,10 @@ export default createMuiTheme({
         display: 'block',
       },
     },
+    MuiLink: {
+      underlineHover: {
+        textDecoration: 'underline',
+      },
+    },
   },
 });

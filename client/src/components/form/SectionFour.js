@@ -88,7 +88,7 @@ export const SectionFour = ({ isDisabled }) => {
           <Field
             name="doWorkersHaveOwnDishware"
             component={RenderCheckbox}
-            label="Each worker has their own dishware, utensils and drinking cup or provide disposable alternatives."
+            label="Each worker has their own dishware, utensils and drinking cup or provided disposable alternatives."
             disabled={isDisabled}
           />
           <Field
