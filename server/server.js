@@ -4,7 +4,6 @@ const path = require('path');
 const { randomBytes } = require('crypto');
 const { passport } = require('./auth.js');
 const requireHttps = require('./require-https.js');
-const postServiceItem = require('./utils/ServiceBC.js');
 const { validate, FormSchema, DeterminationSchema } = require('./validation.js');
 const { dbClient, collections } = require('./db');
 const { errorHandler, asyncMiddleware } = require('./error-handler.js');
@@ -16,19 +15,6 @@ app.use(requireHttps);
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '../client/build')));
 
-// Remove empty strings (DynamoDB doesn't accept)
-const scrubObject = (obj) => {
-  const scrubbed = obj;
-  Object.keys(scrubbed).forEach((key) => {
-    if (typeof scrubbed[key] === 'object' && scrubbed[key] !== null) {
-      scrubbed[key] = scrubObject(scrubbed[key]); // Nested object
-    } else if (scrubbed[key] === '') {
-      scrubbed[key] = null; // Null instead of empty for DynamoDB
-    }
-  });
-  return scrubbed;
-};
-
 // Login using username and password, receive JWT
 app.post(`${apiBaseUrl}/login`,
   passport.authenticate('login', { session: false }),
@@ -37,8 +23,7 @@ app.post(`${apiBaseUrl}/login`,
 // Create new form, not secured
 app.post(`${apiBaseUrl}/form`,
   asyncMiddleware(async (req, res) => {
-    const scrubbed = scrubObject(req.body);
-    await validate(FormSchema, scrubbed); // Validate submitted form against schema
+    await validate(FormSchema, req.body); // Validate submitted form against schema
     const formsCollection = dbClient.db.collection(collections.FORMS);
 
     // Generate unique random hex id
@@ -54,38 +39,21 @@ app.post(`${apiBaseUrl}/form`,
 
     // Form ID
     const id = await generateRandomHexId();
-
-    // Boolean indicating if user really have an isolation plan
-    const isolationPlanStatus = scrubbed.accomodations
-      && scrubbed.ableToIsolate && scrubbed.supplies;
+    const determination = 'pending';
 
     const currentISODate = new Date().toISOString();
     const formItem = {
       id,
-      isolationPlanStatus,
-      determination: null,
+      determination,
       notes: null,
-      ...scrubbed,
+      ...req.body,
       createdAt: currentISODate,
       updatedAt: currentISODate,
     };
 
-    // Post to ServicesBC and cache status of the submission
-    const serviceResponse = await postServiceItem(formItem);
+    await formsCollection.insertOne(formItem);
 
-    await formsCollection.insertOne({
-      ...formItem,
-      // Following NoSQL recommendation, in this case, we want to store
-      // BC Services transactional data on the form itself
-      serviceBCTransactions: [
-        {
-          ...serviceResponse,
-          processedAt: new Date().toISOString(),
-        },
-      ],
-    });
-
-    return res.json({ id, isolationPlanStatus });
+    return res.json({ id, determination });
   }));
 
 // Edit existing form
@@ -119,31 +87,27 @@ app.get(`${apiBaseUrl}/form/:id`,
 
     if (!formItem) return res.status(404).json({ error: `No submission with ID ${id}` });
 
-    return res.json(formItem);
+    const { _id, ...result } = formItem;
+
+    return res.json(result);
   }));
 
-// get travellers by last name (partial match)
-app.get(`${apiBaseUrl}/last-name/:lname`,
+// Get all forms
+app.get(`${apiBaseUrl}/forms`,
   passport.authenticate('jwt', { session: false }),
   asyncMiddleware(async (req, res) => {
-    const { lname } = req.params;
     const formsCollection = dbClient.db.collection(collections.FORMS);
 
-    const forms = await formsCollection.find({
-      // i: for substring search, case insensitive
-      // ^: match results that starts with
-      lastName: { $regex: new RegExp(`^${lname}`, 'i') },
-    }).toArray();
+    const forms = await formsCollection.find({}).toArray();
 
-    if (forms.length === 0) return res.status(404).json({ error: `No traveller found with last name ${lname}` });
+    if (forms.length === 0) return res.status(404).json({ error: 'No submissions found' });
 
-    const travellers = forms.map((form) => {
-      // Remove serviceTransactions from return query
-      const { serviceTransactions, ...formData } = form;
-      return formData;
+    const results = forms.map((form) => {
+      const { _id, ...result } = form;
+      return result;
     });
 
-    return res.json({ travellers });
+    return res.json(results);
   }));
 
 // Validate JWT

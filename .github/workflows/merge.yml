@@ -21,7 +21,7 @@ jobs:
           echo ::set-env name=REGION::${{ secrets.REGION }}
           echo ::set-env name=AWS_ACCESS_KEY_ID::${{ secrets.AWS_ACCESS_KEY_ID }}
           echo ::set-env name=AWS_SECRET_ACCESS_KEY:${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          echo ::set-env name=DEPLOY_ENV::"enhanced-travel-screening-dev"   
+          echo ::set-env name=DEPLOY_ENV::"farm-operator-screening-dev"   
 
       - name: Checkout
         uses: actions/checkout@v2
