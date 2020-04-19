@@ -77,6 +77,7 @@ export default () => {
         headers: { 'Accept': 'application/json', 'Content-type': 'application/json', 'Authorization': `Bearer ${jwt}` },
         method: 'GET',
       });
+
       if (response.ok) {
         const { determination, notes, ...rest } = await response.json();
         const submission = adaptSubmission(rest);
@@ -99,6 +100,7 @@ export default () => {
       method: 'PATCH',
       body: JSON.stringify({ ...values })
     });
+
     if (response.ok) {
       openToast({ status: ToastStatus.Success, message: response.error || 'Submission updated.' });
       history.push(Routes.Submissions);

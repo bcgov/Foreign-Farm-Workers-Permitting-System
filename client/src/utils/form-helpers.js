@@ -24,7 +24,7 @@ export const mapDetermination = (determination) => {
       return 'Incomplete';
     default:
       return 'Pending Review';
-  };
+  }
 };
 
 /**

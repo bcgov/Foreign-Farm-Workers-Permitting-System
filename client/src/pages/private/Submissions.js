@@ -24,11 +24,13 @@ export default () => {
   useEffect(() => {
     (async () => {
       setLoading(true);
+
       const jwt = window.localStorage.getItem('jwt');
       const response = await fetch(`/api/v1/forms`, {
         headers: { 'Accept': 'application/json', 'Content-type': 'application/json', 'Authorization': `Bearer ${jwt}` },
         method: 'GET',
       });
+
       if (response.ok) {
         const submissions = await response.json();
         const rows = submissions.map((submission) => ({
@@ -49,6 +51,7 @@ export default () => {
       } else {
         setLookupError(response.error || 'No submissions found');
       }
+
       setLoading(false);
     })();
   }, []);

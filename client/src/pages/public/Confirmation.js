@@ -12,13 +12,14 @@ import { Button, Divider, Page } from '../../components/generic';
 import { Form } from '../../components/form';
 
 export default () => {
-  const [isPDFLoading, setPDFLoading] = useState(false);
+  const location = useLocation();
+
   const { openToast } = useToast();
-  const { state } = useLocation();
+  const [isPDFLoading, setPDFLoading] = useState(false);
 
   const handlePDFClick = async () => {
     const form = document.getElementById('form');
-    const fileName = `submission_${state?.id}.pdf`;
+    const fileName = `submission_${location.state?.id}.pdf`;
     try {
       setPDFLoading(true);
       await convertElementToPDF(form, fileName);
@@ -59,14 +60,14 @@ export default () => {
               Confirmation number:
             </Typography>
             <Typography variant="subtitle2" paragraph>
-              <b>{state?.id || 'Failed to retrieve'}</b>
+              <b>{location.state?.id || 'Failed to retrieve'}</b>
             </Typography>
             <Divider />
           </Box>
 
           {/** Form */}
           <Form
-            initialValues={state?.formValues}
+            initialValues={location.state?.formValues}
             isDisabled
           />
         </Grid>

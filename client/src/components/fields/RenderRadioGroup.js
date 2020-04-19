@@ -24,7 +24,6 @@ const RenderRadioGroup = ({
     }
   };
 
-
   return (
     <Fragment>
       {label && <InputFieldLabel label={label} />}
