@@ -16,7 +16,7 @@ endef
 ##############################################################
 # Define default environment variables for local development #
 ##############################################################
-export PROJECT := $(or $(PROJECT),ftw)
+export PROJECT := $(or $(PROJECT),tfw)
 export DB_USER := $(or $(DB_USER),development)
 export DB_PASSWORD := $(or $(DB_PASSWORD),development)
 export DB_NAME := $(or $(DB_NAME),development)
