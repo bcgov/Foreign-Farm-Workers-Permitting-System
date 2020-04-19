@@ -33,9 +33,8 @@ const RenderRadioGroup = ({
         onChange={handleChange}
       >
         {options.map((option) => (
-          <Fragment>
+          <Fragment key={option.value}>
             <FormControlLabel
-              key={option.value}
               value={option.value}
               checked={field.value === option.value}
               label={option.label}
@@ -43,7 +42,7 @@ const RenderRadioGroup = ({
               labelPlacement="end"
               control={<Radio color={option.color || 'primary'} />}
             />
-            {(hiddenCheckbox.fields.includes(field.value) && option.value === field.value) && hiddenCheckbox.node}
+            {(hiddenCheckbox?.fields.includes(field.value) && option.value === field.value) && hiddenCheckbox.node}
           </Fragment>
         ))}
       </RadioGroup>
