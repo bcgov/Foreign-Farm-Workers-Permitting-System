@@ -117,6 +117,8 @@ function getStepFields(step) {
 export const Form = ({ initialValues, isDisabled }) => {
   const history = useHistory();
   const [activeStep, setActiveStep] = useState(0);
+  const [submitLoading, setSubmitLoading] = useState(false);
+  const [submitError, setSubmitError] = useState(false);
 
   const isFirstStep = activeStep === 0;
   const isLastStep = activeStep === steps.length - 1;
@@ -191,11 +193,26 @@ export const Form = ({ initialValues, isDisabled }) => {
     doesAgree: false,
   };
 
-  // TODO: Implement backend hookup...
   const handleSubmit = async (values) => {
-    const { id } = (() => ({ id: 'abc' }))();
+    setSubmitLoading(true);
     const modifiedValues = handleSubmission(values);
-    history.push(Routes.Confirmation, { formValues: modifiedValues, id });
+    const response = await fetch('/api/v1/form', {
+      method: 'POST',
+      headers: { 'Accept': 'application/json', 'Content-type': 'application/json' },
+      body: JSON.stringify({ ...modifiedValues }),
+    });
+    if (response.ok) {
+      const { id, error } = await response.json();
+      if (error) {
+        setSubmitError(error.message || 'Failed to submit this form');
+      } else {
+        history.push(Routes.Confirmation, { formValues: modifiedValues, id });
+        return;
+      }
+    } else {
+      setSubmitError(response.error || response.statusText || 'Server error');
+    }
+    setSubmitLoading(false);
     scrollUp();
   };
 
@@ -305,6 +322,7 @@ export const Form = ({ initialValues, isDisabled }) => {
                             <Button
                               onClick={() => handleNextClicked(submitForm, setTouched, values)}
                               variant="contained"
+                              loading={submitLoading}
                               color="primary"
                               fullWidth={false}
                               text={isLastStep ? 'Submit' : 'Next'}
@@ -339,6 +357,7 @@ export const Form = ({ initialValues, isDisabled }) => {
                       nextButton={(
                         <Button
                           fullWidth={false}
+                          loading={submitLoading}
                           text={(<Fragment>Next <KeyboardArrowRight /></Fragment>)}
                           onClick={() => handleNextClicked(submitForm, setTouched, values)} disabled={isLastStep}
                         />

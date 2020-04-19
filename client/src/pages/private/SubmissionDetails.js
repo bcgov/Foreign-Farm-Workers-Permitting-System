@@ -71,20 +71,19 @@ export default () => {
     (async () => {
       setLookupLoading(true);
 
-      //TODO: Uncomment once backend work complete
-      // const jwt = window.localStorage.getItem('jwt');
-      // const response = await fetch(`/api/v1/form/${params.confirmationNumber}`, {
-      //   headers: { 'Accept': 'application/json', 'Content-type': 'application/json', 'Authorization': `Bearer ${jwt}` },
-      //   method: 'GET',
-      // });
-      // if (response.ok) {
-      //   const { determination, notes, ...rest } = await response.json();
-      //   const submission = adaptSubmission(rest);
-      //   setInitialUserFormValues(submission);
-      //   setInitialSidebarValues({ determination: determination || '', notes: notes || '' });
-      // } else {
-      //   setLookupError(`Failed to find submission with ID ${params.confirmationNumber}`);
-      // }
+      const jwt = window.localStorage.getItem('jwt');
+      const response = await fetch(`/api/v1/form/${params.confirmationNumber}`, {
+        headers: { 'Accept': 'application/json', 'Content-type': 'application/json', 'Authorization': `Bearer ${jwt}` },
+        method: 'GET',
+      });
+      if (response.ok) {
+        const { determination, notes, ...rest } = await response.json();
+        const submission = adaptSubmission(rest);
+        setInitialUserFormValues(submission);
+        setInitialSidebarValues({ determination: determination || '', notes: notes || '' });
+      } else {
+        setLookupError(`Failed to find submission with ID ${params.confirmationNumber}`);
+      }
 
       setLookupLoading(false);
     })();
@@ -93,19 +92,18 @@ export default () => {
   const handleSubmit = async (values) => {
     setSubmitLoading(true);
 
-    //TODO: Uncomment once backend work complete
-    // const jwt = window.localStorage.getItem('jwt');
-    // const response = await fetch(`/api/v1/form/${params.confirmationNumber}`, {
-    //   headers: { 'Accept': 'application/json', 'Content-type': 'application/json', 'Authorization': `Bearer ${jwt}` },
-    //   method: 'PATCH',
-    //   body: JSON.stringify({ ...values })
-    // });
-    // if (response.ok) {
-    //   setSubmitSuccess(true);
-    // } else {
-    //    setSubmitError(response.error || 'Failed to update this submission.');
-    //    setSubmitLoading(false);
-    //  }
+    const jwt = window.localStorage.getItem('jwt');
+    const response = await fetch(`/api/v1/form/${params.confirmationNumber}`, {
+      headers: { 'Accept': 'application/json', 'Content-type': 'application/json', 'Authorization': `Bearer ${jwt}` },
+      method: 'PATCH',
+      body: JSON.stringify({ ...values })
+    });
+    if (response.ok) {
+      setSubmitSuccess(true);
+    } else {
+       setSubmitError(response.error || 'Failed to update this submission.');
+       setSubmitLoading(false);
+     }
   };
 
   const renderSidebar = () => (
@@ -186,50 +184,50 @@ export default () => {
   );
 
   return submitSuccess ? <Redirect to={Routes.Submissions} /> : (
-   <Page>
-     {(lookupLoading || lookupError) ? (
-       <div className={classes.statusWrapper}>
-         {lookupLoading && renderLoading()}
-         {lookupError && renderSubmitError()}
-       </div>
-     ) : (
-       <Fragment>
+    <Page>
+      {(lookupLoading || lookupError) ? (
+        <div className={classes.statusWrapper}>
+          {lookupLoading && renderLoading()}
+          {lookupError && renderSubmitError()}
+        </div>
+      ) : (
+          <Fragment>
 
-         {/** Form */}
-         <Grid className={classes.formWrapper} item xs={12} sm={11} md={8}>
-           <Form
-             confirmationNumber={params.confirmationNumber}
-             initialValues={initialUserFormValues}
-             isDisabled
-           />
-           <Hidden mdUp>
-             <Box p={4}>
-               <Button
-                 text="Submit Determination"
-                 size="large"
-                 onClick={() => setMobileDrawerOpen(true)}
-               />
-             </Box>
-           </Hidden>
-         </Grid>
+            {/** Form */}
+            <Grid className={classes.formWrapper} item xs={12} sm={11} md={8}>
+              <Form
+                confirmationNumber={params.confirmationNumber}
+                initialValues={initialUserFormValues}
+                isDisabled
+              />
+              <Hidden mdUp>
+                <Box p={4}>
+                  <Button
+                    text="Submit Determination"
+                    size="large"
+                    onClick={() => setMobileDrawerOpen(true)}
+                  />
+                </Box>
+              </Hidden>
+            </Grid>
 
-         {/** Sidebar - Mobile */}
-         <Hidden mdUp>
-           <Drawer
-             anchor="right"
-             open={isMobileDrawerOpen}
-             onClose={() => setMobileDrawerOpen(false)}
-           >
-             {renderSidebar()}
-           </Drawer>
-         </Hidden>
+            {/** Sidebar - Mobile */}
+            <Hidden mdUp>
+              <Drawer
+                anchor="right"
+                open={isMobileDrawerOpen}
+                onClose={() => setMobileDrawerOpen(false)}
+              >
+                {renderSidebar()}
+              </Drawer>
+            </Hidden>
 
-         {/** Sidebar - Desktop */}
-         <Hidden smDown>
-           {renderSidebar()}
-         </Hidden>
-       </Fragment>
-     )}
-   </Page>
+            {/** Sidebar - Desktop */}
+            <Hidden smDown>
+              {renderSidebar()}
+            </Hidden>
+          </Fragment>
+        )}
+    </Page>
   );
 };

@@ -21,24 +21,20 @@ export default () => {
 
   const handleSubmit = async (values) => {
     setSubmitLoading(true);
-    //TODO: Uncomment once backend work complete
-    // const response = await fetch('/api/v1/login', {
-    //   headers: { 'Accept': 'application/json', 'Content-type': 'application/json' },
-    //   method: 'POST',
-    //   body: JSON.stringify({ ...values })
-    // });
-    // if (response.ok) {
-    //   const { token } = await response.json();
-    //   window.localStorage.setItem('jwt', token);
-    //   history.push(Routes.Submissions);
-    //   return;
-    // } else {
-    //   setSubmitError(response.error || response.statusText || response);
-    // }
+    const response = await fetch('/api/v1/login', {
+      headers: { 'Accept': 'application/json', 'Content-type': 'application/json' },
+      method: 'POST',
+      body: JSON.stringify({ ...values })
+    });
+    if (response.ok) {
+      const { token } = await response.json();
+      window.localStorage.setItem('jwt', token);
+      history.push(Routes.Submissions);
+      return;
+    } else {
+      setSubmitError(response.error || response.statusText || response);
+    }
     setSubmitLoading(false);
-
-    // TODO: Remove once backend work complete
-    history.push(Routes.Submissions);
   };
 
   return (
