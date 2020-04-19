@@ -37,12 +37,13 @@ export const SectionOne = ({ isDisabled }) => {
             <ExpansionPanel>
               <Box pt={3.5} pb={3.5} pl={3} pr={3}>
                 <Typography variant="body1" gutterBottom>
-                  <b>Download and read the Province of BC's COVID-19 farm guidance document:</b>
+                  <b>1. Download and read the Province of BC's COVID-19 farm guidance document:</b>
                 </Typography>
                 <Typography variant="body1">
                   <Link
                     href="https://www2.gov.bc.ca/assets/gov/health/about-bc-s-health-care-system/office-of-the-provincial-health-officer/covid-19/covid-19-pho-guidance-farms-farm-workers.pdf"
-                    target="noreferrer noopenner"
+                    rel="noreferrer noopenner"
+                    target="_blank"
                   >
                     Protecting BC Farmers and Farm Workers During the COVID-19 Pandemic
                   </Link>
@@ -53,7 +54,7 @@ export const SectionOne = ({ isDisabled }) => {
               <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                 <Typography variant="body1">
                   <b>
-                    Complete a COVID-19 risk assessment of your farm operation by following the
+                    2. Complete a COVID-19 risk assessment of your farm operation by following the
                     directions in the guidance document.
                   </b>
                 </Typography>
@@ -72,8 +73,14 @@ export const SectionOne = ({ isDisabled }) => {
                     cannot be maintained, this should be identified as a risk.
                   </Typography>
                   <Typography variant="body1">
-                    Farm operators can take practical actions to reduce the risk of disease transmission
-                    (see section 7 of the guidance document).
+                    Farm operators can take practical actions to reduce the risk of disease transmission&nbsp;
+                    <Link
+                      href="https://www2.gov.bc.ca/assets/gov/health/about-bc-s-health-care-system/office-of-the-provincial-health-officer/covid-19/covid-19-pho-guidance-farms-farm-workers.pdf"
+                      rel="noreferrer noopener"
+                      target="_blank"
+                    >
+                      (see section 7 of the guidance document).
+                    </Link>
                   </Typography>
                 </Card>
                 <Typography variant="body1" paragraph>
@@ -85,7 +92,7 @@ export const SectionOne = ({ isDisabled }) => {
             <ExpansionPanel>
               <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                 <Typography variant="body1">
-                  <b>Create your Infection Prevention and Control protocol.</b>
+                  <b>3. Create your Infection Prevention and Control protocol.</b>
                 </Typography>
               </ExpansionPanelSummary>
               <ExpansionPanelDetails>
@@ -101,7 +108,14 @@ export const SectionOne = ({ isDisabled }) => {
                   <Typography variant="body1">
                     If your workers ride together in a vehicle to the work site, and you follow the instructions
                     to increase cleaning and hygiene, and increase physical distancing, this will form your IPC
-                    plan for transportation (see section 7 of the guidance document).
+                    plan for transportation&nbsp;
+                    <Link
+                      href="https://www2.gov.bc.ca/assets/gov/health/about-bc-s-health-care-system/office-of-the-provincial-health-officer/covid-19/covid-19-pho-guidance-farms-farm-workers.pdf"
+                      rel="noreferrer noopener"
+                      target="_blank"
+                    >
+                      (see section 7 of the guidance document).
+                    </Link>
                   </Typography>
                 </Card>
                 <Typography variant="body1" paragraph>
@@ -116,14 +130,29 @@ export const SectionOne = ({ isDisabled }) => {
               Risk assessment and IPC protocol must be available upon inspection
             </Typography>
           </Box>
-
           <Box mt={3} mb={4}>
             <Alert severity="info" icon={<PhoneIcon />}>
-              <Typography variant="body2">
-                If you need assistance completing these risk assessment or infection prevention tasks, please
-                contact the Ministry of Agriculture (Toll-free:&nbsp;
-                <Link href="tel:">1-888-xxx-xxxx</Link>
-                &nbsp;) for help.
+              <Typography variant="body2" gutterBottom>
+                <b>
+                  If you need assistance completing these risk assessment or infection prevention tasks, please
+                  contact AgSafe for help.
+                </b>
+              </Typography>
+              <Typography variant="body2" component="span">
+                <b>
+                  Toll-free:&nbsp;
+                  <Link href="tel:+18775331789">
+                    1-877-533-1789
+                  </Link>
+                </b>
+              </Typography>
+              <Typography variant="body2" component="span">
+                <b>
+                  &nbsp;| Email:&nbsp;
+                  <Link href="mailto:Contact@AgSafeBC.ca">
+                    Contact@AgSafeBC.ca
+                  </Link>
+                </b>
               </Typography>
             </Alert>
           </Box>
@@ -158,7 +187,8 @@ export const SectionOne = ({ isDisabled }) => {
                 (source:&nbsp;
                 <Link
                   href="https://www2.gov.bc.ca/assets/gov/health/about-bc-s-health-care-system/office-of-the-provincial-health-officer/covid-19/covid-19-pho-order-travellers-employers.pdf"
-                  target="noreferrer noopenner"
+                  rel="noreferrer noopenner"
+                  target="_blank"
                 >
                   Order of the Provincial Health Officer / Travellers and Employers Order - April 14, 2020)
                 </Link>
@@ -183,7 +213,8 @@ export const SectionOne = ({ isDisabled }) => {
             I have downloaded and read the BC Ministry of Agriculture’s COVID-19 requirements,&nbsp;
             <Link
               href="https://www2.gov.bc.ca/assets/gov/health/about-bc-s-health-care-system/office-of-the-provincial-health-officer/covid-19/covid-19-pho-guidance-farms-farm-workers.pdf"
-              target="noreferrer noopenner"
+              rel="noreferrer noopenner"
+              target="_blank"
             >
               Protecting BC Farmers and Farm Workers During the COVID-19 Pandemic.
             </Link>

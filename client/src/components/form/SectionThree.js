@@ -3,14 +3,12 @@ import Alert from '@material-ui/lab/Alert';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import { Field, useFormikContext } from 'formik';
+import { Field } from 'formik';
 
 import { Card } from '../generic';
 import { RenderCheckbox, RenderRadioGroup, } from '../../components/fields';
 
 export const SectionThree = ({ isDisabled }) => {
-  const { values } = useFormikContext();
-  const { bedroomAccommodation } = values;
   return (
     <Card noPadding={isDisabled} noShadow={isDisabled}>
       <Grid container spacing={3}>
@@ -98,16 +96,21 @@ export const SectionThree = ({ isDisabled }) => {
                 { value: 'shared', label: 'Shared occupancy bedrooms' },
                 { value: 'both', label: 'Both' },
               ]}
+              hiddenCheckbox={{
+                fields: ['shared', 'both'],
+                node: (
+                  <Box ml={1}>
+                    <Field
+                      name="areBedsInRightConfiguration"
+                      component={RenderCheckbox}
+                      label="Beds in the right configuration with the right distance apart."
+                      disabled={isDisabled}
+                    />
+                  </Box>
+                ),
+              }}
             />
           </Box>
-          {['shared', 'both'].includes(bedroomAccommodation) && (
-            <Field
-              name="areBedsInRightConfiguration"
-              component={RenderCheckbox}
-              label="Beds in the right configuration with the right distance apart."
-              disabled={isDisabled}
-            />
-          )}
         </Grid>
 
         {/** Fourth Block */}
@@ -141,7 +144,7 @@ export const SectionThree = ({ isDisabled }) => {
           </Typography>
           {!isDisabled && (
             <Typography variant="body1" gutterBottom>
-              Laundry must be performed properly to ensure the spread and transmission of COVID-19, including using
+              Laundry must be performed properly to prevent the spread and transmission of COVID-19, including using
               hot water for laundry machines and having adequate supply of detergent.
             </Typography>
           )}

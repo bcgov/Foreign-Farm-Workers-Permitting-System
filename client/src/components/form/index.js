@@ -253,7 +253,7 @@ export const Form = ({ initialValues, isDisabled }) => {
           <FormikForm>
 
             {!isDisabled && (
-              <Box pt={4} pb={2} pl={2} pr={2}>
+              <Box pt={4} pb={1} pl={2} pr={2}>
                 <Card noPadding>
 
                   {/** Desktop Stepper */}
@@ -307,28 +307,26 @@ export const Form = ({ initialValues, isDisabled }) => {
               {!isDisabled && (
                 <Hidden xsDown>
                   <Box mt={3}>
-                    <Grid container justify="flex-end">
-                      <Grid item>
-                        <Grid container spacing={2}>
-                          <Grid item>
-                            <Button
-                              disabled={isFirstStep}
-                              onClick={handleBackClicked}
-                              text="Back"
-                              fullWidth={false}
-                            />
-                          </Grid>
-                          <Grid item>
-                            <Button
-                              onClick={() => handleNextClicked(submitForm, setTouched, values)}
-                              variant="contained"
-                              loading={submitLoading}
-                              color="primary"
-                              fullWidth={false}
-                              text={isLastStep ? 'Submit' : 'Next'}
-                            />
-                          </Grid>
+                    <Grid container spacing={2}>
+                      {activeStep > 0 && (
+                        <Grid item>
+                          <Button
+                            disabled={isFirstStep}
+                            onClick={handleBackClicked}
+                            text="Back"
+                            fullWidth={false}
+                          />
                         </Grid>
+                      )}
+                      <Grid item>
+                        <Button
+                          onClick={() => handleNextClicked(submitForm, setTouched, values)}
+                          variant="contained"
+                          color="primary"
+                          fullWidth={false}
+                          loading={submitLoading}
+                          text={isLastStep ? 'Submit' : 'Next'}
+                        />
                       </Grid>
                     </Grid>
                   </Box>
@@ -339,7 +337,7 @@ export const Form = ({ initialValues, isDisabled }) => {
             {/** Mobile Stepper - Prev / Next */}
             {!isDisabled && (
               <Hidden smUp>
-                <Box pt={2} pb={4} pl={2} pr={2}>
+                <Box pb={4} pl={2} pr={2}>
                   <Card noPadding>
                     <MobileStepper
                       style={{ backgroundColor: '#FFFFFF' }}

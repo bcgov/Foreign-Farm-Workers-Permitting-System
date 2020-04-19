@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { Field } from 'formik';
@@ -71,7 +71,7 @@ export const SectionFour = ({ isDisabled }) => {
         {/** Third Block */}
         <Grid item xs={12}>
           <Typography variant="subtitle2" paragraph>
-            All farm operators and workers must practice good food handling and hygiene practices.
+            Prepare meals and practice safe food handling
           </Typography>
           {!isDisabled && (
             <Typography variant="body1" gutterBottom>
@@ -88,7 +88,7 @@ export const SectionFour = ({ isDisabled }) => {
           <Field
             name="doWorkersHaveOwnDishware"
             component={RenderCheckbox}
-            label="Each worker has their own dishware, utensils and drinking cup or provide disposable alternatives."
+            label="Each worker has their own dishware, utensils and drinking cup or provided disposable alternatives."
             disabled={isDisabled}
           />
           <Field

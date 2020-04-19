@@ -30,10 +30,9 @@ export default () => {
   };
 
   return (
-    <Page>
-      <Grid item xs={12} sm={11} md={10} lg={8} xl={6}>
-
-        <div id="form">
+    <div id="form">
+      <Page>
+        <Grid item xs={12} sm={11} md={10} lg={8} xl={6}>
 
           {/** Status */}
           <Box pt={5} pb={2} pl={2} pr={2}>
@@ -70,8 +69,8 @@ export default () => {
             initialValues={state?.formValues}
             isDisabled
           />
-        </div>
-      </Grid>
-    </Page>
+        </Grid>
+      </Page>
+    </div>
   );
 };

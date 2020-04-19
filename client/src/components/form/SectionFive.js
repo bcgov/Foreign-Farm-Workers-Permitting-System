@@ -47,6 +47,7 @@ export const SectionFive = ({ isDisabled }) => {
                 <Link
                   href="https://www2.gov.bc.ca/gov/content/health/about-bc-s-health-care-system/office-of-the-provincial-health-officer/medical-health-officers"
                   rel="noreferrer noopener"
+                  target="_blank"
                 >
                   Medical Health Officer
                 </Link>
@@ -97,6 +98,7 @@ export const SectionFive = ({ isDisabled }) => {
                     As COVID-19 recommendations are evolving daily, please keep up-to-date with&nbsp;
                     <Link
                       href="http://www.bccdc.ca/health-info/diseases-conditions/covid-19"
+                      target="_blank"
                       rel="noreferrer noopener"
                     >
                       BC Centre for Disease Control guidance.
@@ -106,11 +108,10 @@ export const SectionFive = ({ isDisabled }) => {
               </Alert>
             </Box>
 
-            <Typography variant="subtitle2" paragraph>
-              Provide food for ill workers
-            </Typography>
-
-            <Box mt={1.5} mb={2}>
+            <Box mt={1.5} mb={3.5}>
+              <Typography variant="subtitle2" paragraph>
+                Provide food for ill workers
+              </Typography>
               <Field
                 name="isAbleToProvideFoodInSafeManner"
                 component={RenderCheckbox}
@@ -146,7 +147,10 @@ export const SectionFive = ({ isDisabled }) => {
               </ExpansionPanel>
             </Box>
 
-            <Box mt={2} mb={2}>
+            <Box mb={3.5}>
+              <Typography variant="subtitle2" paragraph>
+                Housekeeping for ill-workers
+              </Typography>
               <Field
                 name="isAbleToPerformAdequateHousekeeping"
                 component={RenderCheckbox}
@@ -198,7 +202,11 @@ export const SectionFive = ({ isDisabled }) => {
               </ExpansionPanel>
             </Box>
 
-            <Box mt={2} mb={2}>
+            <Box mb={3.5}>
+              <Typography variant="subtitle2" paragraph>
+                Waste management for ill-workers
+              </Typography>
+
               <Field
                 name="isAbleToPerformWasteManagement"
                 component={RenderCheckbox}
