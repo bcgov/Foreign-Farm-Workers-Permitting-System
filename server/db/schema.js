@@ -3,8 +3,8 @@
  */
 
 const collections = {
-  FORMS: 'tfw-forms',
-  USERS: 'tfw-users',
+  FORMS: 'fos-forms',
+  USERS: 'fos-users',
 };
 
 const schema = [
