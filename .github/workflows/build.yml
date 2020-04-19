@@ -41,14 +41,14 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ca-central-1
       
-      - name: Pipeline Build
+      - name: Build Image
         run: make pipeline-build
       
-      - name: Pipeline Push
+      - name: Push Image to ECR
         run: make gh-pipeline-push
       
-      - name: Deploy Prep
+      - name: Creating EB Deployment Artifact
         run: make gh-pipeline-deploy-prep
 
-      - name: Deploy Version
+      - name: Deploying Version to EB
         run: make gh-pipeline-deploy-version
