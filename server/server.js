@@ -39,12 +39,12 @@ app.post(`${apiBaseUrl}/form`,
 
     // Form ID
     const id = await generateRandomHexId();
-    const decision = 'Pending Review';
+    const determination = 'pending';
 
     const currentISODate = new Date().toISOString();
     const formItem = {
       id,
-      decision,
+      determination,
       notes: null,
       ...req.body,
       createdAt: currentISODate,
@@ -53,7 +53,7 @@ app.post(`${apiBaseUrl}/form`,
 
     await formsCollection.insertOne(formItem);
 
-    return res.json({ id, decision });
+    return res.json({ id, determination });
   }));
 
 // Edit existing form
