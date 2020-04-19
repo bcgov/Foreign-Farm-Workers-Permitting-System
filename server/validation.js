@@ -72,8 +72,8 @@ const errorMessage = ({ path }) => {
     isAbleToPerformWasteManagement: 'Must specify whether waste management will be performed',
 
     // Section six
-    doesCertify: 'Must certify this ',
-    doesAgree: 'Must ',
+    doesCertify: 'Must certify this',
+    doesAgree: 'Must agree',
   };
   return errorMessages[path] || `Failed validation on ${path}`;
 };

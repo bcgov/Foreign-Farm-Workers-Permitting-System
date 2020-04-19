@@ -14,7 +14,7 @@ import { Formik, Form as FormikForm } from 'formik';
 import { useHistory } from 'react-router-dom';
 
 import { FormSchema, Routes } from '../../constants';
-import { mapObjectProps, scrollUp } from '../../utils';
+import { handleSubmission, mapObjectProps, scrollUp } from '../../utils';
 
 import { SectionOne } from './SectionOne';
 import { SectionTwo } from './SectionTwo';
@@ -194,7 +194,8 @@ export const Form = ({ initialValues, isDisabled }) => {
   // TODO: Implement backend hookup...
   const handleSubmit = async (values) => {
     const { id } = (() => ({ id: 'abc' }))();
-    history.push(Routes.Confirmation, { formValues: values, id });
+    const modifiedValues = handleSubmission(values);
+    history.push(Routes.Confirmation, { formValues: modifiedValues, id });
     scrollUp();
   };
 
@@ -219,7 +220,7 @@ export const Form = ({ initialValues, isDisabled }) => {
       const hasOutstandingErrors = Object.keys(errors).some((key) => fieldsForCurrentStep.includes(key));
       if (!hasOutstandingErrors) {
         scrollUp();
-        moveStepper(activeStep + 1)
+        moveStepper(activeStep + 1);
       }
     }
   };
