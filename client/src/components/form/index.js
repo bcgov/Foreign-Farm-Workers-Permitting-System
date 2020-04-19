@@ -1,4 +1,5 @@
 import React, { Fragment, useState } from 'react';
+import dotize from 'dotize';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -207,13 +208,21 @@ export const Form = ({ initialValues, isDisabled }) => {
     moveStepper(activeStep - 1);
   };
 
-  const handleNextClicked = async (submitForm, setTouched) => {
+  const mapObjectProps = (o, f) => {
+    const m = {};
+    Object.keys(o).forEach((k) => { m[k] = f(o[k]); });
+    return m;
+  }
+
+  const handleNextClicked = async (submitForm, setTouched, values) => {
     if (isLastStep) {
       await submitForm();
     } else {
       const fieldsForCurrentStep = getStepFields(activeStep);
-      const fieldsToTouch = {};
-      fieldsForCurrentStep.forEach((field) => fieldsToTouch[field] = true);
+      const filtered = Object.keys(values)
+        .filter((k) => fieldsForCurrentStep.includes(k))
+        .reduce((a, v) => ({ ...a, [v]: values[v] }), {});
+      const fieldsToTouch = mapObjectProps(dotize.convert(filtered), () => true);
       const errors = await setTouched(fieldsToTouch);
       const hasOutstandingErrors = Object.keys(errors).some((key) => fieldsForCurrentStep.includes(key));
       if (!hasOutstandingErrors) {
@@ -230,7 +239,7 @@ export const Form = ({ initialValues, isDisabled }) => {
         validationSchema={FormSchema}
         onSubmit={handleSubmit}
       >
-        {({ submitForm, setTouched }) => (
+        {({ submitForm, setTouched, values }) => (
           <FormikForm>
 
             {!isDisabled && (
@@ -284,36 +293,36 @@ export const Form = ({ initialValues, isDisabled }) => {
                 <SectionSix isDisabled />
               )}
 
-              {/** Desktop Prev / Next */}
-              {!isDisabled && (
-                <Hidden xsDown>
-                  <Box mt={3}>
-                    <Grid container justify="flex-end">
-                      <Grid item>
-                        <Grid container spacing={2}>
-                          <Grid item>
-                            <Button
-                              disabled={isFirstStep}
-                              onClick={handleBackClicked}
-                              text="Back"
-                              fullWidth={false}
-                            />
-                          </Grid>
-                          <Grid item>
-                            <Button
-                              onClick={() => handleNextClicked(submitForm, setTouched)}
-                              variant="contained"
-                              color="primary"
-                              fullWidth={false}
-                              text={isLastStep ? 'Submit' : 'Next'}
-                            />
+                {/** Desktop Prev / Next */}
+                {!isDisabled && (
+                  <Hidden xsDown>
+                    <Box mt={3}>
+                      <Grid container justify="flex-end">
+                        <Grid item>
+                          <Grid container spacing={2}>
+                            <Grid item>
+                              <Button
+                                disabled={isFirstStep}
+                                onClick={handleBackClicked}
+                                text="Back"
+                                fullWidth={false}
+                              />
+                            </Grid>
+                            <Grid item>
+                              <Button
+                                onClick={() => handleNextClicked(submitForm, setTouched, values)}
+                                variant="contained"
+                                color="primary"
+                                fullWidth={false}
+                                text={isLastStep ? 'Submit' : 'Next'}
+                              />
+                            </Grid>
                           </Grid>
                         </Grid>
                       </Grid>
-                    </Grid>
-                  </Box>
-                </Hidden>
-              )}
+                    </Box>
+                  </Hidden>
+                )}
             </Box>
 
             {/** Mobile Stepper - Prev / Next */}
