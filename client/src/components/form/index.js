@@ -268,54 +268,52 @@ export const Form = ({ initialValues, isDisabled }) => {
               </Box>
             )}
 
-            <Box pt={2} pb={2} pl={2} pr={2}>
-              <Card>
+            <Box pt={2} pb={4} pl={2} pr={2}>
 
-                {/** Form Sections */}
-                {!isDisabled ? (
-                  <Fragment>
-                    {activeStep === 0 && <SectionOne isDisabled={isDisabled} />}
-                    {activeStep === 1 && <SectionTwo isDisabled={isDisabled} />}
-                    {activeStep === 2 && <SectionThree isDisabled={isDisabled} />}
-                    {activeStep === 3 && <SectionFour isDisabled={isDisabled} />}
-                    {activeStep === 4 && <SectionFive isDisabled={isDisabled} />}
-                    {activeStep === 5 && <SectionSix handleEditClick={moveStepper} />}
-                  </Fragment>
-                ) : (
-                  <SectionSix isDisabled />
-                )}
+              {/** Form Sections */}
+              {!isDisabled ? (
+                <Fragment>
+                  {activeStep === 0 && <SectionOne isDisabled={isDisabled} />}
+                  {activeStep === 1 && <SectionTwo isDisabled={isDisabled} />}
+                  {activeStep === 2 && <SectionThree isDisabled={isDisabled} />}
+                  {activeStep === 3 && <SectionFour isDisabled={isDisabled} />}
+                  {activeStep === 4 && <SectionFive isDisabled={isDisabled} />}
+                  {activeStep === 5 && <SectionSix handleEditClick={moveStepper} />}
+                </Fragment>
+              ) : (
+                <SectionSix isDisabled />
+              )}
 
-                {/** Desktop Prev / Next */}
-                {!isDisabled && (
-                  <Hidden xsDown>
-                    <Box mt={3}>
-                      <Grid container justify="flex-end">
-                        <Grid item>
-                          <Grid container spacing={2}>
-                            <Grid item>
-                              <Button
-                                disabled={isFirstStep}
-                                onClick={handleBackClicked}
-                                text="Back"
-                                fullWidth={false}
-                              />
-                            </Grid>
-                            <Grid item>
-                              <Button
-                                onClick={() => handleNextClicked(submitForm, setTouched)}
-                                variant="contained"
-                                color="primary"
-                                fullWidth={false}
-                                text={isLastStep ? 'Submit' : 'Next'}
-                              />
-                            </Grid>
+              {/** Desktop Prev / Next */}
+              {!isDisabled && (
+                <Hidden xsDown>
+                  <Box mt={3}>
+                    <Grid container justify="flex-end">
+                      <Grid item>
+                        <Grid container spacing={2}>
+                          <Grid item>
+                            <Button
+                              disabled={isFirstStep}
+                              onClick={handleBackClicked}
+                              text="Back"
+                              fullWidth={false}
+                            />
+                          </Grid>
+                          <Grid item>
+                            <Button
+                              onClick={() => handleNextClicked(submitForm, setTouched)}
+                              variant="contained"
+                              color="primary"
+                              fullWidth={false}
+                              text={isLastStep ? 'Submit' : 'Next'}
+                            />
                           </Grid>
                         </Grid>
                       </Grid>
-                    </Box>
-                  </Hidden>
-                )}
-              </Card>
+                    </Grid>
+                  </Box>
+                </Hidden>
+              )}
             </Box>
 
             {/** Mobile Stepper - Prev / Next */}

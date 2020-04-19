@@ -1,10 +1,9 @@
-import React, { Fragment, useEffect } from 'react';
-import Box from '@material-ui/core/Box';
+import React, { useEffect } from 'react';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { Field, FieldArray, useFormikContext } from 'formik';
 
-import { Divider } from '../../components/generic';
+import { Card, Divider } from '../../components/generic';
 import { RenderCheckbox, RenderRadioGroup, RenderSelectField, RenderTextField } from '../../components/fields';
 
 export const SectionTwo = ({ isDisabled }) => {
@@ -34,7 +33,7 @@ export const SectionTwo = ({ isDisabled }) => {
   }, [setFieldValue, isSameAsBusinessAddress, numberOfAdditionalAddresses]);
 
   return (
-    <Fragment>
+    <Card noPadding={isDisabled} noShadow={isDisabled}>
       <Grid container spacing={2}>
 
         {!isDisabled && (
@@ -188,100 +187,103 @@ export const SectionTwo = ({ isDisabled }) => {
             disabled={isDisabled}
           />
         </Grid>
+        {isSameAsBusinessAddress === false && (
+          <Grid item xs={12} sm={6}>
+            <Field
+              name="numberOfAdditionalAddresses"
+              component={RenderSelectField}
+              label="Number of additional addresses?"
+              disabled={isDisabled}
+              options={[...Array(15)].map((_, index) => ({
+                value: index + 1,
+                label: index + 1,
+              }))}
+            />
+          </Grid>
+        )}
 
         {isSameAsBusinessAddress === false && (
           <Grid item xs={12}>
             <FieldArray
               name="temporaryForeignWorkerFacilityAddresses"
               render={() => (
-                <Fragment>
-                  <Box mb={3}>
-                    <Field
-                      name="numberOfAdditionalAddresses"
-                      component={RenderSelectField}
-                      label="Number of additional addresses?"
-                      disabled={isDisabled}
-                      options={[...Array(15)].map((_, index) => ({
-                        value: index + 1,
-                        label: index + 1,
-                      }))}
-                    />
-                  </Box>
-                  <Grid container spacing={3}>
-                    {temporaryForeignWorkerFacilityAddresses.map((item, index) => (
-                      <Grid key={index} item xs={12} container spacing={3}>
-
-                        {/* Title */}
-                        <Grid item xs={12}>
-                          <Grid container alignItems="center" spacing={2}>
-                            <Grid item>
-                              <Typography variant="subtitle2">Facility address {index + 1}</Typography>
+                <Grid container spacing={3}>
+                  {temporaryForeignWorkerFacilityAddresses.map((item, index) => (
+                    <Grid key={index} item xs={12}>
+                      <Card>
+                        <Grid container spacing={3}>
+                          {/* Title */}
+                          <Grid item xs={12}>
+                            <Grid container alignItems="center" spacing={2}>
+                              <Grid item>
+                                <Typography variant="subtitle2">Facility address {index + 1}</Typography>
+                              </Grid>
                             </Grid>
                           </Grid>
-                        </Grid>
 
-                        {/* Fields */}
-                        <Grid item xs={12} sm={6}>
-                          <Field
-                            name={`temporaryForeignWorkerFacilityAddresses[${index}].type`}
-                            component={RenderRadioGroup}
-                            label="Facility type"
-                            disabled={isDisabled}
-                            options={[
-                              { value: 'working', label: 'Where the TFWs will be working' },
-                              { value: 'housed', label: 'Where the TFWs will be housed' },
-                            ]}
-                          />
+                          {/* Fields */}
+                          <Grid item xs={12} sm={6}>
+                            <Field
+                              name={`temporaryForeignWorkerFacilityAddresses[${index}].type`}
+                              component={RenderRadioGroup}
+                              label="Facility type"
+                              disabled={isDisabled}
+                              options={[
+                                { value: 'working', label: 'Where the TFWs will be working' },
+                                { value: 'housed', label: 'Where the TFWs will be housed' },
+                              ]}
+                            />
+                          </Grid>
+                          <Grid item xs={12} sm={6}>
+                            <Field
+                              name={`temporaryForeignWorkerFacilityAddresses[${index}].addressLine1`}
+                              component={RenderTextField}
+                              label="Address line 1"
+                              disabled={isDisabled}
+                            />
+                          </Grid>
+                          <Grid item xs={12} sm={6}>
+                            <Field
+                              name={`temporaryForeignWorkerFacilityAddresses[${index}].addressLine2`}
+                              component={RenderTextField}
+                              label="Address line 2 (optional)"
+                              disabled={isDisabled}
+                            />
+                          </Grid>
+                          <Grid item xs={12} sm={6}>
+                            <Field
+                              name={`temporaryForeignWorkerFacilityAddresses[${index}].city`}
+                              component={RenderTextField}
+                              label="City"
+                              disabled={isDisabled}
+                            />
+                          </Grid>
+                          <Grid item xs={12} sm={6}>
+                            <Field
+                              name={`temporaryForeignWorkerFacilityAddresses[${index}].province`}
+                              component={RenderTextField}
+                              label="Province"
+                              disabled={isDisabled}
+                            />
+                          </Grid>
+                          <Grid item xs={12} sm={6}>
+                            <Field
+                              name={`temporaryForeignWorkerFacilityAddresses[${index}].postalCode`}
+                              component={RenderTextField}
+                              label="Postal code"
+                              disabled={isDisabled}
+                            />
+                          </Grid>
                         </Grid>
-                        <Grid item xs={12} sm={6}>
-                          <Field
-                            name={`temporaryForeignWorkerFacilityAddresses[${index}].addressLine1`}
-                            component={RenderTextField}
-                            label="Address line 1"
-                            disabled={isDisabled}
-                          />
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                          <Field
-                            name={`temporaryForeignWorkerFacilityAddresses[${index}].addressLine2`}
-                            component={RenderTextField}
-                            label="Address line 2 (optional)"
-                            disabled={isDisabled}
-                          />
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                          <Field
-                            name={`temporaryForeignWorkerFacilityAddresses[${index}].city`}
-                            component={RenderTextField}
-                            label="City"
-                            disabled={isDisabled}
-                          />
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                          <Field
-                            name={`temporaryForeignWorkerFacilityAddresses[${index}].province`}
-                            component={RenderTextField}
-                            label="Province"
-                            disabled={isDisabled}
-                          />
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                          <Field
-                            name={`temporaryForeignWorkerFacilityAddresses[${index}].postalCode`}
-                            component={RenderTextField}
-                            label="Postal code"
-                            disabled={isDisabled}
-                          />
-                        </Grid>
-                      </Grid>
-                    ))}
-                  </Grid>
-                </Fragment>
+                      </Card>
+                    </Grid>
+                  ))}
+                </Grid>
               )}
             />
           </Grid>
         )}
       </Grid>
-    </Fragment>
+    </Card>
   );
 };
