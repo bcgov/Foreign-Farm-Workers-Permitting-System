@@ -3,14 +3,12 @@ import Alert from '@material-ui/lab/Alert';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import { Field, useFormikContext } from 'formik';
+import { Field } from 'formik';
 
 import { Card } from '../generic';
 import { RenderCheckbox, RenderRadioGroup, } from '../../components/fields';
 
 export const SectionThree = ({ isDisabled }) => {
-  const { values } = useFormikContext();
-  const { bedroomAccommodation } = values;
   return (
     <Card noPadding={isDisabled} noShadow={isDisabled}>
       <Grid container spacing={3}>
@@ -98,18 +96,21 @@ export const SectionThree = ({ isDisabled }) => {
                 { value: 'shared', label: 'Shared occupancy bedrooms' },
                 { value: 'both', label: 'Both' },
               ]}
+              hiddenCheckbox={{
+                fields: ['shared', 'both'],
+                node: (
+                  <Box ml={1}>
+                    <Field
+                      name="areBedsInRightConfiguration"
+                      component={RenderCheckbox}
+                      label="Beds in the right configuration with the right distance apart."
+                      disabled={isDisabled}
+                    />
+                  </Box>
+                ),
+              }}
             />
           </Box>
-          {['shared', 'both'].includes(bedroomAccommodation) && (
-            <Box mt={1.5}>
-              <Field
-                name="areBedsInRightConfiguration"
-                component={RenderCheckbox}
-                label="Beds in the right configuration with the right distance apart."
-                disabled={isDisabled}
-              />
-            </Box>
-          )}
         </Grid>
 
         {/** Fourth Block */}
