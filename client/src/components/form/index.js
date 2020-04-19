@@ -286,36 +286,36 @@ export const Form = ({ initialValues, isDisabled }) => {
                 <SectionSix isDisabled />
               )}
 
-                {/** Desktop Prev / Next */}
-                {!isDisabled && (
-                  <Hidden xsDown>
-                    <Box mt={3}>
-                      <Grid container justify="flex-end">
-                        <Grid item>
-                          <Grid container spacing={2}>
-                            <Grid item>
-                              <Button
-                                disabled={isFirstStep}
-                                onClick={handleBackClicked}
-                                text="Back"
-                                fullWidth={false}
-                              />
-                            </Grid>
-                            <Grid item>
-                              <Button
-                                onClick={() => handleNextClicked(submitForm, setTouched, values)}
-                                variant="contained"
-                                color="primary"
-                                fullWidth={false}
-                                text={isLastStep ? 'Submit' : 'Next'}
-                              />
-                            </Grid>
+              {/** Desktop Prev / Next */}
+              {!isDisabled && (
+                <Hidden xsDown>
+                  <Box mt={3}>
+                    <Grid container justify="flex-end">
+                      <Grid item>
+                        <Grid container spacing={2}>
+                          <Grid item>
+                            <Button
+                              disabled={isFirstStep}
+                              onClick={handleBackClicked}
+                              text="Back"
+                              fullWidth={false}
+                            />
+                          </Grid>
+                          <Grid item>
+                            <Button
+                              onClick={() => handleNextClicked(submitForm, setTouched, values)}
+                              variant="contained"
+                              color="primary"
+                              fullWidth={false}
+                              text={isLastStep ? 'Submit' : 'Next'}
+                            />
                           </Grid>
                         </Grid>
                       </Grid>
-                    </Box>
-                  </Hidden>
-                )}
+                    </Grid>
+                  </Box>
+                </Hidden>
+              )}
             </Box>
 
             {/** Mobile Stepper - Prev / Next */}
@@ -340,7 +340,7 @@ export const Form = ({ initialValues, isDisabled }) => {
                         <Button
                           fullWidth={false}
                           text={(<Fragment>Next <KeyboardArrowRight /></Fragment>)}
-                          onClick={() => handleNextClicked(submitForm, setTouched)} disabled={isLastStep}
+                          onClick={() => handleNextClicked(submitForm, setTouched, values)} disabled={isLastStep}
                         />
                       )}
                     />
