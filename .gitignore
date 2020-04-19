@@ -2,7 +2,7 @@
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
-temporary-farm-workers*.zip
+farm-operator-screening*.zip
 
 # Dependencies
 node_modules
