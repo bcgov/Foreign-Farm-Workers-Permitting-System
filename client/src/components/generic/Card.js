@@ -10,9 +10,10 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: '8px',
     backgroundColor: '#FFFFFF',
     boxShadow: '0 0 5px 0 #E5E9F2',
+    overflow: 'initial',
     [theme.breakpoints.down('xs')]: {
-      padding: theme.spacing(1.5),
-    }
+      padding: theme.spacing(2),
+    },
   },
   title: {
     textAlign: 'center',
@@ -21,12 +22,21 @@ const useStyles = makeStyles((theme) => ({
   noPadding: {
     padding: 0,
   },
+  noShadow: {
+    boxShadow: 'none',
+  },
 }));
 
-const Card = ({ children, title, noPadding, className, ...props }) => {
+const Card = ({ children, title, noPadding, noShadow, className, ...props }) => {
   const classes = useStyles();
   return (
-    <MuiCard className={classNames(classes.root, { [classes.noPadding]: noPadding }, className)} {...props}>
+    <MuiCard
+      className={classNames(classes.root, {
+        [classes.noPadding]: noPadding,
+        [classes.noShadow]: noShadow,
+      }, className)}
+      {...props}
+    >
       {title && <Typography className={classes.title} variant="h3" noWrap>{title}</Typography>}
       {children}
     </MuiCard>

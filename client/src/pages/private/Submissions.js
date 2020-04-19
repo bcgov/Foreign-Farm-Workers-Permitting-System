@@ -31,8 +31,8 @@ export default () => {
       // if (response.ok) {
       //   const { submissions } = await response.json();
       //   const rows = submissions.map((submission) => ({
-      //     dateSubmitted: submission.dateSubmitted,
-      //     businessName: submission.businessName,
+      //     dateSubmitted: submission.createdAt,
+      //     registeredBusinessName: submission.registeredBusinessName,
       //     decision: submission.decision,
       //     confirmationNumber: submission.id,
       //     viewMore: (
@@ -50,9 +50,9 @@ export default () => {
       // setLoading(false);
 
       // TODO: Remove once backend work complete
-      const rows = [...Array(20)].map(() => ({
-        dateSubmitted: '10/10/2020',
-        businessName: 'Farm',
+      const rows = [...Array(70)].map(() => ({
+        dateSubmitted: '1990/01/01',
+        registeredBusinessName: 'The Ranch',
         decision: 'Pending',
         confirmationNumber: '123ABC',
         viewMore: (

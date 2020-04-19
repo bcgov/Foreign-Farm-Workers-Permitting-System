@@ -15,8 +15,7 @@ import { RenderCheckbox } from '../../components/fields';
 
 export const SectionOne = ({ isDisabled }) => {
   return (
-    <Fragment>
-
+    <Card noPadding={isDisabled} noShadow={isDisabled}>
       {!isDisabled && (
         <Fragment>
           <Typography variant="subtitle1" paragraph>
@@ -203,6 +202,6 @@ export const SectionOne = ({ isDisabled }) => {
         label="I have created a COVID-19 Infection Prevention and Control Protocol"
         disabled={isDisabled}
       />
-    </Fragment>
+    </Card>
   );
 };

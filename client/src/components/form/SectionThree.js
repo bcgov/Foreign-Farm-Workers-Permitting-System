@@ -5,13 +5,14 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { Field, useFormikContext } from 'formik';
 
+import { Card } from '../generic';
 import { RenderCheckbox, RenderRadioGroup, } from '../../components/fields';
 
 export const SectionThree = ({ isDisabled }) => {
   const { values } = useFormikContext();
   const { bedroomAccommodation } = values;
   return (
-    <Fragment>
+    <Card noPadding={isDisabled} noShadow={isDisabled}>
       <Grid container spacing={3}>
 
         {/** First Block */}
@@ -281,6 +282,6 @@ export const SectionThree = ({ isDisabled }) => {
           />
         </Grid>
       </Grid>
-    </Fragment>
+    </Card>
   );
 };

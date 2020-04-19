@@ -12,8 +12,8 @@ import { SectionTwo } from './SectionTwo';
 import { SectionThree } from './SectionThree';
 import { SectionFour } from './SectionFour';
 import { SectionFive } from './SectionFive';
+import { Button, Card } from '../generic';
 import { RenderCheckbox } from '../../components/fields';
-import { Button, Card, Divider } from '../generic';
 
 export const SectionSix = ({ handleEditClick, isDisabled }) => {
   return (
@@ -146,77 +146,77 @@ export const SectionSix = ({ handleEditClick, isDisabled }) => {
         </Grid>
 
         <Grid item xs={12}>
-          <Divider />
-
-          {!isDisabled && (
-            <Fragment>
-              <Box mt={4}>
+          <Card>
+            {!isDisabled && (
+              <Fragment>
                 <Typography variant="subtitle2" paragraph>
                   After submitting this application you will be subject to a site inspection:
                 </Typography>
+                <ul>
+                  <li>
+                    <Typography variant="body1">
+                      You <b>will be subject to a site inspection</b> of your farm work sites and accommodations prior
+                      to the release of temporary foreign workers after their mandatory 14 day self-isolation period.
+                    </Typography>
+                  </li>
+                  <li>
+                    <Typography variant="body1">
+                      The Province of BC will use the information you provide through this online form for the
+                      site inspection that determines your compliance and readiness to receive workers.
+                    </Typography>
+                  </li>
+                </ul>
+
+                <Box mt={2} mb={3}>
+                  <Alert severity="warning">
+                    <Typography variant="body2" gutterBottom>
+                      <b>
+                        You must not employ a temporary foreign worker without passing an inspection by an approved
+                        health officer or an infection prevention and control officer.
+                      </b>
+                    </Typography>
+                    <Typography variant="body2">
+                      (source:&nbsp;
+                      <Link
+                        href="https://www2.gov.bc.ca/assets/gov/health/about-bc-s-health-care-system/office-of-the-provincial-health-officer/covid-19/covid-19-pho-order-travellers-employers.pdf"
+                        target="noreferrer noopenner"
+                      >
+                        Order of the Provincial Health Officer / Travellers and Employers Order - April 14, 2020)
+                      </Link>
+                    </Typography>
+                  </Alert>
+                </Box>
+              </Fragment>
+            )}
+
+            <Field
+              name="doesCertify"
+              component={RenderCheckbox}
+              label="I certify this information to be accurate"
+              disabled={isDisabled}
+            />
+            <Field
+              name="doesAgree"
+              component={RenderCheckbox}
+              label="I agree that my farm will be subject to a site inspection"
+              disabled={isDisabled}
+            />
+
+            {!isDisabled && (
+              <Box mt={3} mb={3}>
+                <Typography variant="subtitle2">
+                  Collection Notice
+                </Typography>
+                <Typography variant="caption" color="textSecondary">
+                  Your personal information as well as those of your household is collected by the Ministry of Health under the authority of sections 26(a), (c), (e) and s.27(1)(a)(iii) of the Freedom of Information and Protection of Privacy Act, the Public Health Act and the federal Quarantine Act, for the purposes of reducing the spread of COVID-19. Personal information may be shared with personnel providing support services and follow-up during self-isolation. Should you have any questions or concerns about the collection of your personal information please contact:
+                  <br />
+                  Title: Ministry of Health, Chief Privacy Officer
+                  <br />
+                  Telephone: 236-478-1666
+                </Typography>
               </Box>
-              <ul>
-                <li>
-                  <Typography variant="body1">
-                    You <b>will be subject to a site inspection</b> of your farm work sites and accommodations prior
-                    to the release of temporary foreign workers after their mandatory 14 day self-isolation period.
-                  </Typography>
-                </li>
-                <li>
-                  <Typography variant="body1">
-                    The Province of BC will use the information you provide through this online form for the
-                    site inspection that determines your compliance and readiness to receive workers.
-                  </Typography>
-                </li>
-              </ul>
-
-              <Box mt={2} mb={3}>
-                <Alert severity="warning">
-                  <Typography variant="body2" gutterBottom>
-                    <b>
-                      You must not employ a temporary foreign worker without passing an inspection by an approved
-                      health officer or an infection prevention and control officer.
-                    </b>
-                  </Typography>
-                  <Typography variant="body2">
-                    (source:&nbsp;
-                    <Link
-                      href="https://www2.gov.bc.ca/assets/gov/health/about-bc-s-health-care-system/office-of-the-provincial-health-officer/covid-19/covid-19-pho-order-travellers-employers.pdf"
-                      target="noreferrer noopenner"
-                    >
-                      Order of the Provincial Health Officer / Travellers and Employers Order - April 14, 2020)
-                    </Link>
-                  </Typography>
-                </Alert>
-              </Box>
-            </Fragment>
-          )}
-
-          <Field
-            name="doesCertify"
-            component={RenderCheckbox}
-            label="I certify this information to be accurate"
-          />
-          <Field
-            name="doesAgree"
-            component={RenderCheckbox}
-            label="I agree that my farm will be subject to a site inspection"
-          />
-
-          {!isDisabled && (
-            <Box mt={3} mb={3}>
-              <Typography variant="subtitle2">
-                Collection Notice
-              </Typography>
-              <Typography variant="caption" color="textSecondary">
-                Your personal information as well as those of your household is collected by the Ministry of Health under the authority of sections 26(a), (c), (e) and s.27(1)(a)(iii) of the Freedom of Information and Protection of Privacy Act, the Public Health Act and the federal Quarantine Act, for the purposes of reducing the spread of COVID-19. Personal information may be shared with personnel providing support services and follow-up during self-isolation. Should you have any questions or concerns about the collection of your personal information please contact:
-                <br />
-                Title: Ministry of Health, Chief Privacy Officer
-                <br />
-                Telephone: 236-478-1666
-              </Typography>
-            </Box>
-          )}
+            )}
+          </Card>
         </Grid>
       </Grid>
     </Fragment>

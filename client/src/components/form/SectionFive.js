@@ -10,11 +10,12 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { Field } from 'formik';
 
+import { Card } from '../generic';
 import { RenderCheckbox } from '../../components/fields';
 
 export const SectionFive = ({ isDisabled }) => {
   return (
-    <Fragment>
+    <Card noPadding={isDisabled} noShadow={isDisabled}>
       <Grid container spacing={3}>
 
         {!isDisabled && (
@@ -225,6 +226,6 @@ export const SectionFive = ({ isDisabled }) => {
           </Grid>
         )}
       </Grid>
-    </Fragment>
+    </Card>
   );
 };
