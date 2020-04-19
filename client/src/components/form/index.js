@@ -1,5 +1,4 @@
 import React, { Fragment, useState } from 'react';
-import dotize from 'dotize';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -15,6 +14,7 @@ import { Formik, Form as FormikForm } from 'formik';
 import { useHistory } from 'react-router-dom';
 
 import { FormSchema, Routes } from '../../constants';
+import { mapObjectProps, scrollUp } from '../../utils';
 
 import { SectionOne } from './SectionOne';
 import { SectionTwo } from './SectionTwo';
@@ -198,8 +198,6 @@ export const Form = ({ initialValues, isDisabled }) => {
     scrollUp();
   };
 
-  const scrollUp = () => window.scrollTo(0, 0);
-
   const moveStepper = (index) => {
     setActiveStep(index);
   };
@@ -207,12 +205,6 @@ export const Form = ({ initialValues, isDisabled }) => {
   const handleBackClicked = () => {
     moveStepper(activeStep - 1);
   };
-
-  const mapObjectProps = (o, f) => {
-    const m = {};
-    Object.keys(o).forEach((k) => { m[k] = f(o[k]); });
-    return m;
-  }
 
   const handleNextClicked = async (submitForm, setTouched, values) => {
     if (isLastStep) {
@@ -222,7 +214,7 @@ export const Form = ({ initialValues, isDisabled }) => {
       const filtered = Object.keys(values)
         .filter((k) => fieldsForCurrentStep.includes(k))
         .reduce((a, v) => ({ ...a, [v]: values[v] }), {});
-      const fieldsToTouch = mapObjectProps(dotize.convert(filtered), () => true);
+      const fieldsToTouch = mapObjectProps(filtered, () => true);
       const errors = await setTouched(fieldsToTouch);
       const hasOutstandingErrors = Object.keys(errors).some((key) => fieldsForCurrentStep.includes(key));
       if (!hasOutstandingErrors) {

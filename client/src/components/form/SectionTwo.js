@@ -6,6 +6,23 @@ import { Field, FieldArray, useFormikContext } from 'formik';
 import { Card, Divider } from '../../components/generic';
 import { RenderCheckbox, RenderRadioGroup, RenderSelectField, RenderTextField } from '../../components/fields';
 
+const provinces = [
+  { value: 'Alberta', label: 'Alberta' },
+  { value: 'British Columbia', label: 'British Columbia' },
+  { value: 'Manitoba', label: 'Manitoba' },
+  { value: 'New Brunswick', label: 'New Brunswick' },
+  { value: 'Newfoundland and Labrador', label: 'Newfoundland and Labrador' },
+  { value: 'Northwest Territories', label: 'Northwest Territories' },
+  { value: 'Nova Scotia', label: 'Nova Scotia' },
+  { value: 'Nunavut', label: 'Nunavut' },
+  { value: 'Ontario', label: 'Ontario' },
+  { value: 'Prince Edward Island', label: 'Prince Edward Island' },
+  { value: 'Québec', label: 'Québec' },
+  { value: 'Saskatchewan', label: 'Saskatchewan' },
+  { value: 'Yukon', label: 'Yukon' },
+  { value: 'Other', label: 'Other' },
+];
+
 export const SectionTwo = ({ isDisabled }) => {
   const { values, setFieldValue } = useFormikContext();
   const { isSameAsBusinessAddress, numberOfAdditionalAddresses, temporaryForeignWorkerFacilityAddresses } = values;
@@ -142,22 +159,7 @@ export const SectionTwo = ({ isDisabled }) => {
             component={RenderSelectField}
             label="Province"
             disabled={isDisabled}
-            options={[
-              { value: 'Alberta', label: 'Alberta' },
-              { value: 'British Columbia', label: 'British Columbia' },
-              { value: 'Manitoba', label: 'Manitoba' },
-              { value: 'New Brunswick', label: 'New Brunswick' },
-              { value: 'Newfoundland and Labrador', label: 'Newfoundland and Labrador' },
-              { value: 'Northwest Territories', label: 'Northwest Territories' },
-              { value: 'Nova Scotia', label: 'Nova Scotia' },
-              { value: 'Nunavut', label: 'Nunavut' },
-              { value: 'Ontario', label: 'Ontario' },
-              { value: 'Prince Edward Island', label: 'Prince Edward Island' },
-              { value: 'Québec', label: 'Québec' },
-              { value: 'Saskatchewan', label: 'Saskatchewan' },
-              { value: 'Yukon', label: 'Yukon' },
-              { value: 'Other', label: 'Other' },
-            ]}
+            options={provinces}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -212,6 +214,7 @@ export const SectionTwo = ({ isDisabled }) => {
                     <Grid key={index} item xs={12}>
                       <Card>
                         <Grid container spacing={3}>
+
                           {/* Title */}
                           <Grid item xs={12}>
                             <Grid container alignItems="center" spacing={2}>
@@ -261,9 +264,10 @@ export const SectionTwo = ({ isDisabled }) => {
                           <Grid item xs={12} sm={6}>
                             <Field
                               name={`temporaryForeignWorkerFacilityAddresses[${index}].province`}
-                              component={RenderTextField}
+                              component={RenderSelectField}
                               label="Province"
                               disabled={isDisabled}
+                              options={provinces}
                             />
                           </Grid>
                           <Grid item xs={12} sm={6}>
