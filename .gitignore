@@ -2,11 +2,7 @@
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
-<<<<<<< HEAD
 farm-operator-screening*.zip
-=======
-temporary-farm-workers*.zip
->>>>>>> refactored project name and removed migration
 
 # Dependencies
 node_modules

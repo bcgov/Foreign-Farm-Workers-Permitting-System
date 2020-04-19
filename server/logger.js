@@ -10,11 +10,7 @@ const dateInTimezone = () => {
 winston.add(new winston.transports.Console(nodeEnv === 'test' && { silent: true }));
 if (!['development', 'test'].includes(nodeEnv)) {
   winston.add(new WinstonCloudWatch({
-<<<<<<< HEAD
     logGroupName: `fos-${process.env.DB_SUFFIX}`, // Group logs by deployment environment
-=======
-    logGroupName: `ftw-${process.env.DB_SUFFIX}`, // Group logs by deployment environment
->>>>>>> refactored project name and removed migration
     logStreamName: dateInTimezone, // Group logs by date
   }));
 }

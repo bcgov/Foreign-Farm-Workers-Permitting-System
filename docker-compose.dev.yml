@@ -63,13 +63,8 @@ services:
       - MONGO_INITDB_DATABASE=${DB_NAME}
     volumes:
       - ./.docker/mongo/databaseInit:/docker-entrypoint-initdb.d
-<<<<<<< HEAD
       - fos-mongo-data-configdb:/data/configdb
       - fos-mongo-data-db:/data/db
-=======
-      - ftw-mongo-data-configdb:/data/configdb
-      - ftw-mongo-data-db:/data/db
->>>>>>> refactored project name and removed migration
     networks:
       - frontend
 
@@ -78,10 +73,5 @@ networks:
     driver: "bridge"
 
 volumes:
-<<<<<<< HEAD
     fos-mongo-data-configdb:
     fos-mongo-data-db:
-=======
-    ftw-mongo-data-configdb:
-    ftw-mongo-data-db:
->>>>>>> refactored project name and removed migration
