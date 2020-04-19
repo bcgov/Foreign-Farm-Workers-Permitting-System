@@ -16,7 +16,7 @@ describe('Server V1 Form Endpoints', () => {
 
   const loginEndpoint = '/api/v1/login';
   const formEndpoint = '/api/v1/form';
-  const searchByNameEndpoint = '/api/v1/last-name';
+  const formsEndpoint = '/api/v1/forms';
 
   const user = {
     username: 'username',
@@ -24,65 +24,82 @@ describe('Server V1 Form Endpoints', () => {
   };
 
   const form = {
+    hasDownloadedBCMinistryAgricultureCovid19Requirements: true,
+    hasCompletedCovid19WorkplaceRiskAssessment: true,
+    hasCreatedCovid19InfectionPreventionAndControlProtocol: true,
+    registeredBusinessName: 'Biz Co.',
     firstName: 'John',
-    lastName: 'Cena',
-    telephone: '1234567890',
-    email: null,
-    address: '1234 Fake St.',
+    lastName: 'Smith',
+    phoneNumber: '1234567890',
+    alternatePhoneNumber: null,
+    emailAddress: 'a@b.c',
+    addressLine1: '1234 Fake St.',
+    addressLine2: null,
     city: 'Victoria',
-    province: 'Yukon',
-    postalCode: 'A1A1A1',
-    dob: '1999/03/27',
-    includeAdditionalTravellers: true,
-    additionalTravellers: [
+    province: 'British Columbia',
+    postalCode: 'V1V1V1',
+    isSameAsBusinessAddress: false,
+    temporaryForeignWorkerFacilityAddresses: [
       {
-        firstName: 'Johnny',
-        lastName: 'Cena',
-        dob: '1999/03/27',
+        type: 'working',
+        addressLine1: '5678 Fake St.',
+        addressLine2: null,
+        city: 'Edmonton',
+        province: 'Alberta',
+        postalCode: 'V2V2V2',
       },
     ],
-    arrival: {
-      date: '2020/04/13',
-      by: 'air',
-      from: 'Wuhan, China',
-      flight: null,
-    },
-    accomodations: true,
-    isolationPlan: {
-      city: 'Vctoria',
-      address: '1234 Fake St.',
-      type: 'family',
-    },
-    supplies: true,
-    ableToIsolate: true,
-    transportation: [
-      'taxi',
-      'personal',
-      'public',
-    ],
-    certified: true,
+    hasSignage: false,
+    hasSomeoneIdentified: false,
+    hasContactedLocalMedicalHealthOfficer: false,
+    doCommonAreasAllowPhysicalDistancing: false,
+    bedroomAccommodation: 'single',
+    areBedsInRightConfiguration: false,
+    doesUnderstandNeedsForSelfIsolation: false,
+    hasSeparateAccommodationForWorker: false,
+    hasLaundryServices: false,
+    hasDisposableGloves: false,
+    hasWasteRemovalSchedule: false,
+    hasSturdyLeakResistantGarbageBags: false,
+    hasHandWashingSinks: false,
+    hasAppropriateSupplyOfSinkWater: false,
+    hasPlainSoap: false,
+    hasPaperTowels: false,
+    hasHandWashingSigns: false,
+    hasSleepingArrangements: false,
+    hasPhysicalBarriers: false,
+    hasScheduleToEnsureTouchAreasAreCleaned: false,
+    hasMaterialsOnRiskOfExposure: false,
+    hasMaterialsOnHandWashingPhysicalDistancingCoughSneeze: false,
+    hasMaterialsOnHandWashingFacilities: false,
+    hasMaterialsReadyOnHowToSeekFirstAid: false,
+    hasMaterialsReadyOnHowToReportExposure: false,
+    hasSchedulesForKitchenEatingAreas: false,
+    doWorkersHaveOwnDishware: false,
+    isDishwareWashedImmediately: false,
+    hasFacilitiesToSeparateAndSelfIsolate: false,
+    isPreparedToProvideIndividualsExhibitingSymptoms: false,
+    isPreparedToDirectPersonToHealthLinkBC: false,
+    isPreparedToCleanAndDisinfectRooms: false,
+    isWillingToInformManagementAboutCommercialAccommodation: false,
+    isAbleToProvideFoodInSafeManner: false,
+    isAbleToPerformAdequateHousekeeping: false,
+    isAbleToPerformWasteManagement: false,
+    doesCertify: true,
+    doesAgree: true,
   };
 
-  it('Create new form, receive isolationPlanStatus == true', async () => {
+  it('Create new form, receive 200', async () => {
     const res = await request.agent(app)
       .post(formEndpoint)
       .send(form);
     expect(res.statusCode).toEqual(200);
-    expect(res.body).toHaveProperty('isolationPlanStatus', true);
-  });
-
-  it('Create new form, receive isolationPlanStatus == false', async () => {
-    const res = await request.agent(app)
-      .post(formEndpoint)
-      .send({ ...form, accomodations: false, isolationPlan: null });
-    expect(res.statusCode).toEqual(200);
-    expect(res.body).toHaveProperty('isolationPlanStatus', false);
   });
 
   it('Create new form using an invalid field, receive 400', async () => {
     const res = await request.agent(app)
       .post(formEndpoint)
-      .send({ ...form, email: 'email@test.' });
+      .send({ ...form, bedroomAccommodation: '1' });
     expect(res.statusCode).toEqual(400);
   });
 
@@ -104,40 +121,19 @@ describe('Server V1 Form Endpoints', () => {
     expect(res.statusCode).toEqual(200);
   });
 
-  it('Get existing form by last name, receive results accordingly', async () => {
+  it('Get all forms, receive 200', async () => {
     const resLogin = await request.agent(app)
       .post(loginEndpoint)
       .send(user);
 
     const res = await request.agent(app)
       .set({ Accept: 'application/json', 'Content-type': 'application/json', Authorization: `Bearer ${resLogin.body.token}` })
-      .get(`${searchByNameEndpoint}/${form.lastName}`);
+      .get(formsEndpoint);
 
     expect(res.statusCode).toEqual(200);
-    expect(res.body).toEqual(
-      expect.objectContaining({
-        travellers: expect.arrayContaining([expect.objectContaining({ lastName: form.lastName })]),
-      }),
-    );
-
-    // try a partial name
-    const resPartial = await request.agent(app)
-      .set({ Accept: 'application/json', 'Content-type': 'application/json', Authorization: `Bearer ${resLogin.body.token}` })
-      .get(`${searchByNameEndpoint}/${form.lastName.slice(0, 2)}`);
-
-    expect(resPartial.statusCode).toEqual(200);
-    expect(resPartial.body).toEqual(
-      expect.objectContaining({
-        travellers: expect.arrayContaining([expect.objectContaining({ lastName: form.lastName })]),
-      }),
-    );
-
-    // try empty result
-    const resEmpty = await request.agent(app)
-      .set({ Accept: 'application/json', 'Content-type': 'application/json', Authorization: `Bearer ${resLogin.body.token}` })
-      .get(`${searchByNameEndpoint}/1}`);
-
-    expect(resEmpty.statusCode).toEqual(404);
+    expect(res.body).toEqual(expect.arrayContaining([
+      expect.objectContaining({ registeredBusinessName: form.registeredBusinessName }),
+    ]));
   });
 
   it('Get nonexistent form, receive 404', async () => {
@@ -181,8 +177,7 @@ describe('Server V1 Form Endpoints', () => {
       .set({ Accept: 'application/json', 'Content-type': 'application/json', Authorization: `Bearer ${resLogin.body.token}` })
       .patch(`${formEndpoint}/${formId}`)
       .send({
-        province: 'Ontario',
-        determination: 'accepted',
+        determination: 'complete',
         notes: 'test',
       });
 
@@ -204,7 +199,7 @@ describe('Server V1 Form Endpoints', () => {
       .set({ Accept: 'application/json', 'Content-type': 'application/json', Authorization: `Bearer ${resLogin.body.token}` })
       .patch(`${formEndpoint}/${formId}`)
       .send({
-        province: 'Ontario',
+        notes: 'notes',
       });
 
     expect(res.statusCode).toEqual(400);

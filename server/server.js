@@ -39,12 +39,12 @@ app.post(`${apiBaseUrl}/form`,
 
     // Form ID
     const id = await generateRandomHexId();
-    const decision = 'Pending Review';
+    const determination = 'pending';
 
     const currentISODate = new Date().toISOString();
     const formItem = {
       id,
-      decision,
+      determination,
       notes: null,
       ...req.body,
       createdAt: currentISODate,
@@ -53,7 +53,7 @@ app.post(`${apiBaseUrl}/form`,
 
     await formsCollection.insertOne(formItem);
 
-    return res.json({ id, decision });
+    return res.json({ id, determination });
   }));
 
 // Edit existing form
@@ -87,31 +87,27 @@ app.get(`${apiBaseUrl}/form/:id`,
 
     if (!formItem) return res.status(404).json({ error: `No submission with ID ${id}` });
 
-    return res.json(formItem);
+    const { _id, ...result } = formItem;
+
+    return res.json(result);
   }));
 
-// get travellers by last name (partial match)
-app.get(`${apiBaseUrl}/last-name/:lname`,
+// Get all forms
+app.get(`${apiBaseUrl}/forms`,
   passport.authenticate('jwt', { session: false }),
   asyncMiddleware(async (req, res) => {
-    const { lname } = req.params;
     const formsCollection = dbClient.db.collection(collections.FORMS);
 
-    const forms = await formsCollection.find({
-      // i: for substring search, case insensitive
-      // ^: match results that starts with
-      lastName: { $regex: new RegExp(`^${lname}`, 'i') },
-    }).toArray();
+    const forms = await formsCollection.find({}).toArray();
 
-    if (forms.length === 0) return res.status(404).json({ error: `No traveller found with last name ${lname}` });
+    if (forms.length === 0) return res.status(404).json({ error: 'No submissions found' });
 
-    const travellers = forms.map((form) => {
-      // Remove serviceTransactions from return query
-      const { serviceTransactions, ...formData } = form;
-      return formData;
+    const results = forms.map((form) => {
+      const { _id, ...result } = form;
+      return result;
     });
 
-    return res.json({ travellers });
+    return res.json(results);
   }));
 
 // Validate JWT
