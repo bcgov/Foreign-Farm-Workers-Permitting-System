@@ -10,7 +10,8 @@ import 'react-app-polyfill/ie11';
 
 import { Routes, Theme } from './constants';
 
-import { PrivateRoute, PublicRoute } from './components/generic';
+import { PrivateRoute, PublicRoute, Toast } from './components/generic';
+import { ToastProvider } from './providers';
 
 const Form = lazy(() => import('./pages/public/Form'));
 const Confirmation = lazy(() => import('./pages/public/Confirmation'));
@@ -22,23 +23,26 @@ const App = () => (
   <ThemeProvider theme={Theme}>
     <MuiPickersUtilsProvider utils={MomentUtils}>
       <CssBaseline />
-      <BrowserRouter>
-        <Suspense fallback={<LinearProgress />}>
-          <Switch>
-            {/* Public routes */}
-            <PublicRoute exact path={Routes.Form} component={Form} />
-            <PublicRoute exact path={Routes.Confirmation} component={Confirmation} />
-            <PublicRoute exact path={Routes.Login} component={Login} />
+      <ToastProvider>
+        <Toast />
+        <BrowserRouter>
+          <Suspense fallback={<LinearProgress />}>
+            <Switch>
+              {/* Public routes */}
+              <PublicRoute exact path={Routes.Form} component={Form} />
+              <PublicRoute exact path={Routes.Confirmation} component={Confirmation} />
+              <PublicRoute exact path={Routes.Login} component={Login} />
 
-            {/* Private routes */}
-            <PrivateRoute exact path={Routes.Submissions} component={Submissions} />
-            <PrivateRoute exact path={Routes.SubmissionDetails.staticRoute} component={SubmissionDetails} />
+              {/* Private routes */}
+              <PrivateRoute exact path={Routes.Submissions} component={Submissions} />
+              <PrivateRoute exact path={Routes.SubmissionDetails.staticRoute} component={SubmissionDetails} />
 
-            {/* Invalid route - default to form */}
-            <Route component={Form} />
-          </Switch>
-        </Suspense>
-      </BrowserRouter>
+              {/* Invalid route - default to form */}
+              <Route component={Form} />
+            </Switch>
+          </Suspense>
+        </BrowserRouter>
+      </ToastProvider>
     </MuiPickersUtilsProvider>
   </ThemeProvider>
 );
