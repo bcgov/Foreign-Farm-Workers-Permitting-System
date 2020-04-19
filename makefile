@@ -159,6 +159,7 @@ gh-pipeline-deploy-version:
 ##########################################
 # IMG Promotion commands #
 ##########################################
+
 pipeline-promote-prep:
 	@echo "--------------------------------------------------------------------------------";
 	@echo "NOTE: This requires the PROMOTE_FROM_TAG and PROMOTE_TO_TAG be set in .build/image_promote.sh"
@@ -181,3 +182,11 @@ pipeline-promote-prod:
 	@aws --profile $(PROFILE) s3 cp $(call deployTag)_prod.zip s3://$(S3_BUCKET)/$(PROJECT)/$(call deployTag)_prod.zip
 	@aws --profile $(PROFILE) elasticbeanstalk create-application-version --application-name $(PROJECT) --version-label $(call deployTag) --source-bundle S3Bucket="$(S3_BUCKET)",S3Key="$(PROJECT)/$(call deployTag)_prod.zip"
 	@aws --profile $(PROFILE) elasticbeanstalk update-environment --application-name $(PROJECT) --environment-name farm-operator-screening-prod --version-label $(call deployTag)
+
+##########################################
+# Git tagging aliases #
+##########################################
+
+tag-dev:
+	@git tag -fa dev -m "Deploying $(BRANCH):$(IMAGE_TAG) to dev env" $(SIMAGE_TAGHA)
+	@git push --force origin refs/tags/dev:refs/tags/dev
