@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import _ from 'lodash'
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
@@ -13,10 +14,17 @@ export default () => {
   const history = useHistory();
 
   const [lookupError, setLookupError] = useState(null);
+  const [order, setOrder] = useState('asc');
   const [isLoading, setLoading] = useState(false);
   const [rows, setRows] = useState([]);
 
-  const columns = ['Date Submitted', 'Business Name', 'Decision', 'Confirmation Number'];
+  const columns = [
+    { id: 'createdAt', name: 'Date Submitted' },
+    { id: 'registeredBusinessName', name: 'Business Name' },
+    { id: 'determination', name: 'Decision' },
+    { id: 'id', name: 'Confirmation Number' },
+  ];
+  const [orderBy, setOrderBy] = useState(columns[0].id);
 
   /**
    * On page load, perform a query to find all submissions.
@@ -32,10 +40,10 @@ export default () => {
       if (response.ok) {
         const submissions = await response.json();
         const rows = submissions.map((submission) => ({
-          dateSubmitted: dateToString(submission.createdAt),
+          createdAt: dateToString(submission.createdAt),
           registeredBusinessName: submission.registeredBusinessName,
-          decision: mapDetermination(submission.determination),
-          confirmationNumber: submission.id,
+          determination: mapDetermination(submission.determination),
+          id: submission.id,
           viewMore: (
             <Button
               onClick={() => history.push(Routes.SubmissionDetails.dynamicRoute(submission.id))}
@@ -52,6 +60,14 @@ export default () => {
       setLoading(false);
     })();
   }, []);
+
+  const handleRequestSort = (event, property) => {
+    const isAsc = orderBy === property && order === 'asc';
+    setOrder(isAsc ? 'desc' : 'asc');
+    setOrderBy(property);
+  };
+
+  const sort = (array) => _.orderBy(array, [orderBy, 'createdAt'], [order]);
 
   return (
     <Page>
@@ -77,7 +93,10 @@ export default () => {
                 {!lookupError && (
                   <Table
                     columns={columns}
-                    rows={rows}
+                    order={order}
+                    orderBy={orderBy}
+                    onRequestSort={handleRequestSort}
+                    rows={sort(rows)}
                     isLoading={isLoading}
                   />
                 )}
