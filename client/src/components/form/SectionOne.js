@@ -126,11 +126,6 @@ export const SectionOne = ({ isDisabled }) => {
             </ExpansionPanel>
           </Box>
           <Box mt={3} mb={4}>
-            <Typography variant="subtitle2" paragraph>
-              Risk assessment and IPC protocol must be available upon inspection
-            </Typography>
-          </Box>
-          <Box mt={3} mb={4}>
             <Alert severity="info" icon={<PhoneIcon />}>
               <Typography variant="body2" gutterBottom>
                 <b>
