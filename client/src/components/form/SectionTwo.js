@@ -20,7 +20,6 @@ const provinces = [
   { value: 'Québec', label: 'Québec' },
   { value: 'Saskatchewan', label: 'Saskatchewan' },
   { value: 'Yukon', label: 'Yukon' },
-  { value: 'Other', label: 'Other' },
 ];
 
 export const SectionTwo = ({ isDisabled }) => {

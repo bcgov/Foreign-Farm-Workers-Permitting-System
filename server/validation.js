@@ -15,7 +15,6 @@ const provinces = [
   'Nunavut',
   'Northwest Territories',
   'Yukon',
-  'Other',
 ];
 
 const LoginSchema = yup.object().shape({
@@ -24,7 +23,7 @@ const LoginSchema = yup.object().shape({
 });
 
 const DeterminationSchema = yup.object().shape({
-  determination: yup.string().oneOf(['incomplete', 'complete']).required('Determination is required'),
+  determination: yup.string().nullable().oneOf([null, 'incomplete', 'complete']).required('Determination is required'),
   notes: yup.string().required('Notes are required'),
 });
 
@@ -134,7 +133,7 @@ const FormSchema = yup.object().noUnknown('Unknown field for form').shape({
   hasSomeoneIdentified: yup.boolean().typeError(errorMessage).required(errorMessage),
   hasContactedLocalMedicalHealthOfficer: yup.boolean().typeError(errorMessage).required(errorMessage),
   doCommonAreasAllowPhysicalDistancing: yup.boolean().typeError(errorMessage).required(errorMessage),
-  bedroomAccommodation: yup.string().oneOf([null, 'single', 'shared', 'both'], 'Invalid bedroom accommodation'),
+  bedroomAccommodation: yup.string().nullable().oneOf([null, 'single', 'shared', 'both'], 'Invalid bedroom accommodation'),
   areBedsInRightConfiguration: yup.boolean().typeError(errorMessage).required(errorMessage),
   doesUnderstandNeedsForSelfIsolation: yup.boolean().typeError(errorMessage).required(errorMessage),
   hasSeparateAccommodationForWorker: yup.boolean().typeError(errorMessage).required(errorMessage),
