@@ -1,6 +1,23 @@
 /* eslint-disable max-len */
 const yup = require('yup');
 
+const provinces = [
+  'Alberta',
+  'British Columbia',
+  'Manitoba',
+  'New Brunswick',
+  'Newfoundland and Labrador',
+  'Nova Scotia',
+  'Ontario',
+  'Prince Edward Island',
+  'Québec',
+  'Saskatchewan',
+  'Nunavut',
+  'Northwest Territories',
+  'Yukon',
+  'Other',
+];
+
 const LoginSchema = yup.object().shape({
   username: yup.string().required('Username is required'),
   password: yup.string().required('Password is required'),
@@ -94,7 +111,7 @@ const FormSchema = yup.object().noUnknown('Unknown field for form').shape({
   addressLine1: yup.string().required(errorMessage),
   addressLine2: yup.string().nullable(),
   city: yup.string().required(errorMessage),
-  province: yup.string().required(errorMessage),
+  province: yup.string().required(errorMessage).oneOf(provinces, 'Invalid province/territory'),
   postalCode: yup.string().required(errorMessage),
   isSameAsBusinessAddress: yup.boolean().typeError(errorMessage).required(errorMessage),
   temporaryForeignWorkerFacilityAddresses: yup.array().when('isSameAsBusinessAddress', {
@@ -105,7 +122,7 @@ const FormSchema = yup.object().noUnknown('Unknown field for form').shape({
         addressLine1: yup.string().required('Facility address line 1 is required'),
         addressLine2: yup.string().nullable(),
         city: yup.string().required('Facility city is required'),
-        province: yup.string().required('Facility province/territory is required'),
+        province: yup.string().required('Facility province/territory is required').oneOf(provinces, 'Invalid province/territory'),
         postalCode: yup.string().required('Facility postal code is required'),
       }),
     ).test('is-length', 'Number of facilities must be between 1 and 10', (v) => v.length >= 1 && v.length <= 10),
@@ -117,7 +134,7 @@ const FormSchema = yup.object().noUnknown('Unknown field for form').shape({
   hasSomeoneIdentified: yup.boolean().typeError(errorMessage).required(errorMessage),
   hasContactedLocalMedicalHealthOfficer: yup.boolean().typeError(errorMessage).required(errorMessage),
   doCommonAreasAllowPhysicalDistancing: yup.boolean().typeError(errorMessage).required(errorMessage),
-  bedroomAccommodation: yup.string().nullable().oneOf(['single', 'shared', 'both'], 'Invalid bedroom accommodation'),
+  bedroomAccommodation: yup.string().oneOf([null, 'single', 'shared', 'both'], 'Invalid bedroom accommodation'),
   areBedsInRightConfiguration: yup.boolean().typeError(errorMessage).required(errorMessage),
   doesUnderstandNeedsForSelfIsolation: yup.boolean().typeError(errorMessage).required(errorMessage),
   hasSeparateAccommodationForWorker: yup.boolean().typeError(errorMessage).required(errorMessage),
