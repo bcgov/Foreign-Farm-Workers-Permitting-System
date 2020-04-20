@@ -1,62 +1,47 @@
 version: '3.7'
 
 services:
-  ### Frontend Application #############################
   client:
-    image: ${PROJECT}_client:${GIT_LOCAL_BRANCH}
+    image: ${PROJECT}-client
     container_name: ${PROJECT}-client
     build:
       context: ./client
       dockerfile: Dockerfile.dev
-    expose:
-      - "4000"
     ports:
       - "4000:4000"
     volumes:
-      # Binds the application folder from the host inside the container for fast changes
-      - ./client:/usr/src/app
-      # Ignores/Hides the node_modules from the bind on the host allowing the node_modules
-      # from inside the container to be used instead
-      - /usr/src/app/node_modules
+      - ./client:/client # Use client dir in host for hot reloading
+      - /client/node_modules # Use node_modules in container
     depends_on:
       - server
     networks:
-      - frontend
+      - fos-dev
 
-  ### Backend Application #############################
   server:
-    image: ${PROJECT}-server:${GIT_LOCAL_BRANCH}
+    image: ${PROJECT}-server
     container_name: ${PROJECT}-server
     build:
       context: ./server
       dockerfile: Dockerfile.dev
     environment:
       - DB_SERVER=${DB_SERVER}
-    expose:
-      - "80"
     ports:
       - "80:80"
       - "9229:9229"
     volumes:
-      # Binds the application folder from the host inside the container for fast changes
-      - ./server:/usr/src/app
-      # Ignores/Hides the node_modules from the bind on the host allowing the node_modules
-      # from inside the container to be used instead
-      - /usr/src/app/node_modules
+      - ./server:/server # Use server dir in host for hot reloading
+      - /server/node_modules # Use node_modules in container
     depends_on:
       - mongodb
     networks:
-      - frontend
+      - fos-dev
 
-  ### MongoDB #############################
   mongodb:
     container_name: ${PROJECT}-mongodb
     image: mongo:3.6-xenial
     restart: always
-    expose:
-      - "27017"
     ports:
-        - "27017:27017"
+      - "27017:27017"
     environment:
       - MONGO_INITDB_ROOT_USERNAME=${DB_USER}
       - MONGO_INITDB_ROOT_PASSWORD=${DB_PASSWORD}
@@ -66,10 +51,10 @@ services:
       - fos-mongo-data-configdb:/data/configdb
       - fos-mongo-data-db:/data/db
     networks:
-      - frontend
+      - fos-dev
 
 networks:
-  frontend:
+  fos-dev:
     driver: "bridge"
 
 volumes:

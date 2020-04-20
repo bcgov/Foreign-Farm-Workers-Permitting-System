@@ -36,7 +36,6 @@ print-status:
 	@echo " | REGION: $(REGION) "
 	@echo " | PROFILE: $(PROFILE) "
 	@echo " | DEPLOY ENV: $(DEPLOY_ENV) "
-	@echo " | MERGE BRANCH: $(MERGE_BRANCH) "
 	@echo " | GIT LOCAL BRANCH: $(GIT_LOCAL_BRANCH) "
 	@echo " | COMMIT_SHA: $(COMMIT_SHA) "
 	@echo " | IMAGE_TAG: $(IMAGE_TAG) "
