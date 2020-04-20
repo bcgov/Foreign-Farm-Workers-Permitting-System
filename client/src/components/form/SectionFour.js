@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { Field } from 'formik';
@@ -74,10 +74,15 @@ export const SectionFour = ({ isDisabled }) => {
             Prepare meals and practice safe food handling
           </Typography>
           {!isDisabled && (
-            <Typography variant="body1" gutterBottom>
-              This includes safe food practices like protecting foods from contamination, minimizing direct handling
-              of food and preventing cross contamination of foods.
-            </Typography>
+            <Fragment>
+              <Typography variant="body1" gutterBottom>
+                All farm operators and workers must practice good food handling and hygiene practices.
+              </Typography>
+              <Typography variant="body1" gutterBottom>
+                This includes safe food practices like protecting foods from contamination, minimizing direct handling
+                of food and preventing cross contamination of foods.
+              </Typography>
+            </Fragment>
           )}
           <Field
             name="hasSchedulesForKitchenEatingAreas"
