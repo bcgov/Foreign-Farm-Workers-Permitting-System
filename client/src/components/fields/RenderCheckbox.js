@@ -5,7 +5,7 @@ import { ErrorMessage } from 'formik';
 
 import { InputFieldLabel, InputFieldError } from '../generic';
 
-const RenderCheckbox = ({
+export const RenderCheckbox = ({
   field,
   form,
   label,
@@ -28,5 +28,3 @@ const RenderCheckbox = ({
     </Fragment>
   );
 };
-
-export { RenderCheckbox };

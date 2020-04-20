@@ -20,9 +20,11 @@ export default () => {
   const handlePDFClick = async () => {
     const form = document.getElementById('form');
     const fileName = `submission_${location.state?.id}.pdf`;
+    const filter = (node) => node.id !== 'downloadBtn';
+
     try {
       setPDFLoading(true);
-      await convertElementToPDF(form, fileName);
+      await convertElementToPDF(form, fileName, filter);
     } catch (e) {
       openToast({ status: ToastStatus.Error, message: 'Failed to download PDF' });
     } finally {
@@ -44,7 +46,7 @@ export default () => {
                     Write down this confirmation number and print this page for your records.
                   </Typography>
                 </Grid>
-                <Grid item>
+                <Grid item id="downloadBtn">
                   <Button
                     text="Download PDF"
                     onClick={handlePDFClick}

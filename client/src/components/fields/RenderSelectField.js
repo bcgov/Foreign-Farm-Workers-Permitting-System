@@ -5,7 +5,7 @@ import { ErrorMessage } from 'formik';
 
 import { InputFieldError, InputFieldLabel } from '../generic';
 
-const RenderSelectField = ({
+export const RenderSelectField = ({
   field: { value, ...fieldRest },
   form,
   label,
@@ -36,5 +36,3 @@ const RenderSelectField = ({
     </Fragment>
   );
 };
-
-export { RenderSelectField };

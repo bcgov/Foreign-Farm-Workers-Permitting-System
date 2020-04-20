@@ -17,7 +17,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const Button = ({
+export const Button = ({
   text,
   loading,
   disabled,
@@ -37,5 +37,3 @@ const Button = ({
     </MuiButton>
   )
 };
-
-export { Button };

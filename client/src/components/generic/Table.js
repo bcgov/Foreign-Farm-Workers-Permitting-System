@@ -31,7 +31,7 @@ const StyledTableRow = withStyles((theme) => ({
   },
 }))(TableRow);
 
-const Table = ({ columns, rows, isLoading }) => {
+export const Table = ({ columns, rows, isLoading }) => {
   return (
     <Card noPadding>
       <MuiTable>
@@ -61,5 +61,3 @@ const Table = ({ columns, rows, isLoading }) => {
     </Card>
   );
 };
-
-export { Table };

@@ -9,7 +9,7 @@ const Alert = (props) => {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 };
 
-const Toast = () => {
+export const Toast = () => {
   const { closeToast, state: { isOpen, status, message } } = useToast();
   return (ReactDOM.createPortal(
     <Snackbar
@@ -27,5 +27,3 @@ const Toast = () => {
     </Snackbar>, document.body,
   ));
 };
-
-export { Toast };

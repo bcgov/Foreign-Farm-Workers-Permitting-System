@@ -22,11 +22,13 @@ export default () => {
 
   const handleSubmit = async (values) => {
     setLoading(true);
+
     const response = await fetch('/api/v1/login', {
       headers: { 'Accept': 'application/json', 'Content-type': 'application/json' },
       method: 'POST',
       body: JSON.stringify({ ...values })
     });
+
     if (response.ok) {
       const { token } = await response.json();
       window.localStorage.setItem('jwt', token);
@@ -38,7 +40,7 @@ export default () => {
   };
 
   return (
-    <Page >
+    <Page>
       <Grid container alignItems="center" justify="center" >
         <Grid item xs={12} sm={8} md={6} lg={4} xl={3}>
           <Box m={2}>

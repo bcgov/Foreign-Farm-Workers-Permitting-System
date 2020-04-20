@@ -10,7 +10,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const Page = ({ children }) => {
+export const Page = ({ children }) => {
   const classes = useStyles();
   return (
     <Fragment>
@@ -21,5 +21,3 @@ const Page = ({ children }) => {
     </Fragment>
   );
 };
-
-export { Page };

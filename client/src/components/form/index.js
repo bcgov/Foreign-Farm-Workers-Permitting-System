@@ -197,23 +197,27 @@ export const Form = ({ initialValues, isDisabled }) => {
 
   const handleSubmit = async (values) => {
     setSubmitLoading(true);
+
     const modifiedValues = handleSubmission(values);
     const response = await fetch('/api/v1/form', {
       method: 'POST',
       headers: { 'Accept': 'application/json', 'Content-type': 'application/json' },
       body: JSON.stringify({ ...modifiedValues }),
     });
+
     if (response.ok) {
       const { id, error } = await response.json();
       if (error) {
         openToast({ status: ToastStatus.Error, message: error.message || 'Failed to submit this form' });
       } else {
-        history.push(Routes.Confirmation, { formValues: modifiedValues, id });
+        history.push(Routes.Confirmation, { formValues: values, id });
+        scrollUp();
         return;
       }
     } else {
       openToast({ status: ToastStatus.Error, message: response.error || response.statusText || 'Server error' });
     }
+
     setSubmitLoading(false);
     scrollUp();
   };
@@ -350,16 +354,25 @@ export const Form = ({ initialValues, isDisabled }) => {
                       backButton={(
                         <Button
                           fullWidth={false}
-                          text={(<Fragment><KeyboardArrowLeft /> Back</Fragment>)}
-                          onClick={handleBackClicked} disabled={isFirstStep}
+                          disabled={isFirstStep}
+                          onClick={handleBackClicked}
+                          text={(
+                            <Fragment>
+                              <KeyboardArrowLeft /> Back
+                            </Fragment>
+                          )}
                         />
                       )}
                       nextButton={(
                         <Button
                           fullWidth={false}
                           loading={submitLoading}
-                          text={(<Fragment>Next <KeyboardArrowRight /></Fragment>)}
-                          onClick={() => handleNextClicked(submitForm, setTouched, values)} disabled={isLastStep}
+                          onClick={() => handleNextClicked(submitForm, setTouched, values)}
+                          text={isLastStep ? 'Submit' : (
+                            <Fragment>
+                              Next <KeyboardArrowRight />
+                            </Fragment>
+                          )}
                         />
                       )}
                     />

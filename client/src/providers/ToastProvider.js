@@ -14,9 +14,7 @@ export const ToastProvider = ({ children }) => {
   const contextValue = {
     showToast,
     hideToast,
-    state: {
-      ...state,
-    }
+    state,
   };
 
   return (

@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Header = () => {
+export const Header = () => {
   const history = useHistory();
   const location = useLocation();
   const params = useParams();
@@ -100,5 +100,3 @@ const Header = () => {
     </div>
   );
 };
-
-export { Header };

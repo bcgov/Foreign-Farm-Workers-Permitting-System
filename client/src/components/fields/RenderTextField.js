@@ -4,7 +4,7 @@ import { ErrorMessage } from 'formik';
 
 import { InputFieldLabel, InputFieldError } from '../generic';
 
-const RenderTextField = ({
+export const RenderTextField = ({
   field: { value, ...fieldRest },
   form,
   label,
@@ -27,5 +27,3 @@ const RenderTextField = ({
     </Fragment>
   );
 };
-
-export { RenderTextField };
