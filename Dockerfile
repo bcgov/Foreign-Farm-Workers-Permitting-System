@@ -2,7 +2,7 @@
 FROM node:12-alpine AS client
 
 # Build client
-RUN apk add --no-cache git
+RUN apk add --no-cache git python g++ make
 WORKDIR /client
 COPY client/package*.json ./
 RUN npm set progress=false && npm ci --no-cache
