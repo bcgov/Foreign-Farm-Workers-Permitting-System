@@ -205,7 +205,7 @@ export const SectionOne = ({ isDisabled }) => {
         disabled={isDisabled}
         label={(
           <span>
-            I have downloaded and read the BC Ministry of Agriculture’s COVID-19 requirements,&nbsp;
+            I have downloaded and read the Province of BC's COVID-19 requirements,&nbsp;
             <Link
               href="https://www2.gov.bc.ca/assets/gov/health/about-bc-s-health-care-system/office-of-the-provincial-health-officer/covid-19/covid-19-pho-guidance-farms-farm-workers.pdf"
               rel="noreferrer noopenner"
