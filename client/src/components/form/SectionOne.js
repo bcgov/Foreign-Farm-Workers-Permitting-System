@@ -204,7 +204,7 @@ export const SectionOne = ({ isDisabled }) => {
         component={RenderCheckbox}
         disabled={isDisabled}
         label={(
-          <Typography component="span">
+          <span>
             I have downloaded and read the BC Ministry of Agriculture’s COVID-19 requirements,&nbsp;
             <Link
               href="https://www2.gov.bc.ca/assets/gov/health/about-bc-s-health-care-system/office-of-the-provincial-health-officer/covid-19/covid-19-pho-guidance-farms-farm-workers.pdf"
@@ -213,7 +213,7 @@ export const SectionOne = ({ isDisabled }) => {
             >
               Protecting BC Farmers and Farm Workers During the COVID-19 Pandemic.
             </Link>
-          </Typography>
+          </span>
         )}
       />
       <Field

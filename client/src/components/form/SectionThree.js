@@ -1,14 +1,23 @@
-import React, { Fragment } from 'react';
+import React, { useEffect, Fragment } from 'react';
 import Alert from '@material-ui/lab/Alert';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import { Field } from 'formik';
+import { Field, useFormikContext } from 'formik';
 
 import { Card } from '../generic';
 import { RenderCheckbox, RenderRadioGroup, } from '../../components/fields';
 
 export const SectionThree = ({ isDisabled }) => {
+  const { values, setFieldValue } = useFormikContext();
+  const { bedroomAccommodation } = values;
+
+  useEffect(() => {
+    if (!isDisabled) {
+      setFieldValue('areBedsInRightConfiguration', false);
+    }
+  }, [setFieldValue, bedroomAccommodation]);
+
   return (
     <Card noPadding={isDisabled} noShadow={isDisabled}>
       <Grid container spacing={3}>
@@ -99,7 +108,7 @@ export const SectionThree = ({ isDisabled }) => {
               hiddenCheckbox={{
                 fields: ['shared', 'both'],
                 node: (
-                  <Box ml={1}>
+                  <Box ml={2.5}>
                     <Field
                       name="areBedsInRightConfiguration"
                       component={RenderCheckbox}
