@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import _orderBy from 'lodash/orderBy';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import { useHistory } from 'react-router-dom';
+
 import { Routes } from '../../constants';
 import { dateToString, mapDetermination } from '../../utils';
 
@@ -13,17 +13,10 @@ export default () => {
   const history = useHistory();
 
   const [lookupError, setLookupError] = useState(null);
-  const [order, setOrder] = useState('asc');
   const [isLoading, setLoading] = useState(false);
   const [rows, setRows] = useState([]);
 
-  const columns = [
-    { id: 'createdAt', name: 'Date Submitted' },
-    { id: 'registeredBusinessName', name: 'Business Name' },
-    { id: 'determination', name: 'Decision' },
-    { id: 'id', name: 'Confirmation Number' },
-  ];
-  const [orderBy, setOrderBy] = useState(columns[0].id);
+  const columns = ['Date Submitted', 'Business Name', 'Decision', 'Confirmation Number'];
 
   /**
    * On page load, perform a query to find all submissions.
@@ -31,18 +24,20 @@ export default () => {
   useEffect(() => {
     (async () => {
       setLoading(true);
+
       const jwt = window.localStorage.getItem('jwt');
       const response = await fetch(`/api/v1/forms`, {
         headers: { 'Accept': 'application/json', 'Content-type': 'application/json', 'Authorization': `Bearer ${jwt}` },
         method: 'GET',
       });
+
       if (response.ok) {
         const submissions = await response.json();
         const rows = submissions.map((submission) => ({
-          createdAt: dateToString(submission.createdAt),
+          dateSubmitted: dateToString(submission.createdAt),
           registeredBusinessName: submission.registeredBusinessName,
-          determination: mapDetermination(submission.determination),
-          id: submission.id,
+          decision: mapDetermination(submission.determination),
+          confirmationNumber: submission.id,
           viewMore: (
             <Button
               onClick={() => history.push(Routes.SubmissionDetails.dynamicRoute(submission.id))}
@@ -56,17 +51,10 @@ export default () => {
       } else {
         setLookupError(response.error || 'No submissions found');
       }
+
       setLoading(false);
     })();
   }, []);
-
-  const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
-    setOrderBy(property);
-  };
-
-  const sort = (array) => _orderBy(array, [orderBy, 'createdAt'], [order]);
 
   return (
     <Page>
@@ -92,10 +80,7 @@ export default () => {
                 {!lookupError && (
                   <Table
                     columns={columns}
-                    order={order}
-                    orderBy={orderBy}
-                    onRequestSort={handleRequestSort}
-                    rows={sort(rows)}
+                    rows={rows}
                     isLoading={isLoading}
                   />
                 )}
