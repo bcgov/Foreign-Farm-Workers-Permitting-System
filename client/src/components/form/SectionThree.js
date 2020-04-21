@@ -1,4 +1,4 @@
-import React, { useEffect, Fragment } from 'react';
+import React, { useEffect, Fragment, useRef } from 'react';
 import Alert from '@material-ui/lab/Alert';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
@@ -11,11 +11,13 @@ import { RenderCheckbox, RenderRadioGroup, } from '../../components/fields';
 export const SectionThree = ({ isDisabled }) => {
   const { values, setFieldValue } = useFormikContext();
   const { bedroomAccommodation } = values;
+  const firstMount = useRef(true);
 
   useEffect(() => {
-    if (!isDisabled && bedroomAccommodation !== 'shared') {
+    if (!isDisabled && !firstMount.current) {
       setFieldValue('areBedsInRightConfiguration', false);
     }
+    firstMount.current = false;
   }, [bedroomAccommodation]);
 
   return (
