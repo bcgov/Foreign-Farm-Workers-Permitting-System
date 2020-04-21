@@ -13,10 +13,10 @@ export const SectionThree = ({ isDisabled }) => {
   const { bedroomAccommodation } = values;
 
   useEffect(() => {
-    if (!isDisabled) {
+    if (!isDisabled && bedroomAccommodation !== 'shared') {
       setFieldValue('areBedsInRightConfiguration', false);
     }
-  }, [setFieldValue, bedroomAccommodation]);
+  }, [bedroomAccommodation]);
 
   return (
     <Card noPadding={isDisabled} noShadow={isDisabled}>
