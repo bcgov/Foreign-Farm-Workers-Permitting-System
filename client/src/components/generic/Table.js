@@ -4,6 +4,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Skeleton from '@material-ui/lab/Skeleton';
 import { withStyles } from '@material-ui/core/styles';
 
@@ -31,14 +32,26 @@ const StyledTableRow = withStyles((theme) => ({
   },
 }))(TableRow);
 
-const Table = ({ columns, rows, isLoading }) => {
+const Table = ({ order, orderBy, onRequestSort, columns, rows, isLoading }) => {
+
+  const createSortHandler = (property) => (event) => {
+    onRequestSort(event, property);
+  };
+
   return (
     <Card noPadding>
       <MuiTable>
         <TableHead>
           <TableRow>
             {columns.map((column, index) => (
-              <StyledTableCell key={index}>{column}</StyledTableCell>
+              <StyledTableCell key={index}>
+                <TableSortLabel
+                  active={orderBy === column.id}
+                  direction={orderBy === column.id ? order : 'asc'}
+                  onClick={createSortHandler(column.id)}>
+                  {column.name}
+                </TableSortLabel>
+              </StyledTableCell>
             ))}
           </TableRow>
         </TableHead>
