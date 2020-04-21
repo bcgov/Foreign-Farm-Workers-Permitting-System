@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import _ from 'lodash'
+import _orderBy from 'lodash/orderBy';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
@@ -66,7 +66,7 @@ export default () => {
     setOrderBy(property);
   };
 
-  const sort = (array) => _.orderBy(array, [orderBy, 'createdAt'], [order]);
+  const sort = (array) => _orderBy(array, [orderBy, 'createdAt'], [order]);
 
   return (
     <Page>
