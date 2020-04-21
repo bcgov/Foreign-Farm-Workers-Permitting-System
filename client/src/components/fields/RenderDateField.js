@@ -6,7 +6,7 @@ import { dateToString, stringToDate } from '../../utils';
 
 import { InputFieldError, InputFieldLabel } from '../generic';
 
-const RenderDateField = ({
+export const RenderDateField = ({
   field,
   form,
   label,
@@ -35,5 +35,3 @@ const RenderDateField = ({
     </Fragment>
   );
 };
-
-export { RenderDateField };

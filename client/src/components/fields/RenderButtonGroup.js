@@ -8,7 +8,6 @@ import { InputFieldError, Button } from '../generic';
 
 const useStyles = makeStyles((theme) => ({
   button: {
-    // padding: theme.spacing(2),
     boxShadow: 'none',
   },
   buttonError: {
@@ -19,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const RenderButtonGroup = ({
+export const RenderButtonGroup = ({
   field,
   form,
   options,
@@ -51,5 +50,3 @@ const RenderButtonGroup = ({
     </Fragment>
   );
 };
-
-export { RenderButtonGroup };

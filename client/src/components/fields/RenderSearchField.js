@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const RenderSearchField = ({
+export const RenderSearchField = ({
   ...props
 }) => {
   const classes = useStyles();
@@ -55,5 +55,3 @@ const RenderSearchField = ({
     </Fragment>
   );
 };
-
-export { RenderSearchField };

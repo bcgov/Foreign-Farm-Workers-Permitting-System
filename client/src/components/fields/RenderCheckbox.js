@@ -3,9 +3,9 @@ import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { ErrorMessage } from 'formik';
 
-import { InputFieldLabel, InputFieldError } from '../generic';
+import { InputFieldError } from '../generic';
 
-const RenderCheckbox = ({
+export const RenderCheckbox = ({
   field,
   form,
   label,
@@ -14,7 +14,8 @@ const RenderCheckbox = ({
   return (
     <Fragment>
       <FormControlLabel
-        label={<InputFieldLabel label={label} />}
+        label={label}
+        labelPlacement="end"
         control={
           <Checkbox
             color="primary"
@@ -28,5 +29,3 @@ const RenderCheckbox = ({
     </Fragment>
   );
 };
-
-export { RenderCheckbox };

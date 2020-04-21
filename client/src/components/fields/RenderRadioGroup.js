@@ -6,7 +6,7 @@ import { ErrorMessage } from 'formik';
 
 import { InputFieldError, InputFieldLabel } from '../generic';
 
-const RenderRadioGroup = ({
+export const RenderRadioGroup = ({
   field,
   form,
   label,
@@ -50,5 +50,3 @@ const RenderRadioGroup = ({
     </Fragment>
   );
 };
-
-export { RenderRadioGroup };

@@ -102,7 +102,7 @@ export default () => {
     });
 
     if (response.ok) {
-      openToast({ status: ToastStatus.Success, message: response.error || 'Submission updated.' });
+      openToast({ status: ToastStatus.Success, message: 'Submission updated.' });
       history.push(Routes.Submissions);
     } else {
       openToast({ status: ToastStatus.Error, message: response.error || 'Failed to update this submission.' });

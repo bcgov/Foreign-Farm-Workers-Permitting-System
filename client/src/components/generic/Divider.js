@@ -16,9 +16,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const Divider = ({ isLight }) => {
+export const Divider = ({ isLight }) => {
   const classes = useStyles();
   return <hr className={classNames(classes.divider, { [classes.light]: isLight })} />;
 };
-
-export { Divider };

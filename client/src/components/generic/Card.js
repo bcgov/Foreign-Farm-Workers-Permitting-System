@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Card = ({ children, title, noPadding, noShadow, className, ...props }) => {
+export const Card = ({ children, title, noPadding, noShadow, className, ...props }) => {
   const classes = useStyles();
   return (
     <MuiCard
@@ -41,5 +41,3 @@ const Card = ({ children, title, noPadding, noShadow, className, ...props }) => 
     </MuiCard>
   )
 };
-
-export { Card };
