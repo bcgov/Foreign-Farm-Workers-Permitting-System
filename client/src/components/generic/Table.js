@@ -32,7 +32,7 @@ const StyledTableRow = withStyles((theme) => ({
   },
 }))(TableRow);
 
-const Table = ({ order, orderBy, onRequestSort, columns, rows, isLoading }) => {
+export const Table = ({ order, orderBy, onRequestSort, columns, rows, isLoading }) => {
 
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
