@@ -251,7 +251,7 @@ export const SectionThree = ({ isDisabled }) => {
           {!isDisabled && (
             <Fragment>
               <Typography variant="body1" paragraph>
-                Keeping a 2 meter distance between people is one of the most important ways to break the chain of
+                Keeping a 2 metre distance between people is one of the most important ways to break the chain of
                 transmission of COVID-19.  Farm operators can take practical steps to ensure physical distancing
                 is maintained while workers are transported to or from the work site, while working indoors or
                 outdoors, during break times.
