@@ -3,39 +3,22 @@ import html2canvas from 'html2canvas';
 
 export const convertElementToPDF = async (element, fileName, filter = () => true) => {
   try {
-    const canvas0 = await html2canvas(element, {
-      y: 0,
-      height: window.outerHeight + window.innerHeight,
-      windowHeight: window.outerHeight + window.innerHeight,
-    });
+    const pageNumber = 3;
+    const content = [];
 
-    const canvas1 = await html2canvas(element, {
-      y: (window.outerHeight + window.innerHeight) * 1,
-      height: window.outerHeight + window.innerHeight,
-      windowHeight: window.outerHeight + window.innerHeight,
-    });
+    for (let i = 0; i < pageNumber; i++) {
+      const canvas = await html2canvas(element, {
+        y: (window.outerHeight + window.innerHeight) * i,
+        height: window.outerHeight + window.innerHeight,
+        windowHeight: window.outerHeight + window.innerHeight,
+      });
 
-    const canvas2 = await html2canvas(element, {
-      y: (window.outerHeight + window.innerHeight) * 2,
-      height: window.outerHeight + window.innerHeight,
-      windowHeight: window.outerHeight + window.innerHeight,
-    });
-
-    const docDefinition = {
-      content: [{
-        image: canvas0.toDataURL(),
+      content.push({
+        image: canvas.toDataURL(),
         width: 500,
-      },
-      {
-        image: canvas1.toDataURL(),
-        width: 500,
-      },
-      {
-        image: canvas2.toDataURL(),
-        width: 500,
-      }]
-    };
-    pdfMake.createPdf(docDefinition).download(fileName);
+      })
+    }
+    pdfMake.createPdf({ content }).download(fileName);
   } catch (e) {
     throw (e);
   }
