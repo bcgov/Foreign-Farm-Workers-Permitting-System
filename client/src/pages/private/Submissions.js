@@ -66,7 +66,14 @@ export default () => {
     setOrderBy(property);
   };
 
-  const sort = (array) => _orderBy(array, [orderBy, 'createdAt'], [order]);
+  const sortConfig = () => {
+    if (orderBy === 'registeredBusinessName') {
+      return [item => item.registeredBusinessName.toLowerCase(), 'createdAt'];
+    }
+    return [orderBy, 'createdAt'];
+  };
+
+  const sort = (array) => _orderBy(array, sortConfig(), [order]);
 
   return (
     <Page>
@@ -107,3 +114,4 @@ export default () => {
     </Page>
   );
 };
+
