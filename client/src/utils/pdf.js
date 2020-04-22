@@ -1,26 +1,43 @@
-import domtoimage from 'dom-to-image';
-import jsPDF from 'jspdf';
+import pdfMake from 'pdfmake/build/pdfmake';
+import html2canvas from 'html2canvas';
 
 export const convertElementToPDF = async (element, fileName, filter = () => true) => {
-  const dataUrl = await domtoimage.toPng(element, { filter });
-  const i = new Image();
-  i.src = dataUrl;
-  i.onload = () => {
-    let pdf;
-    let width = i.width;
-    let height = i.height;
+  try {
+    const canvas0 = await html2canvas(element, {
+      y: 0,
+      height: window.outerHeight + window.innerHeight,
+      windowHeight: window.outerHeight + window.innerHeight,
+    });
 
-    // Set the orientation
-    if (width > height) {
-      pdf = new jsPDF('l', 'px', [width, height]);
-    } else {
-      pdf = new jsPDF('p', 'px', [height, width]);
-    }
+    const canvas1 = await html2canvas(element, {
+      y: (window.outerHeight + window.innerHeight) * 1,
+      height: window.outerHeight + window.innerHeight,
+      windowHeight: window.outerHeight + window.innerHeight,
+    });
 
-    // Then get the dimensions from the 'pdf' file itself
-    width = pdf.internal.pageSize.getWidth();
-    height = pdf.internal.pageSize.getHeight();
-    pdf.addImage(i.src, 'PNG', 0, 0, width, height);
-    pdf.save(fileName);
-  };
+    const canvas2 = await html2canvas(element, {
+      y: (window.outerHeight + window.innerHeight) * 2,
+      height: window.outerHeight + window.innerHeight,
+      windowHeight: window.outerHeight + window.innerHeight,
+    });
+
+    const docDefinition = {
+      content: [{
+        image: canvas0.toDataURL(),
+        width: 500,
+      },
+      {
+        image: canvas1.toDataURL(),
+        width: 500,
+      },
+      {
+        image: canvas2.toDataURL(),
+        width: 500,
+      }]
+    };
+    pdfMake.createPdf(docDefinition).download(fileName);
+  } catch (e) {
+    throw (e);
+  }
 };
+
