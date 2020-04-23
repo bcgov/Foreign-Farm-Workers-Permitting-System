@@ -8,7 +8,7 @@ import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { Field } from 'formik';
+import { FastField } from 'formik';
 
 import { Card } from '../generic';
 import { RenderCheckbox } from '../../components/fields';
@@ -56,31 +56,31 @@ export const SectionFive = ({ isDisabled }) => {
             </Fragment>
           )}
 
-          <Field
+          <FastField
             name="hasFacilitiesToSeparateAndSelfIsolate"
             component={RenderCheckbox}
             label="I have the facilities to promptly separate and self-isolate the individual from others in their own accommodation."
             disabled={isDisabled}
           />
-          <Field
+          <FastField
             name="isPreparedToProvideIndividualsExhibitingSymptoms"
             component={RenderCheckbox}
             label="I am prepared to provide individuals exhibiting symptoms of COVID-19 with a surgical/procedural mask or tissues to cover their mouth and nose."
             disabled={isDisabled}
           />
-          <Field
+          <FastField
             name="isPreparedToDirectPersonToHealthLinkBC"
             component={RenderCheckbox}
             label="I am prepared to direct the person to call HealthLinkBC (8-1-1)."
             disabled={isDisabled}
           />
-          <Field
+          <FastField
             name="isPreparedToCleanAndDisinfectRooms"
             component={RenderCheckbox}
             label="I am prepared to clean and disinfect any rooms that the person has been in while symptomatic."
             disabled={isDisabled}
           />
-          <Field
+          <FastField
             name="isWillingToInformManagementAboutCommercialAccommodation"
             component={RenderCheckbox}
             label="If commercial accommodation is being used to self-isolate, then I will inform management of the situation and necessary requirements."
@@ -112,7 +112,7 @@ export const SectionFive = ({ isDisabled }) => {
               <Typography variant="subtitle2" paragraph>
                 Provide food for ill workers
               </Typography>
-              <Field
+              <FastField
                 name="isAbleToProvideFoodInSafeManner"
                 component={RenderCheckbox}
                 label="I am able to provide food in a safe manner to a self-isolated worker."
@@ -151,7 +151,7 @@ export const SectionFive = ({ isDisabled }) => {
               <Typography variant="subtitle2" paragraph>
                 Housekeeping for ill-workers
               </Typography>
-              <Field
+              <FastField
                 name="isAbleToPerformAdequateHousekeeping"
                 component={RenderCheckbox}
                 label="I am able to perform adequate housekeeping for a self-isolated worker."
@@ -207,7 +207,7 @@ export const SectionFive = ({ isDisabled }) => {
                 Waste management for ill-workers
               </Typography>
 
-              <Field
+              <FastField
                 name="isAbleToPerformWasteManagement"
                 component={RenderCheckbox}
                 label="I am able to perform waste management for supporting a self-isolated worker."

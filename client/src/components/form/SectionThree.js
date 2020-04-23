@@ -3,7 +3,7 @@ import Alert from '@material-ui/lab/Alert';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import { Field, useFormikContext } from 'formik';
+import { FastField, useFormikContext } from 'formik';
 
 import { Card } from '../generic';
 import { RenderCheckbox, RenderRadioGroup, } from '../../components/fields';
@@ -59,19 +59,19 @@ export const SectionThree = ({ isDisabled }) => {
               if workers have questions about COVID-19.
             </Typography>
           )}
-          <Field
+          <FastField
             name="hasSignage"
             component={RenderCheckbox}
             label="I have signage in place in the appropriate language on how workers can protect themselves from COVID-19."
             disabled={isDisabled}
           />
-          <Field
+          <FastField
             name="hasSomeoneIdentified"
             component={RenderCheckbox}
             label="I have someone identified that workers can go to if they have questions on COVID-19."
             disabled={isDisabled}
           />
-          <Field
+          <FastField
             name="hasContactedLocalMedicalHealthOfficer"
             component={RenderCheckbox}
             label="I have contacted my local Medical Health Officer to alert them to the arrival of temporary foreign workers to the region."
@@ -90,14 +90,14 @@ export const SectionThree = ({ isDisabled }) => {
               and provide sufficient physical distance (beds 2m apart and head-to-toe in shared accommodations).
             </Typography>
           )}
-          <Field
+          <FastField
             name="doCommonAreasAllowPhysicalDistancing"
             component={RenderCheckbox}
             label="Common areas allow physical distancing of 2m / 6ft at all times."
             disabled={isDisabled}
           />
           <Box mt={1}>
-            <Field
+            <FastField
               name="bedroomAccommodation"
               component={RenderRadioGroup}
               label="Do you have:"
@@ -111,7 +111,7 @@ export const SectionThree = ({ isDisabled }) => {
                 fields: ['shared', 'both'],
                 node: (
                   <Box ml={2.5}>
-                    <Field
+                    <FastField
                       name="areBedsInRightConfiguration"
                       component={RenderCheckbox}
                       label="Beds in the right configuration with the right distance apart."
@@ -134,13 +134,13 @@ export const SectionThree = ({ isDisabled }) => {
               Self-isolation of any worker that becomes ill is a critical part of preventing the spread of COVID-19.
             </Typography>
           )}
-          <Field
+          <FastField
             name="doesUnderstandNeedsForSelfIsolation"
             component={RenderCheckbox}
             label="I understand what is needed for a person to self-isolate."
             disabled={isDisabled}
           />
-          <Field
+          <FastField
             name="hasSeparateAccommodationForWorker"
             component={RenderCheckbox}
             label="I have separate accommodation to let a worker self-isolate away from other workers or have arranged for separate accommodation."
@@ -159,7 +159,7 @@ export const SectionThree = ({ isDisabled }) => {
               hot water for laundry machines and having adequate supply of detergent.
             </Typography>
           )}
-          <Field
+          <FastField
             name="hasLaundryServices"
             component={RenderCheckbox}
             label="I have laundry services available for regular use."
@@ -179,19 +179,19 @@ export const SectionThree = ({ isDisabled }) => {
               leak resistant garbage bags for containing waste.
             </Typography>
           )}
-          <Field
+          <FastField
             name="hasDisposableGloves"
             component={RenderCheckbox}
             label="I have disposable gloves for the handling of garbage or there is access to hand hygiene facilities either through hand hygiene stations or the provisions of hand sanitizer."
             disabled={isDisabled}
           />
-          <Field
+          <FastField
             name="hasWasteRemovalSchedule"
             component={RenderCheckbox}
             label="I have a waste removal schedule."
             disabled={isDisabled}
           />
-          <Field
+          <FastField
             name="hasSturdyLeakResistantGarbageBags"
             component={RenderCheckbox}
             label="I have sturdy, leak resistant garbage bags."
@@ -211,31 +211,31 @@ export const SectionThree = ({ isDisabled }) => {
               through hand hygiene stations or the provisions of hand sanitizer.
             </Typography>
           )}
-          <Field
+          <FastField
             name="hasHandWashingSinks"
             component={RenderCheckbox}
             label="I have an adequate number of hand washing sinks available to workers."
             disabled={isDisabled}
           />
-          <Field
+          <FastField
             name="hasAppropriateSupplyOfSinkWater"
             component={RenderCheckbox}
             label="There is an appropriate supply of warm water for all sinks."
             disabled={isDisabled}
           />
-          <Field
+          <FastField
             name="hasPlainSoap"
             component={RenderCheckbox}
             label="I have provided plain soap."
             disabled={isDisabled}
           />
-          <Field
+          <FastField
             name="hasPaperTowels"
             component={RenderCheckbox}
             label="I have provided disposable paper towels."
             disabled={isDisabled}
           />
-          <Field
+          <FastField
             name="hasHandWashingSigns"
             component={RenderCheckbox}
             label="I have put up signs to promote regular hand washing."
@@ -262,13 +262,13 @@ export const SectionThree = ({ isDisabled }) => {
               </Typography>
             </Fragment>
           )}
-          <Field
+          <FastField
             name="hasSleepingArrangements"
             component={RenderCheckbox}
             label="I have sleeping arrangements that maintains physical distancing or uses physical barriers."
             disabled={isDisabled}
           />
-          <Field
+          <FastField
             name="hasPhysicalBarriers"
             component={RenderCheckbox}
             label="I have physical barriers like face shields or masks for situations where physical distancing is not possible."
@@ -288,7 +288,7 @@ export const SectionThree = ({ isDisabled }) => {
               household cleaners are effective against COVID-19, following the instructions on the label.
             </Typography>
           )}
-          <Field
+          <FastField
             name="hasScheduleToEnsureTouchAreasAreCleaned"
             component={RenderCheckbox}
             label="I have a schedule to ensure common and high touch areas are cleaned or disinfected at the start and end of each day."

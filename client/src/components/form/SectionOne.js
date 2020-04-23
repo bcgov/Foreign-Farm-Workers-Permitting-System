@@ -8,7 +8,7 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import PhoneIcon from '@material-ui/icons/Phone';
-import { Field } from 'formik';
+import { FastField } from 'formik';
 
 import { Card, Divider } from '../../components/generic';
 import { RenderCheckbox } from '../../components/fields';
@@ -202,7 +202,7 @@ export const SectionOne = ({ isDisabled }) => {
           To begin your application, please certify:
         </Typography>
       )}
-      <Field
+      <FastField
         name="hasDownloadedBCMinistryAgricultureCovid19Requirements"
         component={RenderCheckbox}
         disabled={isDisabled}
@@ -219,13 +219,13 @@ export const SectionOne = ({ isDisabled }) => {
           </span>
         )}
       />
-      <Field
+      <FastField
         name="hasCompletedCovid19WorkplaceRiskAssessment"
         component={RenderCheckbox}
         label="I have completed a COVID-19 workplace risk assessment of my farm operation"
         disabled={isDisabled}
       />
-      <Field
+      <FastField
         name="hasCreatedCovid19InfectionPreventionAndControlProtocol"
         component={RenderCheckbox}
         label="I have created a COVID-19 Infection Prevention and Control Protocol"

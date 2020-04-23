@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import { Field } from 'formik';
+import { FastField } from 'formik';
 
 import { Card } from '../generic';
 import { RenderCheckbox } from '../../components/fields';
@@ -36,31 +36,31 @@ export const SectionFour = ({ isDisabled }) => {
               safe work practices, and how to report symptoms.
             </Typography>
           )}
-          <Field
+          <FastField
             name="hasMaterialsOnRiskOfExposure"
             component={RenderCheckbox}
             label="I have materials ready on the risk of exposure of COVID-19 and the signs and symptoms of the disease."
             disabled={isDisabled}
           />
-          <Field
+          <FastField
             name="hasMaterialsOnHandWashingPhysicalDistancingCoughSneeze"
             component={RenderCheckbox}
             label="I have materials ready on hand washing, physical distancing, and cough/sneeze etiquette."
             disabled={isDisabled}
           />
-          <Field
+          <FastField
             name="hasMaterialsOnHandWashingFacilities"
             component={RenderCheckbox}
             label="I can provide locations of hand washing facilities, including dispensing stations for alcohol-based hand rubs."
             disabled={isDisabled}
           />
-          <Field
+          <FastField
             name="hasMaterialsReadyOnHowToSeekFirstAid"
             component={RenderCheckbox}
             label="I have materials ready on how to seek first aid."
             disabled={isDisabled}
           />
-          <Field
+          <FastField
             name="hasMaterialsReadyOnHowToReportExposure"
             component={RenderCheckbox}
             label="I have materials ready on how to report an exposure to or symptoms of COVID-19."
@@ -84,19 +84,19 @@ export const SectionFour = ({ isDisabled }) => {
               </Typography>
             </Fragment>
           )}
-          <Field
+          <FastField
             name="hasSchedulesForKitchenEatingAreas"
             component={RenderCheckbox}
             label="I have schedules in place for kitchen/eating areas to limit contact and maintain 2 metre physical distancing."
             disabled={isDisabled}
           />
-          <Field
+          <FastField
             name="doWorkersHaveOwnDishware"
             component={RenderCheckbox}
             label="Each worker has their own dishware, utensils and drinking cup or provided disposable alternatives."
             disabled={isDisabled}
           />
-          <Field
+          <FastField
             name="isDishwareWashedImmediately"
             component={RenderCheckbox}
             label="Used dishware will be washed immediately."

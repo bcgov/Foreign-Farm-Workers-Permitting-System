@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import { Field, FastField, FieldArray, useFormikContext } from 'formik';
+import { FastField, FieldArray, useFormikContext } from 'formik';
 
 import { Card, Divider } from '../../components/generic';
 import { RenderCheckbox, RenderRadioGroup, RenderSelectField, RenderTextField } from '../../components/fields';
@@ -63,7 +63,7 @@ export const SectionTwo = ({ isDisabled }) => {
         )}
 
         <Grid item xs={12} sm={6}>
-          <Field
+          <FastField
             name="registeredBusinessName"
             component={RenderTextField}
             label="Registered Business Name"
@@ -81,7 +81,7 @@ export const SectionTwo = ({ isDisabled }) => {
           </Typography>
         </Grid>
         <Grid item xs={12} sm={6}>
-          <Field
+          <FastField
             name="firstName"
             component={RenderTextField}
             label="First Name"
@@ -89,7 +89,7 @@ export const SectionTwo = ({ isDisabled }) => {
           />
         </Grid>
         <Grid item xs={12} sm={6}>
-          <Field
+          <FastField
             name="lastName"
             component={RenderTextField}
             label="Last Name"
@@ -97,7 +97,7 @@ export const SectionTwo = ({ isDisabled }) => {
           />
         </Grid>
         <Grid item xs={12} sm={6}>
-          <Field
+          <FastField
             name="phoneNumber"
             component={RenderTextField}
             label="Phone Number"
@@ -105,7 +105,7 @@ export const SectionTwo = ({ isDisabled }) => {
           />
         </Grid>
         <Grid item xs={12} sm={6}>
-          <Field
+          <FastField
             name="alternatePhoneNumber"
             component={RenderTextField}
             label="Alternate phone number (optional)"
@@ -113,7 +113,7 @@ export const SectionTwo = ({ isDisabled }) => {
           />
         </Grid>
         <Grid item xs={12} sm={6}>
-          <Field
+          <FastField
             name="emailAddress"
             component={RenderTextField}
             label="E-mail Address"
@@ -131,7 +131,7 @@ export const SectionTwo = ({ isDisabled }) => {
           </Typography>
         </Grid>
         <Grid item xs={12} sm={6}>
-          <Field
+          <FastField
             name="addressLine1"
             component={RenderTextField}
             label="Address line 1"
@@ -139,7 +139,7 @@ export const SectionTwo = ({ isDisabled }) => {
           />
         </Grid>
         <Grid item xs={12} sm={6}>
-          <Field
+          <FastField
             name="addressLine2"
             component={RenderTextField}
             label="Address line 2 (optional)"
@@ -147,7 +147,7 @@ export const SectionTwo = ({ isDisabled }) => {
           />
         </Grid>
         <Grid item xs={12} sm={6}>
-          <Field
+          <FastField
             name="city"
             component={RenderTextField}
             label="City"
@@ -155,7 +155,7 @@ export const SectionTwo = ({ isDisabled }) => {
           />
         </Grid>
         <Grid item xs={12} sm={6}>
-          <Field
+          <FastField
             name="province"
             component={RenderSelectField}
             label="Province"
@@ -164,7 +164,7 @@ export const SectionTwo = ({ isDisabled }) => {
           />
         </Grid>
         <Grid item xs={12} sm={6}>
-          <Field
+          <FastField
             name="postalCode"
             component={RenderTextField}
             label="Postal code"
@@ -183,7 +183,7 @@ export const SectionTwo = ({ isDisabled }) => {
         </Grid>
 
         <Grid item xs={12} sm={6}>
-          <Field
+          <FastField
             name="isSameAsBusinessAddress"
             component={RenderCheckbox}
             label="Same as business address."
@@ -192,7 +192,7 @@ export const SectionTwo = ({ isDisabled }) => {
         </Grid>
         {isSameAsBusinessAddress === false && (
           <Grid item xs={12} sm={6}>
-            <Field
+            <FastField
               name="numberOfAdditionalAddresses"
               component={RenderSelectField}
               label="Number of additional addresses?"
