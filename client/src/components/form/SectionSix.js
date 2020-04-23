@@ -5,7 +5,7 @@ import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
-import { Field } from 'formik';
+import { FastField } from 'formik';
 
 import { SectionOne } from './SectionOne';
 import { SectionTwo } from './SectionTwo';
@@ -176,13 +176,13 @@ export const SectionSix = ({ handleEditClick, isDisabled }) => {
               </Alert>
             </Box>
 
-            <Field
+            <FastField
               name="doesCertify"
               component={RenderCheckbox}
               label="I certify this information to be accurate"
               disabled={isDisabled}
             />
-            <Field
+            <FastField
               name="doesAgree"
               component={RenderCheckbox}
               label="I agree that my farm will be subject to a site inspection"

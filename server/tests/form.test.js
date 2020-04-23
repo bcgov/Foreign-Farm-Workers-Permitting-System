@@ -177,7 +177,7 @@ describe('Server V1 Form Endpoints', () => {
       .set({ Accept: 'application/json', 'Content-type': 'application/json', Authorization: `Bearer ${resLogin.body.token}` })
       .patch(`${formEndpoint}/${formId}`)
       .send({
-        determination: 'complete',
+        determination: 'passed',
         notes: 'test',
       });
 

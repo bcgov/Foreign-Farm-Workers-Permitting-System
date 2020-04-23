@@ -77,6 +77,7 @@ export const Header = () => {
           </div>
           {isSubmissionDetailsScreen && (
             <Button
+              id="submissions"
               className={classes.button}
               variant="outlined"
               color="inherit"
@@ -87,6 +88,7 @@ export const Header = () => {
           )}
           {(isSubmissionsScreen || isSubmissionDetailsScreen) && (
             <Button
+              id="logout"
               className={classes.button}
               variant="outlined"
               color="inherit"

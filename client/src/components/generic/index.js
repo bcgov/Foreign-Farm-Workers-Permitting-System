@@ -6,3 +6,4 @@ export * from './Table';
 export * from './InputFieldLabel';
 export * from './InputFieldError';
 export * from './Toast';
+export * from './PDFButton';
