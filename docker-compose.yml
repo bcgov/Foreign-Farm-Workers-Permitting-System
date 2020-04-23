@@ -5,6 +5,8 @@ services:
   application:
     image: ${PROJECT}:${GIT_LOCAL_BRANCH}
     container_name: ${PROJECT}
+    environment:
+      - VERSION=${COMMIT_SHA}
     build:
       context: ./
       dockerfile: ./Dockerfile

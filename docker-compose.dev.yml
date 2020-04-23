@@ -25,6 +25,7 @@ services:
       dockerfile: Dockerfile.dev
     environment:
       - DB_SERVER=${DB_SERVER}
+      - VERSION=${COMMIT_SHA}
     ports:
       - "80:80"
       - "9229:9229"
