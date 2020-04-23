@@ -22,7 +22,7 @@ export const LoginSchema = yup.object().shape({
 });
 
 export const DeterminationSchema = yup.object().shape({
-  determination: yup.string().nullable().oneOf([null, 'followup', 'passed', 'failed']).required('Determination is required'),
+  determination: yup.string().nullable().oneOf(['followup', 'passed', 'failed'], 'Invalid decision').required('Decision is required'),
   notes: yup.string().required('Notes are required'),
 });
 

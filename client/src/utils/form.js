@@ -18,6 +18,11 @@ export const handleSubmission = (submission) => {
  */
 export const mapDetermination = (determination) => {
   switch (determination) {
+    case 'followup':
+      return {
+        buttonText: 'Follow-up Required',
+        listViewText: 'Follow-up',
+      };
     case 'passed':
       return {
         buttonText: 'Passed Inspection',
@@ -30,8 +35,8 @@ export const mapDetermination = (determination) => {
       };
     default:
       return {
-        buttonText: 'Follow-up Required',
-        listViewText: 'Follow-up',
+        buttonText: null,
+        listViewText: 'Submitted',
       };
   }
 };
