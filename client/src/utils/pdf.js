@@ -1,7 +1,7 @@
 import pdfMake from 'pdfmake/build/pdfmake';
 import html2canvas from 'html2canvas';
 
-export const convertElementToPDF = async (element, fileName, filter = () => true) => {
+export const convertElementToPDF = async (element, fileName) => {
   try {
     const pageNumber = 3;
     const content = [];
@@ -18,7 +18,11 @@ export const convertElementToPDF = async (element, fileName, filter = () => true
         width: 500,
       })
     }
-    pdfMake.createPdf({ content }).download(fileName);
+    if (fileName) {
+      pdfMake.createPdf({ content }).download(fileName);
+    } else {
+      pdfMake.createPdf({ content }).open();
+    }
   } catch (e) {
     throw (e);
   }

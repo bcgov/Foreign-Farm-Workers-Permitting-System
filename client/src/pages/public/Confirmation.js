@@ -9,6 +9,24 @@ import { Form } from '../../components/form';
 
 export default () => {
   const location = useLocation();
+
+  const { openToast } = useToast();
+  const [isPDFLoading, setPDFLoading] = useState(false);
+
+  const handlePDFClick = async () => {
+    const form = document.getElementById('form');
+    const fileName = `submission_${location.state?.id}.pdf`;
+
+    try {
+      setPDFLoading(true);
+      await convertElementToPDF(form, fileName);
+    } catch (e) {
+      openToast({ status: ToastStatus.Error, message: 'Failed to download PDF' });
+    } finally {
+      setPDFLoading(false);
+    }
+  };
+
   return (
     <div id="confirmation">
       <Page>

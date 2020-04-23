@@ -46,6 +46,9 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: '#FFFFFF',
     padding: theme.spacing(4),
   },
+  topContainer: {
+    padding: theme.spacing(0, 2),
+  },
 }));
 
 export default () => {
@@ -63,6 +66,7 @@ export default () => {
     determination: '',
     notes: '',
   });
+  const [isPDFLoading, setPDFLoading] = useState(false);
 
   /**
    * On page load, grab the ID from the url and perform a search
@@ -77,7 +81,7 @@ export default () => {
         headers: { 'Accept': 'application/json', 'Content-type': 'application/json', 'Authorization': `Bearer ${jwt}` },
         method: 'GET',
       });
-      
+
       if (response.ok) {
         const { determination, notes, ...rest } = await response.json();
         const submission = adaptSubmission(rest);
@@ -107,7 +111,20 @@ export default () => {
     } else {
       openToast({ status: ToastStatus.Error, message: response.error || 'Failed to update this submission.' });
       setSubmitLoading(false);
-     }
+    }
+  };
+
+  const handlePDFClick = async () => {
+    const form = document.getElementById('form');
+
+    try {
+      setPDFLoading(true);
+      await convertElementToPDF(form, `submission_${params.confirmationNumber}.pdf`);
+    } catch (e) {
+      openToast({ status: ToastStatus.Error, message: 'Failed to download PDF' });
+    } finally {
+      setPDFLoading(false);
+    }
   };
 
   const renderSidebar = () => (
