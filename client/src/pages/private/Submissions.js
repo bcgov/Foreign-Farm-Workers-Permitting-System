@@ -4,6 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import { useHistory } from 'react-router-dom';
+
 import { Routes } from '../../constants';
 import { dateToString, mapDetermination } from '../../utils';
 
@@ -20,7 +21,8 @@ export default () => {
   const columns = [
     { id: 'createdAt', name: 'Date Submitted' },
     { id: 'registeredBusinessName', name: 'Business Name' },
-    { id: 'determination', name: 'Decision' },
+    { id: 'city', name: 'City' },
+    { id: 'determination', name: 'Status' },
     { id: 'id', name: 'Confirmation Number' },
   ];
   const [orderBy, setOrderBy] = useState(columns[0].id);
@@ -41,7 +43,8 @@ export default () => {
         const rows = submissions.map((submission) => ({
           createdAt: dateToString(submission.createdAt),
           registeredBusinessName: submission.registeredBusinessName,
-          determination: mapDetermination(submission.determination),
+          city: submission.city,
+          determination: mapDetermination(submission.determination).listViewText,
           id: submission.id,
           viewMore: (
             <Button
@@ -69,6 +72,8 @@ export default () => {
   const sortConfig = () => {
     if (orderBy === 'registeredBusinessName') {
       return [item => item.registeredBusinessName.toLowerCase(), 'createdAt'];
+    } else if (orderBy === 'city') {
+      return [item => item.city.toLowerCase(), 'createdAt'];
     }
     return [orderBy, 'createdAt'];
   };

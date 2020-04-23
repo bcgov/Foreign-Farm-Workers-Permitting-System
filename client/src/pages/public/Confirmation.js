@@ -1,39 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { useLocation } from 'react-router-dom';
 
-import { ToastStatus } from '../../constants';
-import { useToast } from '../../hooks';
-import { convertElementToPDF } from '../../utils';
-
-import { Button, Divider, Page } from '../../components/generic';
+import { PDFButton, Divider, Page } from '../../components/generic';
 import { Form } from '../../components/form';
 
 export default () => {
   const location = useLocation();
-
-  const { openToast } = useToast();
-  const [isPDFLoading, setPDFLoading] = useState(false);
-
-  const handlePDFClick = async () => {
-    const form = document.getElementById('form');
-    const fileName = `submission_${location.state?.id}.pdf`;
-    const filter = (node) => node.id !== 'downloadBtn';
-
-    try {
-      setPDFLoading(true);
-      await convertElementToPDF(form, fileName, filter);
-    } catch (e) {
-      openToast({ status: ToastStatus.Error, message: 'Failed to download PDF' });
-    } finally {
-      setPDFLoading(false);
-    }
-  };
-
   return (
-    <div id="form">
+    <div id="confirmation">
       <Page>
         <Grid item xs={12} sm={11} md={10} lg={8} xl={6}>
 
@@ -46,11 +23,11 @@ export default () => {
                     Write down this confirmation number and print this page for your records.
                   </Typography>
                 </Grid>
-                <Grid item id="downloadBtn">
-                  <Button
-                    text="Download PDF"
-                    onClick={handlePDFClick}
-                    loading={isPDFLoading}
+                <Grid id="pdfButtonWrapper" item>
+                  <PDFButton
+                    target="confirmation"
+                    fileName={`submission_${location.state?.id}.pdf`}
+                    filter={(node) => !['pdfButtonWrapper'].includes(node.id)}
                   />
                 </Grid>
               </Grid>

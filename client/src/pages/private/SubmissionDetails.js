@@ -12,10 +12,10 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import { Routes, DeterminationSchema, ToastStatus } from '../../constants';
 import { useToast } from '../../hooks';
-import { adaptSubmission } from '../../utils';
+import { adaptSubmission, mapDetermination } from '../../utils';
 
 import { Form } from '../../components/form';
-import { Page, Button, Divider } from '../../components/generic';
+import { Page, Button, Divider, PDFButton } from '../../components/generic';
 import { RenderButtonGroup, RenderTextField } from '../../components/fields';
 
 const useStyles = makeStyles((theme) => ({
@@ -77,7 +77,7 @@ export default () => {
         headers: { 'Accept': 'application/json', 'Content-type': 'application/json', 'Authorization': `Bearer ${jwt}` },
         method: 'GET',
       });
-      
+
       if (response.ok) {
         const { determination, notes, ...rest } = await response.json();
         const submission = adaptSubmission(rest);
@@ -111,7 +111,7 @@ export default () => {
   };
 
   const renderSidebar = () => (
-    <Grid className={classes.sidebarWrapper} item xs={12} md={4}>
+    <Grid id="sidebar" className={classes.sidebarWrapper} item xs={12} md={4}>
       <Formik
         initialValues={initialSidebarValues}
         validationSchema={DeterminationSchema}
@@ -133,8 +133,9 @@ export default () => {
                 name="determination"
                 component={RenderButtonGroup}
                 options={[
-                  { value: 'incomplete', label: 'Checklist Incomplete', color: 'secondary' },
-                  { value: 'complete', label: 'Checklist Complete', color: 'primary' },
+                  { value: 'followup', label: mapDetermination('followup').buttonText, color: 'primary' },
+                  { value: 'passed', label: mapDetermination('passed').buttonText, color: 'primary' },
+                  { value: 'failed', label: mapDetermination('failed').buttonText, color: 'primary' },
                 ]}
               />
             </Grid>
@@ -181,17 +182,31 @@ export default () => {
   );
 
   return (
-    <Page>
-      {(lookupLoading || lookupError) ? (
-        <div className={classes.statusWrapper}>
-          {lookupLoading && renderLoading()}
-          {lookupError && renderSubmitError()}
-        </div>
-      ) : (
+    <div id="submissionDetails">
+      <Page>
+        {(lookupLoading || lookupError) ? (
+          <div className={classes.statusWrapper}>
+            {lookupLoading && renderLoading()}
+            {lookupError && renderSubmitError()}
+          </div>
+        ) : (
           <Fragment>
 
             {/** Form */}
-            <Grid className={classes.formWrapper} item xs={12} sm={11} md={8}>
+            <Grid id="formWrapper" className={classes.formWrapper} item xs={12} sm={11} md={8}>
+              <Box id="pdfButtonWrapper" pl={2} pr={2}>
+                <Grid container justify="flex-end">
+                  <Grid item>
+                    <PDFButton
+                      target="submissionDetails"
+                      fileName={`submission_${params.confirmationNumber}.pdf`}
+                      filter={(node) => !['pdfButtonWrapper', 'sidebar', 'submissions', 'logout'].includes(node.id)}
+                      onStart={() => document.getElementById('formWrapper').style.overflowY = 'initial'}
+                      onFinish={() => document.getElementById('formWrapper').style.overflowY = 'auto'}
+                    />
+                  </Grid>
+                </Grid>
+              </Box>
               <Form
                 confirmationNumber={params.confirmationNumber}
                 initialValues={initialUserFormValues}
@@ -225,6 +240,7 @@ export default () => {
             </Hidden>
           </Fragment>
         )}
-    </Page>
+      </Page>
+    </div>
   );
 };

@@ -18,12 +18,21 @@ export const handleSubmission = (submission) => {
  */
 export const mapDetermination = (determination) => {
   switch (determination) {
-    case 'complete':
-      return 'Complete';
-    case 'incomplete':
-      return 'Incomplete';
+    case 'passed':
+      return {
+        buttonText: 'Passed Inspection',
+        listViewText: 'Passed',
+      };
+    case 'failed':
+      return {
+        buttonText: 'Failed Inspection',
+        listViewText: 'Failed',
+      };
     default:
-      return 'Pending Review';
+      return {
+        buttonText: 'Follow-up Required',
+        listViewText: 'Follow-up',
+      };
   }
 };
 

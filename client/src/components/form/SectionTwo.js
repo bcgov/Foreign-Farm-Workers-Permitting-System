@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import { Field, FieldArray, useFormikContext } from 'formik';
+import { Field, FastField, FieldArray, useFormikContext } from 'formik';
 
 import { Card, Divider } from '../../components/generic';
 import { RenderCheckbox, RenderRadioGroup, RenderSelectField, RenderTextField } from '../../components/fields';
@@ -227,7 +227,7 @@ export const SectionTwo = ({ isDisabled }) => {
 
                           {/* Fields */}
                           <Grid item xs={12} sm={6}>
-                            <Field
+                            <FastField
                               name={`temporaryForeignWorkerFacilityAddresses[${index}].type`}
                               component={RenderRadioGroup}
                               label="Facility type"
@@ -240,7 +240,7 @@ export const SectionTwo = ({ isDisabled }) => {
                             />
                           </Grid>
                           <Grid item xs={12} sm={6}>
-                            <Field
+                            <FastField
                               name={`temporaryForeignWorkerFacilityAddresses[${index}].addressLine1`}
                               component={RenderTextField}
                               label="Address line 1"
@@ -248,7 +248,7 @@ export const SectionTwo = ({ isDisabled }) => {
                             />
                           </Grid>
                           <Grid item xs={12} sm={6}>
-                            <Field
+                            <FastField
                               name={`temporaryForeignWorkerFacilityAddresses[${index}].addressLine2`}
                               component={RenderTextField}
                               label="Address line 2 (optional)"
@@ -256,7 +256,7 @@ export const SectionTwo = ({ isDisabled }) => {
                             />
                           </Grid>
                           <Grid item xs={12} sm={6}>
-                            <Field
+                            <FastField
                               name={`temporaryForeignWorkerFacilityAddresses[${index}].city`}
                               component={RenderTextField}
                               label="City"
@@ -264,7 +264,7 @@ export const SectionTwo = ({ isDisabled }) => {
                             />
                           </Grid>
                           <Grid item xs={12} sm={6}>
-                            <Field
+                            <FastField
                               name={`temporaryForeignWorkerFacilityAddresses[${index}].province`}
                               component={RenderSelectField}
                               label="Province"
@@ -273,7 +273,7 @@ export const SectionTwo = ({ isDisabled }) => {
                             />
                           </Grid>
                           <Grid item xs={12} sm={6}>
-                            <Field
+                            <FastField
                               name={`temporaryForeignWorkerFacilityAddresses[${index}].postalCode`}
                               component={RenderTextField}
                               label="Postal code"
