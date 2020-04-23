@@ -4,7 +4,7 @@ import Typography from '@material-ui/core/Typography';
 import { FastField, FieldArray, useFormikContext } from 'formik';
 
 import { Card, Divider } from '../../components/generic';
-import { RenderCheckbox, RenderRadioGroup, RenderSelectField, RenderTextField } from '../../components/fields';
+import { RenderCheckbox, RenderRadioGroup, RenderSelectField, RenderTextField, RenderOrgbookSearch } from '../../components/fields';
 
 const provinces = [
   { value: 'Alberta', label: 'Alberta' },
@@ -65,7 +65,7 @@ export const SectionTwo = ({ isDisabled }) => {
         <Grid item xs={12} sm={6}>
           <FastField
             name="registeredBusinessName"
-            component={RenderTextField}
+            component={RenderOrgbookSearch}
             label="Registered Business Name"
             disabled={isDisabled}
           />
