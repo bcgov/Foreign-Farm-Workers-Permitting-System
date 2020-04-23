@@ -64,7 +64,7 @@ export const SectionOne = ({ isDisabled }) => {
                   Assessing each section in the guidance document will help you identify areas
                   that do not sufficiently prevent or reduce the risk of COVID-19 transmission.
                 </Typography>
-                <Card style={{ backgroundColor: '#E6E8E9', padding: '18px', marginBottom: '16px' }}>
+                <Card style={{ backgroundColor: '#E6E8E9', padding: '18px', marginBottom: '16px' }} noShadow>
                   <Typography variant="body1" paragraph>
                     <b>Example: Physical Distancing Risk</b>
                   </Typography>
@@ -73,14 +73,16 @@ export const SectionOne = ({ isDisabled }) => {
                     cannot be maintained, this should be identified as a risk.
                   </Typography>
                   <Typography variant="body1">
-                    Farm operators can take practical actions to reduce the risk of disease transmission&nbsp;
+                    Farm operators can take practical actions to reduce the risk of disease transmission
+                    (see section 2, number 7 of the&nbsp;
                     <Link
                       href="https://www2.gov.bc.ca/assets/gov/health/about-bc-s-health-care-system/office-of-the-provincial-health-officer/covid-19/covid-19-pho-guidance-farms-farm-workers.pdf"
                       rel="noreferrer noopener"
                       target="_blank"
                     >
-                      (see section 7 of the guidance document).
+                      guidance document
                     </Link>
+                    ).
                   </Typography>
                 </Card>
                 <Typography variant="body1" paragraph>
@@ -92,7 +94,7 @@ export const SectionOne = ({ isDisabled }) => {
             <ExpansionPanel>
               <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                 <Typography variant="body1">
-                  <b>3. Create your Infection Prevention and Control protocol.</b>
+                  <b>3. Create your COVID-19 Infection Prevention and Control (IPC) protocol.</b>
                 </Typography>
               </ExpansionPanelSummary>
               <ExpansionPanelDetails>
@@ -101,21 +103,22 @@ export const SectionOne = ({ isDisabled }) => {
                   and Control (IPC) protocol. For each section of the guide where you identified a risk,
                   the risk needs to be controlled.
                 </Typography>
-                <Card style={{ backgroundColor: '#E6E8E9', padding: '18px', marginBottom: '16px' }}>
+                <Card style={{ backgroundColor: '#E6E8E9', padding: '18px', marginBottom: '16px' }} noShadow>
                   <Typography variant="body1" paragraph>
                     <b>Example: Physical Distancing Control</b>
                   </Typography>
                   <Typography variant="body1">
                     If your workers ride together in a vehicle to the work site, and you follow the instructions
                     to increase cleaning and hygiene, and increase physical distancing, this will form your IPC
-                    plan for transportation&nbsp;
+                    plan for transportation (see section 2, number 7 of the&nbsp;
                     <Link
                       href="https://www2.gov.bc.ca/assets/gov/health/about-bc-s-health-care-system/office-of-the-provincial-health-officer/covid-19/covid-19-pho-guidance-farms-farm-workers.pdf"
                       rel="noreferrer noopener"
                       target="_blank"
                     >
-                      (see section 7 of the guidance document).
+                      guidance document
                     </Link>
+                    ).
                   </Typography>
                 </Card>
                 <Typography variant="body1" paragraph>

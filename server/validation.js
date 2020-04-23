@@ -117,7 +117,7 @@ const FormSchema = yup.object().noUnknown('Unknown field for form').shape({
     is: false,
     then: yup.array().required('Facility information is required').of(
       yup.object().noUnknown('Unknown field for facility information').shape({
-        type: yup.string().required('Facility type is required').oneOf(['working', 'housed'], 'Invalid facility type'),
+        type: yup.string().required('Facility type is required').oneOf(['working', 'housed', 'workingAndHoused'], 'Invalid facility type'),
         addressLine1: yup.string().required('Facility address line 1 is required'),
         addressLine2: yup.string().nullable(),
         city: yup.string().required('Facility city is required'),

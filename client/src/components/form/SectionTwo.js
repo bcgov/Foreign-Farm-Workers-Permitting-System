@@ -178,7 +178,7 @@ export const SectionTwo = ({ isDisabled }) => {
 
         <Grid item xs={12}>
           <Typography variant="subtitle2">
-            Temporary Foreign Worker facility address(es)
+            Temporary foreign worker (TFW) work sites and housing address(es)
           </Typography>
         </Grid>
 
@@ -197,7 +197,7 @@ export const SectionTwo = ({ isDisabled }) => {
               component={RenderSelectField}
               label="Number of additional addresses?"
               disabled={isDisabled}
-              options={[...Array(15)].map((_, index) => ({
+              options={[...Array(50)].map((_, index) => ({
                 value: index + 1,
                 label: index + 1,
               }))}
@@ -220,7 +220,7 @@ export const SectionTwo = ({ isDisabled }) => {
                           <Grid item xs={12}>
                             <Grid container alignItems="center" spacing={2}>
                               <Grid item>
-                                <Typography variant="subtitle2">Facility address {index + 1}</Typography>
+                                <Typography variant="subtitle2">Address #{index + 1}</Typography>
                               </Grid>
                             </Grid>
                           </Grid>
@@ -235,6 +235,7 @@ export const SectionTwo = ({ isDisabled }) => {
                               options={[
                                 { value: 'working', label: 'Where the TFWs will be working' },
                                 { value: 'housed', label: 'Where the TFWs will be housed' },
+                                { value: 'workingAndHoused', label: 'Where TFWs will be working and housed' },
                               ]}
                             />
                           </Grid>
