@@ -30,7 +30,7 @@ const steps = [
   'Contact Information',
   'Before Workers Arrive',
   'After Workers Arrive',
-  'If Workers Become Ill',
+  'If Workers Become ill',
   'Review',
 ];
 
