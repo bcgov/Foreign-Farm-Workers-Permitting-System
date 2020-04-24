@@ -6,15 +6,9 @@ import { ErrorMessage } from "formik";
 import React, { Fragment } from "react";
 import { InputFieldError, InputFieldLabel } from "../generic";
 
-export const RenderOrgbookSearch = ({
-  field: { value, ...fieldRest },
-  form,
-  label,
-  ...props
-}) => {
-  const touched = form.touched[fieldRest.name];
-  const error = form.errors[fieldRest.name];
-  const [inputValue, setInputValue] = React.useState("");
+export const RenderOrgbookSearch = ({ field, form, label, ...props }) => {
+  const touched = form.touched[field.name];
+  const error = form.errors[field.name];
   const [open, setOpen] = React.useState(false);
   const [options, setOptions] = React.useState([]);
   const loading = open && options.length === 0;
@@ -54,7 +48,7 @@ export const RenderOrgbookSearch = ({
           setOpen(false);
         }}
         onChange={(event, value, reason) => {
-          setInputValue(value.value);
+          field.value = value.value;
         }}
         onInputChange={(event, value, reason) => {
           searchOrgbook(value);
@@ -70,7 +64,7 @@ export const RenderOrgbookSearch = ({
             variant="filled"
             fullWidth
             error={touched && !!error}
-            value={inputValue}
+            value={field.value || ""}
             InputProps={{
               ...params.InputProps,
               endAdornment: (
@@ -82,12 +76,11 @@ export const RenderOrgbookSearch = ({
                 </Fragment>
               ),
             }}
-            {...fieldRest}
             {...props}
           />
         )}
       />
-      <InputFieldError error={<ErrorMessage name={fieldRest.name} />} />
+      <InputFieldError error={<ErrorMessage name={field.name} />} />
     </Fragment>
   );
 };
