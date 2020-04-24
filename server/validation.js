@@ -124,7 +124,7 @@ const FormSchema = yup.object().noUnknown('Unknown field for form').shape({
         province: yup.string().required('Facility province/territory is required').oneOf(provinces, 'Invalid province/territory'),
         postalCode: yup.string().required('Facility postal code is required'),
       }),
-    ).test('is-length', 'Number of facilities must be between 1 and 10', (v) => v.length >= 1 && v.length <= 10),
+    ).test('is-length', 'Number of facilities must be between 1 and 10', (v) => v.length >= 1 && v.length <= 50),
     otherwise: yup.array().test('is-empty', 'Facility information must be empty', (v) => v && v.length === 0),
   }),
 
