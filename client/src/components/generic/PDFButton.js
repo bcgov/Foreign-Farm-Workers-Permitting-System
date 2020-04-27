@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import { ToastStatus } from '../../constants';
 import { useToast } from '../../hooks';
 import { convertElementToPDF } from '../../utils';
+import { MyDocument } from '../../pages/public/PDFDocument';
+import savePdf from '../../utils/savePdf';
 
 import { Button } from '../../components/generic';
 
@@ -16,8 +18,11 @@ export const PDFButton = ({ onStart = () => {}, onFinish = () => {}, target, fil
     try {
       setPDFLoading(true);
       onStart();
-      await convertElementToPDF(form, fileName, filter);
+      // await convertElementToPDF(form, 'example.pdf', filter);
+      // run the same command here
+      await savePdf(<MyDocument/>, fileName);
     } catch (e) {
+      console.log(e);
       openToast({ status: ToastStatus.Error, message: 'Failed to download PDF' });
     } finally {
       setPDFLoading(false);
