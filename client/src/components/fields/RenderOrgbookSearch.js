@@ -19,7 +19,9 @@ export const RenderOrgbookSearch = ({ field, form, label, ...props }) => {
     setOpen(true);
 
     const response = await fetch(
-      `https://orgbook.gov.bc.ca/api/v2/search/autocomplete?q=${value}&inactive=false&latest=true&revoked=false`
+      `https://orgbook.gov.bc.ca/api/v2/search/autocomplete?q=${encodeURIComponent(
+        value
+      )}&inactive=false&latest=true&revoked=false`
     );
 
     const entries = await response.json();
