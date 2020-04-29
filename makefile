@@ -11,7 +11,7 @@ export IMAGE_TAG=${COMMIT_SHA}
 ##############################################################
 # Define default environment variables for local development #
 ##############################################################
-export PROJECT := $(or $(PROJECT),ets)
+export PROJECT := $(or $(PROJECT),fos)
 export DB_USER := $(or $(DB_USER),development)
 export DB_PASSWORD := $(or $(DB_PASSWORD),development)
 export DB_NAME := $(or $(DB_NAME),development)
@@ -30,7 +30,7 @@ VERSION_SAFE	   := ${VERSION_MAJOR}_${VERSION_MINOR}_${VERSION_PATCH}
 VERSION			   := ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}
 export IMAGE_VERSION=v$(VERSION)
 export IMAGE_PACKAGE=${PROJECT}-v${VERSION_SAFE}
-
+VERSION_COMMIT     := $(shell git -c pager.tag=false tag --list 'v*' --contains $(git rev-parse --short=7 HEAD))
 #################
 # Status Output #
 #################
@@ -118,6 +118,10 @@ tag-dev:  ## -- Target : Tags the current branch with DEV (trigger gh-actions)
 	@git tag -fa dev -m "Deploying $(GIT_LOCAL_BRANCH):$(VERSION) to DEV env" $(VERSION)
 	@git push --force origin refs/tags/dev:refs/tags/dev
 
+tag-version:  ## -- Target : Tags the current branch with DEV (trigger gh-actions)
+	@git tag -fa v$(VERSION) -m "Taggging commit with v$(VERSION)"
+	@git push --force origin refs/tags/v$(VERSION):refs/tags/v$(VERSION)
+
 tag-staging: ## -- Target : Tags the current branch with STAGING (trigger gh-actions)
 	@git tag -fa staging -m "Promoting $(GIT_LOCAL_BRANCH):$(VERSION) to STAGING env" $(VERSION)
 	@git push --force origin refs/tags/staging:refs/tags/staging
@@ -153,15 +157,19 @@ version-push: ## -- Target : Tags and pushes images, task-definitions and applic
 	@aws s3 cp $(IMAGE_PACKAGE).zip s3://$(S3_BUCKET)/$(PROJECT)/$(IMAGE_PACKAGE).zip
 	@echo "Creating EB Version from Task Definition ..."
 	@aws --profile $(PROFILE) elasticbeanstalk create-application-version --application-name $(PROJECT) --version-label v$(VERSION) --source-bundle S3Bucket="$(S3_BUCKET)",S3Key="$(PROJECT)/$(IMAGE_PACKAGE).zip"
+	@echo "Tagging commit with v$(VERSION)"
+	@git tag -fa v$(VERSION) -m "Taggging commit with v$(VERSION)"
+	@git push --force origin refs/tags/v$(VERSION):refs/tags/v$(VERSION)
+
 
 version-deploy-dev: ## -- Target : Promotes a version to the DEV environment
 	@aws --profile $(PROFILE) elasticbeanstalk update-environment --application-name $(PROJECT) --environment-name $(PROJECT)-dev --version-label v$(VERSION)
 
 version-deploy-staging: ## -- Target : Promotes a version to the STAGING environment
-	@aws --profile $(PROFILE) elasticbeanstalk update-environment --application-name $(PROJECT) --environment-name $(PROJECT)-test2 --version-label v$(VERSION)
+	@aws --profile $(PROFILE) elasticbeanstalk update-environment --application-name $(PROJECT) --environment-name $(PROJECT)-test2 --version-label v$(VERSION_COMMIT)
 
-version-deploy-pod: ## -- Target : Promotes a version to the PROD environment
-	@aws --profile $(PROFILE) elasticbeanstalk update-environment --application-name $(PROJECT) --environment-name $(PROJECT)-prod --version-label v$(VERSION)
+version-deploy-prod: ## -- Target : Promotes a version to the PROD environment
+	@aws --profile $(PROFILE) elasticbeanstalk update-environment --application-name $(PROJECT) --environment-name $(PROJECT)-prod --version-label v$(VERSION_COMMIT)
 
 ##############################
 # Supporting Commands        #

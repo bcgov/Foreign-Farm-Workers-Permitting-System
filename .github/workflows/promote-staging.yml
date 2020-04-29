@@ -11,12 +11,12 @@ jobs:
     steps:
       - name: Set env variables
         run: |
-          echo ::set-env name=ACCOUNT_ID::${{ secrets.ACCOUNT_ID }}
-          echo ::set-env name=S3_BUCKET::${{ secrets.S3_BUCKET }}
-          echo ::set-env name=PROJECT::${{ secrets.PROJECT }}
-          echo ::set-env name=REGION::${{ secrets.REGION }}
-          echo ::set-env name=AWS_ACCESS_KEY_ID::${{ secrets.AWS_ACCESS_KEY_ID }}
-          echo ::set-env name=AWS_SECRET_ACCESS_KEY:${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          ::set-env name=ACCOUNT_ID::${{ secrets.ACCOUNT_ID }}
+          ::set-env name=S3_BUCKET::${{ secrets.S3_BUCKET }}
+          ::set-env name=PROJECT::${{ secrets.PROJECT }}
+          ::set-env name=REGION::${{ secrets.REGION }}
+          ::set-env name=AWS_ACCESS_KEY_ID::${{ secrets.AWS_ACCESS_KEY_ID }}
+          ::set-env name=AWS_SECRET_ACCESS_KEY:${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
       - name: Checkout
         uses: actions/checkout@v2
@@ -29,4 +29,4 @@ jobs:
           aws-region: ${{ secrets.REGION }}
 
       - name: Promote Version
-        run: make version-promote-staging
+        run: make version-deploy-staging
