@@ -28,6 +28,7 @@ export const PDFButton = ({ onStart = () => {}, onFinish = () => {}, target, fil
   return (
     <Button
       id="downloadBtn"
+      data-html2canvas-ignore="true"
       text="Download PDF"
       onClick={handlePDFClick}
       loading={isPDFLoading}
