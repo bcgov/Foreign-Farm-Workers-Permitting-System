@@ -12,6 +12,10 @@ RUN npm run build
 # Server
 FROM node:12-alpine AS server
 
+# Static env vars
+ARG VERSION
+ENV VERSION $VERSION
+
 # Configure server
 RUN apk add --no-cache git
 COPY --from=client /client/build /client/build/.

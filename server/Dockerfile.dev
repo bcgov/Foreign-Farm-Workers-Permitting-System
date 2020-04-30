@@ -1,5 +1,9 @@
 FROM node:12-alpine
 
+# Static env vars
+ARG VERSION
+ENV VERSION $VERSION
+
 # Allow node modules to be called directly
 ENV PATH $PATH:/usr/src/app/node_modules/.bin
 

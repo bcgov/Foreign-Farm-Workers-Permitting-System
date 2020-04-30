@@ -5,17 +5,17 @@ services:
   application:
     image: ${PROJECT}:${GIT_LOCAL_BRANCH}
     container_name: ${PROJECT}
-    environment:
-      - VERSION=${COMMIT_SHA}
     build:
       context: ./
       dockerfile: ./Dockerfile
+      args:
+        VERSION: ${COMMIT_SHA}
     ports:
-      - "80:80"
+      - '80:80'
     expose:
-      - "80"
+      - '80'
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:80" ]
+      test: [ CMD, curl, -f, http://localhost:80 ]
       timeout: 5s
       interval: 10s
       start_period: 5s
@@ -23,4 +23,4 @@ services:
       - app
 networks:
   app:
-    driver: "bridge"
+    driver: bridge
