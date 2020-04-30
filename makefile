@@ -66,10 +66,10 @@ close-local: ## -- Target : Closes the local development containers.
 	@echo "+\n++ Make: Closing local container ...\n+"
 	@docker-compose -f docker-compose.dev.yml down
 
-local-client-workspace: 
+local-client-workspace:
 	@docker exec -it $(PROJECT)-client bash
 
-local-server-workspace: 
+local-server-workspace:
 	@docker exec -it $(PROJECT)-server bash
 
 local-db-seed:
