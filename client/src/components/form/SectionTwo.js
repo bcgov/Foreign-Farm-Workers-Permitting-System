@@ -3,7 +3,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { FastField, FieldArray, useFormikContext } from 'formik';
 
-import { Card, Divider } from '../../components/generic';
+import { Card, Divider, Button } from '../../components/generic';
 import { RenderCheckbox, RenderRadioGroup, RenderSelectField, RenderTextField } from '../../components/fields';
 
 const provinces = [
@@ -49,6 +49,20 @@ export const SectionTwo = ({ isDisabled }) => {
       setFieldValue('temporaryForeignWorkerFacilityAddresses', []);
     }
   }, [setFieldValue, isSameAsBusinessAddress, numberOfAdditionalAddresses]);
+
+  const handleAddressesMockClicked = () => {
+    const { temporaryForeignWorkerFacilityAddresses } = values;
+    let mockedFields = [];
+    [...Array(temporaryForeignWorkerFacilityAddresses.length)].forEach(() => mockedFields.push({
+      type: 'working',
+      addressLine1: 'test',
+      addressLine2: 'test',
+      city: 'test',
+      province: 'Nunavut',
+      postalCode: 'test',
+    }));
+    setFieldValue('temporaryForeignWorkerFacilityAddresses', mockedFields);
+  };
 
   return (
     <Card noPadding={isDisabled} noShadow={isDisabled}>
@@ -202,6 +216,18 @@ export const SectionTwo = ({ isDisabled }) => {
                 label: index + 1,
               }))}
             />
+            {
+              !isDisabled &&
+              process.env.DEPLOY_ENV !== 'farm-operator-screening-prod' && (
+                <Button
+                  onClick={handleAddressesMockClicked}
+                  variant="contained"
+                  color="primary"
+                  fullWidth={false}
+                  text="Mock addresses"
+                />
+              )
+            }
           </Grid>
         )}
 

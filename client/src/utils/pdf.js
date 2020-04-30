@@ -1,6 +1,40 @@
 import pdfMake from 'pdfmake/build/pdfmake';
 import html2canvas from 'html2canvas';
 
+const isCanvasBlank = (canvas) => {
+  const context = canvas.getContext('2d');
+
+  let blockSize = 10; // only visit every 10 pixels
+  let data;
+  let defaultRGB = { r: 0, g: 0, b: 0 }; // for non-supporting envs
+  let i = -4;
+  let rgb = { r: 0, g: 0, b: 0 };
+  let count = 0;
+
+  try {
+    data = context.getImageData(0, 0, canvas.width, canvas.height);
+  } catch (e) {
+    /* security error, img on diff domain */
+    return defaultRGB;
+  }
+
+  const length = data.data.length;
+
+  while ((i += blockSize * 4) < length) {
+    ++count;
+    rgb.r += data.data[i];
+    rgb.g += data.data[i + 1];
+    rgb.b += data.data[i + 2];
+  }
+
+  // ~~ used to floor values
+  rgb.r = ~~(rgb.r / count);
+  rgb.g = ~~(rgb.g / count);
+  rgb.b = ~~(rgb.b / count);
+
+  return rgb.r === 255 && rgb.g === 255 && rgb.b === 255;
+}
+
 export const convertElementToPDF = async (element, fileName) => {
   try {
     const content = [];
@@ -14,8 +48,8 @@ export const convertElementToPDF = async (element, fileName) => {
       item.style.width = null;
     });
 
-    const childCount = element.getElementsByTagName('*').length
-    const elementHeight = childCount * 7.5
+    const childCount = element.getElementsByTagName('*').length;
+    const elementHeight = childCount * 8.5;
     const pageNumber = Math.ceil(elementHeight / pageHeight);
 
     for (let i = 0; i < pageNumber; i++) {
@@ -27,10 +61,12 @@ export const convertElementToPDF = async (element, fileName) => {
         windowHeight: elementHeight,
       });
 
-      content.push({
-        image: canvas.toDataURL(),
-        width: 500,
-      })
+      if (!isCanvasBlank(canvas)) {
+        content.push({
+          image: canvas.toDataURL(),
+          width: 500,
+        })
+      }
     }
 
     if (fileName) {
