@@ -173,6 +173,9 @@ const FormSchema = yup.object().noUnknown('Unknown field for form').shape({
   // Section six
   doesCertify: yup.boolean().typeError(errorMessage).required(errorMessage).test('is-true', errorMessage, (v) => v === true),
   doesAgree: yup.boolean().typeError(errorMessage).required(errorMessage).test('is-true', errorMessage, (v) => v === true),
+
+  // Version (not actual part of form)
+  version: yup.number().required('Version number is required'),
 });
 
 const validate = async (schema, data) => schema.validate(data, { strict: true });

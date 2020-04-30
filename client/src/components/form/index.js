@@ -219,7 +219,6 @@ export const Form = ({ initialValues, isDisabled }) => {
     }
 
     setSubmitLoading(false);
-    scrollUp();
   };
 
   const moveStepper = (index) => {
