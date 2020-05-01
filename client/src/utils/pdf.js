@@ -6,7 +6,7 @@ const isCanvasBlank = (canvas) => {
 
   let blockSize = 10; // only visit every 10 pixels
   let data;
-  let defaultRGB = { r: 0, g: 0, b: 0 }; // for non-supporting envs
+  let defaultRGB = { r: 0, g: 0, b: 0 };
   let i = -4;
   let rgb = { r: 0, g: 0, b: 0 };
   let count = 0;
@@ -14,7 +14,6 @@ const isCanvasBlank = (canvas) => {
   try {
     data = context.getImageData(0, 0, canvas.width, canvas.height);
   } catch (e) {
-    /* security error, img on diff domain */
     return defaultRGB;
   }
 
@@ -27,7 +26,6 @@ const isCanvasBlank = (canvas) => {
     rgb.b += data.data[i + 2];
   }
 
-  // ~~ used to floor values
   rgb.r = ~~(rgb.r / count);
   rgb.g = ~~(rgb.g / count);
   rgb.b = ~~(rgb.b / count);
