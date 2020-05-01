@@ -200,7 +200,6 @@ export default () => {
                     <PDFButton
                       target="submissionDetails"
                       fileName={`submission_${params.confirmationNumber}.pdf`}
-                      filter={(node) => !['pdfButtonWrapper', 'sidebar', 'submissions', 'logout'].includes(node.id)}
                       onStart={() => document.getElementById('formWrapper').style.overflowY = 'initial'}
                       onFinish={() => document.getElementById('formWrapper').style.overflowY = 'auto'}
                     />

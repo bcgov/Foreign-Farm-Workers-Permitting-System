@@ -27,7 +27,6 @@ export default () => {
                   <PDFButton
                     target="confirmation"
                     fileName={`submission_${location.state?.id}.pdf`}
-                    filter={(node) => !['pdfButtonWrapper'].includes(node.id)}
                   />
                 </Grid>
               </Grid>
