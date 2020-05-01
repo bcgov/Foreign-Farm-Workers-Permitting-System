@@ -7,6 +7,7 @@
 export const handleSubmission = (submission) => {
   const modified = { ...submission };
   delete modified.numberOfAdditionalAddresses;
+  modified.version = 2;
   return modified;
 };
 
