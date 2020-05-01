@@ -1,3 +1,4 @@
+import Link from '@material-ui/core/Link';
 import React, { useEffect, Fragment, useRef } from 'react';
 import Alert from '@material-ui/lab/Alert';
 import Box from '@material-ui/core/Box';
@@ -74,8 +75,20 @@ export const SectionThree = ({ isDisabled }) => {
           <FastField
             name="hasContactedLocalMedicalHealthOfficer"
             component={RenderCheckbox}
-            label="I have contacted my local Medical Health Officer to alert them to the arrival of temporary foreign workers to the region."
             disabled={isDisabled}
+            label={(
+              <span>
+                I have contacted my local&nbsp;
+                <Link
+                  href="https://www2.gov.bc.ca/gov/content/health/keeping-bc-healthy-safe/industrial-camps"
+                  rel="noreferrer noopenner"
+                  target="_blank"
+                >
+                  Health Authority
+                </Link>
+                &nbsp;to alert them to the arrival of temporary foreign workers to the region.
+              </span>
+            )}
           />
         </Grid>
 
