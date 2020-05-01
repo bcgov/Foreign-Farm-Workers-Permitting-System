@@ -39,7 +39,7 @@ export const convertElementToPDF = async (element, fileName) => {
   try {
     const content = [];
     const pageWidth = 950;
-    const pageHeight = 1406;
+    const pageHeight = 1400;
 
     // html2canvas needs this workaround in order to render svg on Chrome 
     var svgElements = element.querySelectorAll('svg');
