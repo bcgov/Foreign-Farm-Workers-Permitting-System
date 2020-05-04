@@ -218,7 +218,10 @@ export const SectionTwo = ({ isDisabled }) => {
             />
             {
               !isDisabled &&
-              process.env.DEPLOY_ENV !== 'farm-operator-screening-prod' && (
+              (window.location.href.indexOf("dev.") > -1 ||
+                window.location.href.indexOf("staging.") > -1 ||
+                window.location.href.indexOf("localhost") > -1) &&
+              (
                 <Button
                   onClick={handleAddressesMockClicked}
                   variant="contained"
