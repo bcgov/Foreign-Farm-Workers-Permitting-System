@@ -6,7 +6,7 @@ import { convertElementToPDF } from '../../utils';
 
 import { Button } from '../../components/generic';
 
-export const PDFButton = ({ onStart = () => {}, onFinish = () => {}, target, fileName, filter }) => {
+export const PDFButton = ({ onStart = () => {}, onFinish = () => {}, target, fileName }) => {
 
   const { openToast } = useToast();
   const [isPDFLoading, setPDFLoading] = useState(false);
@@ -16,7 +16,7 @@ export const PDFButton = ({ onStart = () => {}, onFinish = () => {}, target, fil
     try {
       setPDFLoading(true);
       onStart();
-      await convertElementToPDF(form, fileName, filter);
+      await convertElementToPDF(form, fileName);
     } catch (e) {
       openToast({ status: ToastStatus.Error, message: 'Failed to download PDF' });
     } finally {
@@ -28,6 +28,7 @@ export const PDFButton = ({ onStart = () => {}, onFinish = () => {}, target, fil
   return (
     <Button
       id="downloadBtn"
+      data-html2canvas-ignore="true"
       text="Download PDF"
       onClick={handlePDFClick}
       loading={isPDFLoading}

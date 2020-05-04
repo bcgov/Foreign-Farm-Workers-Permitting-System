@@ -78,6 +78,7 @@ export const Header = () => {
           {isSubmissionDetailsScreen && (
             <Button
               id="submissions"
+              data-html2canvas-ignore="true"
               className={classes.button}
               variant="outlined"
               color="inherit"
@@ -89,6 +90,7 @@ export const Header = () => {
           {(isSubmissionsScreen || isSubmissionDetailsScreen) && (
             <Button
               id="logout"
+              data-html2canvas-ignore="true"
               className={classes.button}
               variant="outlined"
               color="inherit"

@@ -111,7 +111,7 @@ export default () => {
   };
 
   const renderSidebar = () => (
-    <Grid id="sidebar" className={classes.sidebarWrapper} item xs={12} md={4}>
+    <Grid id="sidebar" data-html2canvas-ignore="true" className={classes.sidebarWrapper} item xs={12} md={4}>
       <Formik
         initialValues={initialSidebarValues}
         validationSchema={DeterminationSchema}
@@ -200,7 +200,6 @@ export default () => {
                     <PDFButton
                       target="submissionDetails"
                       fileName={`submission_${params.confirmationNumber}.pdf`}
-                      filter={(node) => !['pdfButtonWrapper', 'sidebar', 'submissions', 'logout'].includes(node.id)}
                       onStart={() => document.getElementById('formWrapper').style.overflowY = 'initial'}
                       onFinish={() => document.getElementById('formWrapper').style.overflowY = 'auto'}
                     />
@@ -216,6 +215,7 @@ export default () => {
                 <Box p={4}>
                   <Button
                     text="Submit Determination"
+                    data-html2canvas-ignore="true"
                     size="large"
                     onClick={() => setMobileDrawerOpen(true)}
                   />
