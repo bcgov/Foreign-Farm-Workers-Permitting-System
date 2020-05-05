@@ -1,17 +1,19 @@
 import Link from '@material-ui/core/Link';
-import React, { useEffect, Fragment, useRef } from 'react';
+import React, { useEffect, useRef, Fragment } from 'react';
 import Alert from '@material-ui/lab/Alert';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { FastField, useFormikContext } from 'formik';
 
+import { getVersionCopy } from '../../utils';
+
 import { Card } from '../generic';
-import { RenderCheckbox, RenderRadioGroup, } from '../../components/fields';
+import { RenderCheckbox, RenderRadioGroup, } from '../fields';
 
 export const SectionThree = ({ isDisabled }) => {
   const { values, setFieldValue } = useFormikContext();
-  const { bedroomAccommodation } = values;
+  const { bedroomAccommodation, version } = values;
   const firstMount = useRef(true);
 
   useEffect(() => {
@@ -76,19 +78,7 @@ export const SectionThree = ({ isDisabled }) => {
             name="hasContactedLocalMedicalHealthOfficer"
             component={RenderCheckbox}
             disabled={isDisabled}
-            label={(
-              <span>
-                I have contacted my local&nbsp;
-                <Link
-                  href="https://www2.gov.bc.ca/gov/content/health/keeping-bc-healthy-safe/industrial-camps"
-                  rel="noreferrer noopenner"
-                  target="_blank"
-                >
-                  Health Authority
-                </Link>
-                &nbsp;to alert them to the arrival of temporary foreign workers to the region.
-              </span>
-            )}
+            label={getVersionCopy(version, 'hasContactedLocalMedicalHealthOfficer')}
           />
         </Grid>
 

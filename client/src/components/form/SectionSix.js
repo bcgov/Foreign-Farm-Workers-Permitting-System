@@ -1,10 +1,10 @@
-import EditIcon from '@material-ui/icons/Edit';
 import React, { Fragment, } from 'react';
 import Alert from '@material-ui/lab/Alert';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
+import EditIcon from '@material-ui/icons/Edit';
 import { FastField } from 'formik';
 
 import { SectionOne } from './SectionOne';
@@ -13,8 +13,7 @@ import { SectionThree } from './SectionThree';
 import { SectionFour } from './SectionFour';
 import { SectionFive } from './SectionFive';
 import { Button, Card } from '../generic';
-
-import { RenderCheckbox } from '../../components/fields';
+import { RenderCheckbox } from '../fields';
 
 export const SectionSix = ({ handleEditClick, isDisabled }) => {
   return (

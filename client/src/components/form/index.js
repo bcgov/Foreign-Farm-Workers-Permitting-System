@@ -23,7 +23,7 @@ import { SectionThree } from './SectionThree';
 import { SectionFour } from './SectionFour';
 import { SectionFive } from './SectionFive';
 import { SectionSix } from './SectionSix';
-import { Card, Button } from '../../components/generic';
+import { Card, Button } from '../generic';
 
 const steps = [
   'Before You Begin',

@@ -11,7 +11,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { FastField } from 'formik';
 
 import { Card } from '../generic';
-import { RenderCheckbox } from '../../components/fields';
+import { RenderCheckbox } from '../fields';
 
 export const SectionFive = ({ isDisabled }) => {
   return (

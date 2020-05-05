@@ -3,8 +3,8 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { FastField, FieldArray, useFormikContext } from 'formik';
 
-import { Card, Divider } from '../../components/generic';
-import { RenderCheckbox, RenderRadioGroup, RenderSelectField, RenderTextField } from '../../components/fields';
+import { Card, Divider } from '../generic';
+import { RenderCheckbox, RenderRadioGroup, RenderSelectField, RenderTextField } from '../fields';
 
 const provinces = [
   { value: 'Alberta', label: 'Alberta' },
