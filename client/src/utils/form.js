@@ -1,14 +1,16 @@
 import React from 'react';
 import Link from '@material-ui/core/Link';
 
+const CURRENT_VERSION = 2;
+
 /**
  * Map the copy of particular fields to their respected version.
  *
- * @param {Number} version - The copy version. IMPORTANT: Must default to latest version.
+ * @param {Number} version - The copy version. *IMPORTANT* Must default to the latest version.
  * @param {String} fieldName - The name of the input field.
  * @returns {JSX.Element} The field's respected label.
  */
-export const getVersionCopy = (version = 2, fieldName) => {
+export const getVersionCopy = (version = CURRENT_VERSION, fieldName) => {
   switch (fieldName) {
     case 'hasContactedLocalMedicalHealthOfficer': {
       return {
@@ -73,7 +75,7 @@ export const mapDetermination = (determination) => {
 export const handleSubmission = (submission) => {
   const modified = { ...submission };
   delete modified.numberOfAdditionalAddresses;
-  modified.version = 2;
+  modified.version = CURRENT_VERSION;
   return modified;
 };
 
