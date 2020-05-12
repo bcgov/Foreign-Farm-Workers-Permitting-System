@@ -136,14 +136,24 @@ export default createMuiTheme({
         width: '80vw',
       },
     },
+    MuiInputBase: {
+      root: {
+        padding: '0 !important'
+      },
+      input: {
+        paddingLeft: '10px !important',
+        paddingRight: '10px !important',
+        paddingTop: '11px !important',
+        paddingBottom: '11px !important',
+      },
+    },
     MuiFilledInput: {
       root: {
         borderTopLeftRadius: '3px',
         borderTopRightRadius: '3px',
       },
-      input: {
-        paddingTop: '11px',
-        paddingBottom: '11px',
+      inputAdornedEnd: {
+        marginRight: '30px'
       },
     },
     MuiOutlinedInput: {
