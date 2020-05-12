@@ -6,3 +6,4 @@ export * from './RenderDateField';
 export * from './RenderCheckbox';
 export * from './RenderCheckboxGroup';
 export * from './RenderSearchField';
+export * from './RenderOrgbookSearch';
