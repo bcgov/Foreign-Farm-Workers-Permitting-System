@@ -4,7 +4,7 @@ import Typography from '@material-ui/core/Typography';
 import { FastField } from 'formik';
 
 import { Card } from '../generic';
-import { RenderCheckbox } from '../../components/fields';
+import { RenderCheckbox } from '../fields';
 
 export const SectionFour = ({ isDisabled }) => {
   return (

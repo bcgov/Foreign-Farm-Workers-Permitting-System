@@ -10,8 +10,8 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import PhoneIcon from '@material-ui/icons/Phone';
 import { FastField } from 'formik';
 
-import { Card, Divider } from '../../components/generic';
-import { RenderCheckbox } from '../../components/fields';
+import { Card, Divider } from '../generic';
+import { RenderCheckbox } from '../fields';
 
 export const SectionOne = ({ isDisabled }) => {
   return (
