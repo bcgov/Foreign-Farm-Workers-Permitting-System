@@ -172,6 +172,18 @@ export const SectionOne = ({ isDisabled }) => {
                 that determines your compliance and readiness to receive workers.
               </Typography>
             </li>
+            <li>
+              <Typography variant="body1" gutterBottom>
+                You <b>must</b> identify all sites temporary foreign workers will be going to – failure to do so will result in inspection delays.
+              </Typography>
+            </li>
+            <li>
+              <Typography variant="body1" gutterBottom>
+                If you have already received a site inspection, but require an inspection at an additional site, you <b>must</b> contact your inspector to
+                notify them of this additional site. Submitting your form does not automatically trigger an inspection. If you do not have your
+                inspector’s email or phone number, please contact <Link href="mailto:Diana.Berry@gov.bc.ca">Diana.Berry@gov.bc.ca</Link>
+              </Typography>
+            </li>
           </ul>
           <Box mt={4} mb={4}>
             <Alert severity="warning">
