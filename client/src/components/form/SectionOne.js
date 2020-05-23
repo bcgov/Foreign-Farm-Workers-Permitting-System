@@ -184,6 +184,13 @@ export const SectionOne = ({ isDisabled }) => {
                 inspector’s email or phone number, please contact <Link href="mailto:Diana.Berry@gov.bc.ca">Diana.Berry@gov.bc.ca</Link>
               </Typography>
             </li>
+            <li>
+              <Typography variant="body1" gutterBottom>
+                Employers who pass inspection before the date their workers are set to arrive, but fail to properly identify each farm site and accommodation
+                site receiving workers will be <b>responsible for the hotel accommodation and food costs for each additional day</b> workers must be held
+                back at the hotel until all sites pass inspection.
+              </Typography>
+            </li>
           </ul>
           <Box mt={4} mb={4}>
             <Alert severity="warning">
