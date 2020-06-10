@@ -6,21 +6,8 @@ export $(shell sed 's/=.*//' .env)
 export GIT_LOCAL_BRANCH?=$(shell git rev-parse --abbrev-ref HEAD)
 export DEPLOY_DATE?=$(shell date '+%Y%m%d%H%M')
 export COMMIT_SHA?=$(shell git rev-parse --short=7 HEAD)
-# original IMAGE_TAG=${DEPLOY_DATE}-${COMMIT_SHA}
 export IMAGE_TAG=${COMMIT_SHA}
-
-define deployTag
-"${PROJECT}-${DEPLOY_DATE}"
-endef
-
-##############################################################
-# Define default environment variables for local development #
-##############################################################
-export PROJECT := $(or $(PROJECT),fos)
-export DB_USER := $(or $(DB_USER),development)
-export DB_PASSWORD := $(or $(DB_PASSWORD),development)
-export DB_NAME := $(or $(DB_NAME),development)
-export DB_SERVER := $(or $(DB_SERVER),mongodb)
+export PROJECT:=farm-operator-screening
 
 #################
 # Status Output #
@@ -40,11 +27,6 @@ print-status:
 	@echo " | COMMIT_SHA: $(COMMIT_SHA) "
 	@echo " | IMAGE_TAG: $(IMAGE_TAG) "
 	@echo " +---------------------------------------------------------+ "
-
-# If no .env file exists in the project root dir, run `make setup-development-env` and fill in credentials
-pipeline-deploy-dev: | pipeline-build pipeline-push pipeline-deploy-prep pipeline-deploy-version
-
-local:  | build-local run-local ## Task-Alias -- Run the steps for local development
 
 #####################
 # Local Development #
@@ -78,29 +60,6 @@ local-db-seed:
 local-server-tests:
 	@docker exec -it $(PROJECT)-server npm test
 
-
-####################
-# Utility commands #
-####################
-
-# Set an AWS profile for pipeline
-setup-aws-profile:
-	@echo "+\n++ Make: Setting AWS Profile...\n+"
-	@aws configure set aws_access_key_id $(AWS_ACCESS_KEY_ID) --profile $(PROFILE)
-	@aws configure set aws_secret_access_key $(AWS_SECRET_ACCESS_KEY) --profile $(PROFILE)
-
-# Generates ECR (Elastic Container Registry) repos, given the proper credentials
-create-ecr-repos:
-	@echo "+\n++ Creating EC2 Container repositories...\n+"
-	@$(shell aws ecr get-login --no-include-email --profile $(PROFILE) --region $(REGION))
-	@aws ecr create-repository --profile $(PROFILE) --region $(REGION) --repository-name $(PROJECT) || :
-	@aws iam attach-role-policy --role-name aws-elasticbeanstalk-ec2-role --policy-arn arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly --profile $(PROFILE) --region $(REGION)
-
-setup-development-env:
-	@echo "+\n++ Make: Preparing project for dev environment...\n+"
-	@cp .config/.env.dev ./.env
-
-
 ##########################################
 # Pipeline build and deployment commands #
 ##########################################
@@ -129,9 +88,6 @@ pipeline-deploy-version:
 	@aws --profile $(PROFILE) elasticbeanstalk create-application-version --application-name $(PROJECT) --version-label $(call deployTag) --source-bundle S3Bucket="$(S3_BUCKET)",S3Key="$(PROJECT)/$(call deployTag).zip"
 	@aws --profile $(PROFILE) elasticbeanstalk update-environment --application-name $(PROJECT) --environment-name $(DEPLOY_ENV) --version-label $(call deployTag)
 
-pipeline-healthcheck:
-	@aws --profile $(PROFILE) elasticbeanstalk describe-environments --application-name $(PROJECT) --environment-name $(DEPLOY_ENV) --query 'Environments[*].{Status: Status, Health: Health}'
-
 ##########################################
 # GH deployment commands #
 ##########################################
@@ -140,20 +96,12 @@ gh-pipeline-push:
 	@echo "+\n++ Pushing image to Dockerhub...\n+"
 	# @$(shell aws ecr get-login --no-include-email --region $(REGION) --profile $(PROFILE))
 	@aws --region $(REGION) ecr get-login-password | docker login --username AWS --password-stdin $(ACCOUNT_ID).dkr.ecr.$(REGION).amazonaws.com
-	@docker tag $(PROJECT):$(GIT_LOCAL_BRANCH) $(ACCOUNT_ID).dkr.ecr.$(REGION).amazonaws.com/$(PROJECT):$(IMAGE_TAG)
+	@docker tag $(PROJECT):$(IMAGE_TAG) $(ACCOUNT_ID).dkr.ecr.$(REGION).amazonaws.com/$(PROJECT):$(IMAGE_TAG)
 	@docker push $(ACCOUNT_ID).dkr.ecr.$(REGION).amazonaws.com/$(PROJECT):$(IMAGE_TAG)
 
 gh-pipeline-deploy-prep:
 	@echo "+\n++ Creating Dockerrun.aws.json file...\n+"
-	@.build/build_dockerrun.sh > Dockerrun.aws.json
-
-gh-pipeline-deploy-version:
-	@echo "+\n++ Deploying to Elasticbeanstalk...\n+"
-	@zip -r $(call deployTag).zip  Dockerrun.aws.json
-	@aws configure set region $(REGION)
-	@aws s3 cp $(call deployTag).zip s3://$(S3_BUCKET)/$(PROJECT)/$(call deployTag).zip
-	@aws elasticbeanstalk create-application-version --application-name $(PROJECT) --version-label $(call deployTag) --source-bundle S3Bucket="$(S3_BUCKET)",S3Key="$(PROJECT)/$(call deployTag).zip"
-	@aws elasticbeanstalk update-environment --application-name $(PROJECT) --environment-name $(DEPLOY_ENV) --version-label $(call deployTag)
+	@echo '{"AWSEBDockerrunVersion": 2, "containerDefinitions": [{ "essential": true, "name": "application", "image": "$(ACCOUNT_ID).dkr.ecr.$REGION.amazonaws.com/$(PROJECT):$(IMAGE_TAG)", "memory": 256, "portMappings": [{ "containerPort": 80, "hostPort": 80 }] }] }' > Dockerrun.aws.json
 
 gh-pipeline-deploy-bg-version:
 	@echo "+\n++ Deploying to Elasticbeanstalk...\n+"
@@ -164,39 +112,37 @@ gh-pipeline-deploy-bg-version:
 	@aws elasticbeanstalk update-environment --application-name $(PROJECT) --environment-name $(CLONED_ENV) --version-label $(CLONED_ENV)
 
 gh-get-current-aws-env:
-	@aws elasticbeanstalk describe-environments | grep -o -E '"EnvironmentName": .*' | grep -o -E '$(DEPLOY_ENV)-[0-9]+' | sort -r | head -n 1
+	@aws elasticbeanstalk describe-environments | grep -o -E '"EnvironmentName": .*' | grep -o -E 'fos-$(ENV_SUFFIX)-[0-9]+' | sort -r | head -n 1
 
 ##########################################
-# IMG Promotion commands #
+# New Pipeline #
 ##########################################
 
-pipeline-promote-prep:
-	@echo "--------------------------------------------------------------------------------";
-	@echo "NOTE: This requires the PROMOTE_FROM_TAG and PROMOTE_TO_TAG be set in .build/image_promote.sh"
-	@echo "--------------------------------------------------------------------------------";
-	@echo "\nPromoting to Image Registry...\n"
-	@.build/promote_img.sh
+build-image:
+	@docker build -t $(PROJECT):$(IMAGE_TAG) --build-arg VERSION=$(IMAGE_TAG) .
 
-pipeline-promote-staging:
-	@echo "+\n++ Promoting to Elasticbeanstalk [PRE-PROD/STAGING]...\n+"
-	@zip -r $(call deployTag)_staging.zip  Dockerrun.aws.json
-	@aws --profile $(PROFILE) configure set region $(REGION)
-	@aws --profile $(PROFILE) s3 cp $(call deployTag)_staging.zip s3://$(S3_BUCKET)/$(PROJECT)/$(call deployTag)_staging.zip
-	@aws --profile $(PROFILE) elasticbeanstalk create-application-version --application-name $(PROJECT) --version-label $(call deployTag) --source-bundle S3Bucket="$(S3_BUCKET)",S3Key="$(PROJECT)/$(call deployTag)_staging.zip"
-	@aws --profile $(PROFILE) elasticbeanstalk update-environment --application-name $(PROJECT) --environment-name farm-operator-screening-staging --version-label $(call deployTag)
+push-image:
+	@echo "+\n++ Pushing image to Dockerhub...\n+"
+	@aws --region $(REGION) ecr get-login-password | docker login --username AWS --password-stdin $(ACCOUNT_ID).dkr.ecr.$(REGION).amazonaws.com
+	@docker tag $(PROJECT):$(IMAGE_TAG) $(ACCOUNT_ID).dkr.ecr.$(REGION).amazonaws.com/$(PROJECT):$(IMAGE_TAG)
+	@docker push $(ACCOUNT_ID).dkr.ecr.$(REGION).amazonaws.com/$(PROJECT):$(IMAGE_TAG)
 
-pipeline-promote-prod:
-	@echo "+\n++ Promoting to Elasticbeanstalk [PRODUCTION]...\n+"
-	@zip -r $(call deployTag)_prod.zip  Dockerrun.aws.json
-	@aws --profile $(PROFILE) configure set region $(REGION)
-	@aws --profile $(PROFILE) s3 cp $(call deployTag)_prod.zip s3://$(S3_BUCKET)/$(PROJECT)/$(call deployTag)_prod.zip
-	@aws --profile $(PROFILE) elasticbeanstalk create-application-version --application-name $(PROJECT) --version-label $(call deployTag) --source-bundle S3Bucket="$(S3_BUCKET)",S3Key="$(PROJECT)/$(call deployTag)_prod.zip"
-	@aws --profile $(PROFILE) elasticbeanstalk update-environment --application-name $(PROJECT) --environment-name farm-operator-screening-prod --version-label $(call deployTag)
+validate-image:
+	@echo "Ensuring $(PROJECT):$(IMAGE_TAG) is in container registry"
+	@aws --profile $(PROFILE) --region $(REGION) ecr describe-images --repository-name=$(PROJECT) --image-ids=imageTag=$(IMAGE_TAG)
+
+promote-image:
+	@echo "Creating deployment artifact for commit $(IMAGE_TAG) and promoting image to $(ENV_SUFFIX)"
+	@echo '{"AWSEBDockerrunVersion": 2, "containerDefinitions": [{ "essential": true, "name": "application", "image": "$(ACCOUNT_ID).dkr.ecr.$REGION.amazonaws.com/$(PROJECT):$(IMAGE_TAG)", "memory": 256, "portMappings": [{ "containerPort": 80, "hostPort": 80 }] }] }' > Dockerrun.aws.json
+	@zip -r $(IMAGE_TAG)-$(ENV_SUFFIX).zip  Dockerrun.aws.json
+	@aws --profile $(PROFILE) --region $(REGION) s3 cp $(IMAGE_TAG)-$(ENV_SUFFIX).zip s3://$(S3_BUCKET)/$(PROJECT)/$(IMAGE_TAG)-$(ENV_SUFFIX).zip
+	@aws --profile $(PROFILE) --region $(REGION) elasticbeanstalk create-application-version --application-name $(PROJECT) --version-label $(IMAGE_TAG)-$(ENV_SUFFIX) --source-bundle S3Bucket="$(S3_BUCKET)",S3Key="$(PROJECT)/$(IMAGE_TAG)-$(ENV_SUFFIX).zip"
+	@aws --profile $(PROFILE) --region $(REGION) elasticbeanstalk update-environment --application-name $(PROJECT) --environment-name fos-$(ENV_SUFFIX) --version-label $(IMAGE_TAG)-$(ENV_SUFFIX)
 
 ##########################################
 # Git tagging aliases #
 ##########################################
 
 tag-dev:
-	@git tag -fa dev -m "Deploying $(BRANCH):$(IMAGE_TAG) to dev env" $(SIMAGE_TAGHA)
+	@git tag -fa dev -m "Deploying $(BRANCH):$(IMAGE_TAG) to dev env" $(IMAGE_TAG)
 	@git push --force origin refs/tags/dev:refs/tags/dev

@@ -3,7 +3,7 @@ name: Blue-Green - Build and Deploy to Dev
 on:
   push:
     tags:
-      - 'dev'
+      - 'N/A'
 
 env:
   ACCOUNT_ID: ${{ secrets.ACCOUNT_ID }}
