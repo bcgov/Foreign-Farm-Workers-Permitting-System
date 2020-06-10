@@ -111,12 +111,12 @@ gh-pipeline-deploy-bg-version:
 	@aws elasticbeanstalk create-application-version --application-name $(PROJECT) --version-label $(CLONED_ENV) --source-bundle S3Bucket="$(S3_BUCKET)",S3Key="$(PROJECT)/$(CLONED_ENV).zip"
 	@aws elasticbeanstalk update-environment --application-name $(PROJECT) --environment-name $(CLONED_ENV) --version-label $(CLONED_ENV)
 
-gh-get-current-aws-env:
-	@aws elasticbeanstalk describe-environments | grep -o -E '"EnvironmentName": .*' | grep -o -E 'fos-$(ENV_SUFFIX)-[0-9]+' | sort -r | head -n 1
-
 ##########################################
 # New Pipeline #
 ##########################################
+
+get-latest-eb-env:
+	@aws elasticbeanstalk describe-environments | grep -o -E '"EnvironmentName": .*' | grep -o -E 'fos-$(ENV_SUFFIX)-[0-9]+' | sort -r | head -n 1
 
 build-image:
 	@docker build -t $(PROJECT):$(IMAGE_TAG) --build-arg VERSION=$(IMAGE_TAG) .

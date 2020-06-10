@@ -53,14 +53,14 @@ jobs:
         shell: bash
         run: |
           echo $ENV_SUFFIX
-          echo "##[set-output name=source;]$(make gh-get-current-aws-env)"
-          echo "##[set-output name=destination;]fos-$ENV_SUFFIX$(date '+%Y%m%d%H%M')"
+          echo "##[set-output name=source;]$(make get-latest-eb-env)"
+          echo "##[set-output name=destination;]fos-$ENV_SUFFIX-$(date '+%Y%m%d%H%M')"
         id: env_names
 
       - name: Clone EB enviroment
         run: |
           pip install awsebcli
-          eb clone ${{ steps.env_names.outputs.env }} --clone_name ${{ env.DEPLOY_ENV }}-${{ steps.env_names.outputs.date }} --exact --verbose
+          eb clone ${{ steps.env_names.outputs.source }} --clone_name ${{ steps.env_names.outputs.destination }} --exact --verbose
 
       - name: Creating EB Deployment Artifact
         run: make gh-pipeline-deploy-prep
