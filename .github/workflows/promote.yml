@@ -19,6 +19,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v1
 
+      - name: Add Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
       - name: Extract tag, set deployment target
         run: |
           echo ::set-env name=ENV_SUFFIX::${GITHUB_REF#refs/*/}
