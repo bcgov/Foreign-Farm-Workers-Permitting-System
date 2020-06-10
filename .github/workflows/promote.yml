@@ -30,9 +30,6 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.REGION }}
 
-      - name: Validate Image
-        run: make validate-image
-
 
 
       - name: Build Image

@@ -123,21 +123,21 @@ build-image:
 
 push-image:
 	@echo "+\n++ Pushing image to Dockerhub...\n+"
-	@aws --region $(REGION) ecr get-login-password | docker login --username AWS --password-stdin $(ACCOUNT_ID).dkr.ecr.$(REGION).amazonaws.com
+	@aws ecr get-login-password | docker login --username AWS --password-stdin $(ACCOUNT_ID).dkr.ecr.$(REGION).amazonaws.com
 	@docker tag $(PROJECT):$(IMAGE_TAG) $(ACCOUNT_ID).dkr.ecr.$(REGION).amazonaws.com/$(PROJECT):$(IMAGE_TAG)
 	@docker push $(ACCOUNT_ID).dkr.ecr.$(REGION).amazonaws.com/$(PROJECT):$(IMAGE_TAG)
 
 validate-image:
 	@echo "Ensuring $(PROJECT):$(IMAGE_TAG) is in container registry"
-	@aws --region $(REGION) ecr describe-images --repository-name=$(PROJECT) --image-ids=imageTag=$(IMAGE_TAG)
+	@aws ecr describe-images --repository-name=$(PROJECT) --image-ids=imageTag=$(IMAGE_TAG)
 
 promote-image:
 	@echo "Creating deployment artifact for commit $(IMAGE_TAG) and promoting image to $(ENV_SUFFIX)"
 	@echo '{"AWSEBDockerrunVersion": 2, "containerDefinitions": [{ "essential": true, "name": "application", "image": "$(ACCOUNT_ID).dkr.ecr.$REGION.amazonaws.com/$(PROJECT):$(IMAGE_TAG)", "memory": 256, "portMappings": [{ "containerPort": 80, "hostPort": 80 }] }] }' > Dockerrun.aws.json
 	@zip -r $(IMAGE_TAG)-$(ENV_SUFFIX).zip  Dockerrun.aws.json
-	@aws --profile $(PROFILE) --region $(REGION) s3 cp $(IMAGE_TAG)-$(ENV_SUFFIX).zip s3://$(S3_BUCKET)/$(PROJECT)/$(IMAGE_TAG)-$(ENV_SUFFIX).zip
-	@aws --profile $(PROFILE) --region $(REGION) elasticbeanstalk create-application-version --application-name $(PROJECT) --version-label $(IMAGE_TAG)-$(ENV_SUFFIX) --source-bundle S3Bucket="$(S3_BUCKET)",S3Key="$(PROJECT)/$(IMAGE_TAG)-$(ENV_SUFFIX).zip"
-	@aws --profile $(PROFILE) --region $(REGION) elasticbeanstalk update-environment --application-name $(PROJECT) --environment-name fos-$(ENV_SUFFIX) --version-label $(IMAGE_TAG)-$(ENV_SUFFIX)
+	@aws s3 cp $(IMAGE_TAG)-$(ENV_SUFFIX).zip s3://$(S3_BUCKET)/$(PROJECT)/$(IMAGE_TAG)-$(ENV_SUFFIX).zip
+	@aws elasticbeanstalk create-application-version --application-name $(PROJECT) --version-label $(IMAGE_TAG)-$(ENV_SUFFIX) --source-bundle S3Bucket="$(S3_BUCKET)",S3Key="$(PROJECT)/$(IMAGE_TAG)-$(ENV_SUFFIX).zip"
+	@aws elasticbeanstalk update-environment --application-name $(PROJECT) --environment-name fos-$(ENV_SUFFIX) --version-label $(IMAGE_TAG)-$(ENV_SUFFIX)
 
 ##########################################
 # Git tagging aliases #
