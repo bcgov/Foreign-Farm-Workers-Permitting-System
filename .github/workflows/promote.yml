@@ -3,7 +3,7 @@ name: Blue Green Image Promotion
 on:
   push:
     tags:
-      - dev
+      - staging
 
 env:
   ACCOUNT_ID: ${{ secrets.ACCOUNT_ID }}
@@ -13,7 +13,7 @@ env:
 
 jobs:
   promote:
-    name: Promote Image
+    name: Blue Green Image Promotion
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -24,10 +24,6 @@ jobs:
         with:
           python-version: '3.x'
 
-      - name: Extract tag, set deployment target
-        run: |
-          echo ::set-env name=ENV_SUFFIX::${GITHUB_REF#refs/*/}
-
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -35,35 +31,20 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.REGION }}
 
-
-
-      - name: Build Image
-        run: make build-image
-
-      - name: Push Image
-        run: make push-image
-
-
-
+      - name: Extract Tag, Set Source and Destination Env
+        run: |
+          ENV_SUFFIX=${GITHUB_REF#refs/*/}
+          echo ::set-env name=ENV_SUFFIX::$ENV_SUFFIX
+          echo ::set-env name=SOURCE_ENV::$(make get-latest-eb-env)
+          echo ::set-env name=DESTINATION_ENV::fos-$ENV_SUFFIX-$(date '+%Y%m%d%H%M')
 
       - name: Validate Image
         run: make validate-image
 
-      - name: Source and Target EB Environment Names
-        shell: bash
-        run: |
-          echo $ENV_SUFFIX
-          echo "##[set-output name=source;]$(make get-latest-eb-env)"
-          echo "##[set-output name=destination;]fos-$ENV_SUFFIX-$(date '+%Y%m%d%H%M')"
-        id: env_names
-
-      - name: Clone EB enviroment
+      - name: Clone EB Enviroment
         run: |
           pip install awsebcli
-          eb clone ${{ steps.env_names.outputs.source }} --clone_name ${{ steps.env_names.outputs.destination }} --exact --verbose
+          eb clone ${{ env.SOURCE_ENV }} --clone_name ${{ env.DESTINATION_ENV }} --exact --verbose
 
-      - name: Creating EB Deployment Artifact
-        run: make gh-pipeline-deploy-prep
-
-      - name: Deploying Version to cloned EB environment
-        run: make gh-pipeline-deploy-bg-version CLONED_ENV=${{ env.DEPLOY_ENV }}-${{ steps.extract_date.outputs.date }}
+      - name: Create Artifact and Deploy to EB
+        run: make promote-image

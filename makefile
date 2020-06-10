@@ -61,64 +61,14 @@ local-server-tests:
 	@docker exec -it $(PROJECT)-server npm test
 
 ##########################################
-# Pipeline build and deployment commands #
-##########################################
-
-pipeline-build:
-	@echo "+\n++ Performing build of Docker images...\n+"
-	@echo "Building images with: $(GIT_LOCAL_BRANCH)"
-	@docker-compose -f docker-compose.yml build
-
-pipeline-push:
-	@echo "+\n++ Pushing image to Dockerhub...\n+"
-	# @$(shell aws ecr get-login --no-include-email --region $(REGION) --profile $(PROFILE))
-	@aws --region $(REGION) --profile $(PROFILE) ecr get-login-password | docker login --username AWS --password-stdin $(ACCOUNT_ID).dkr.ecr.$(REGION).amazonaws.com
-	@docker tag $(PROJECT):$(GIT_LOCAL_BRANCH) $(ACCOUNT_ID).dkr.ecr.$(REGION).amazonaws.com/$(PROJECT):$(IMAGE_TAG)
-	@docker push $(ACCOUNT_ID).dkr.ecr.$(REGION).amazonaws.com/$(PROJECT):$(IMAGE_TAG)
-
-pipeline-deploy-prep:
-	@echo "+\n++ Creating Dockerrun.aws.json file...\n+"
-	@.build/build_dockerrun.sh > Dockerrun.aws.json
-
-pipeline-deploy-version:
-	@echo "+\n++ Deploying to Elasticbeanstalk...\n+"
-	@zip -r $(call deployTag).zip  Dockerrun.aws.json
-	@aws --profile $(PROFILE) configure set region $(REGION)
-	@aws --profile $(PROFILE) s3 cp $(call deployTag).zip s3://$(S3_BUCKET)/$(PROJECT)/$(call deployTag).zip
-	@aws --profile $(PROFILE) elasticbeanstalk create-application-version --application-name $(PROJECT) --version-label $(call deployTag) --source-bundle S3Bucket="$(S3_BUCKET)",S3Key="$(PROJECT)/$(call deployTag).zip"
-	@aws --profile $(PROFILE) elasticbeanstalk update-environment --application-name $(PROJECT) --environment-name $(DEPLOY_ENV) --version-label $(call deployTag)
-
-##########################################
-# GH deployment commands #
-##########################################
-
-gh-pipeline-push:
-	@echo "+\n++ Pushing image to Dockerhub...\n+"
-	# @$(shell aws ecr get-login --no-include-email --region $(REGION) --profile $(PROFILE))
-	@aws --region $(REGION) ecr get-login-password | docker login --username AWS --password-stdin $(ACCOUNT_ID).dkr.ecr.$(REGION).amazonaws.com
-	@docker tag $(PROJECT):$(IMAGE_TAG) $(ACCOUNT_ID).dkr.ecr.$(REGION).amazonaws.com/$(PROJECT):$(IMAGE_TAG)
-	@docker push $(ACCOUNT_ID).dkr.ecr.$(REGION).amazonaws.com/$(PROJECT):$(IMAGE_TAG)
-
-gh-pipeline-deploy-prep:
-	@echo "+\n++ Creating Dockerrun.aws.json file...\n+"
-	@echo '{"AWSEBDockerrunVersion": 2, "containerDefinitions": [{ "essential": true, "name": "application", "image": "$(ACCOUNT_ID).dkr.ecr.$REGION.amazonaws.com/$(PROJECT):$(IMAGE_TAG)", "memory": 256, "portMappings": [{ "containerPort": 80, "hostPort": 80 }] }] }' > Dockerrun.aws.json
-
-gh-pipeline-deploy-bg-version:
-	@echo "+\n++ Deploying to Elasticbeanstalk...\n+"
-	@zip -r $(CLONED_ENV).zip  Dockerrun.aws.json
-	@aws configure set region $(REGION)
-	@aws s3 cp $(CLONED_ENV).zip s3://$(S3_BUCKET)/$(PROJECT)/$(CLONED_ENV).zip
-	@aws elasticbeanstalk create-application-version --application-name $(PROJECT) --version-label $(CLONED_ENV) --source-bundle S3Bucket="$(S3_BUCKET)",S3Key="$(PROJECT)/$(CLONED_ENV).zip"
-	@aws elasticbeanstalk update-environment --application-name $(PROJECT) --environment-name $(CLONED_ENV) --version-label $(CLONED_ENV)
-
-##########################################
 # New Pipeline #
 ##########################################
 
 get-latest-eb-env:
-	@aws elasticbeanstalk describe-environments | grep -o -E '"EnvironmentName": .*' | grep -o -E 'fos-$(ENV_SUFFIX)-[0-9]+' | sort -r | head -n 1
+	@aws elasticbeanstalk describe-environments | jq -cr '.Environments | .[] | select(.Status == "Ready" and (.EnvironmentName | test("^fos-$(ENV_SUFFIX)(-[0-9]+)?$$"))) | .EnvironmentName' | sort | tail -n 1
 
 build-image:
+	@echo "Building image $(PROJECT):$(IMAGE_TAG)"
 	@docker build -t $(PROJECT):$(IMAGE_TAG) --build-arg VERSION=$(IMAGE_TAG) .
 
 push-image:
@@ -133,11 +83,11 @@ validate-image:
 
 promote-image:
 	@echo "Creating deployment artifact for commit $(IMAGE_TAG) and promoting image to $(ENV_SUFFIX)"
-	@echo '{"AWSEBDockerrunVersion": 2, "containerDefinitions": [{ "essential": true, "name": "application", "image": "$(ACCOUNT_ID).dkr.ecr.$REGION.amazonaws.com/$(PROJECT):$(IMAGE_TAG)", "memory": 256, "portMappings": [{ "containerPort": 80, "hostPort": 80 }] }] }' > Dockerrun.aws.json
-	@zip -r $(IMAGE_TAG)-$(ENV_SUFFIX).zip  Dockerrun.aws.json
-	@aws s3 cp $(IMAGE_TAG)-$(ENV_SUFFIX).zip s3://$(S3_BUCKET)/$(PROJECT)/$(IMAGE_TAG)-$(ENV_SUFFIX).zip
-	@aws elasticbeanstalk create-application-version --application-name $(PROJECT) --version-label $(IMAGE_TAG)-$(ENV_SUFFIX) --source-bundle S3Bucket="$(S3_BUCKET)",S3Key="$(PROJECT)/$(IMAGE_TAG)-$(ENV_SUFFIX).zip"
-	@aws elasticbeanstalk update-environment --application-name $(PROJECT) --environment-name fos-$(ENV_SUFFIX) --version-label $(IMAGE_TAG)-$(ENV_SUFFIX)
+	@echo '{"AWSEBDockerrunVersion": 2, "containerDefinitions": [{ "essential": true, "name": "application", "image": "$(ACCOUNT_ID).dkr.ecr.$(REGION).amazonaws.com/$(PROJECT):$(IMAGE_TAG)", "memory": 256, "portMappings": [{ "containerPort": 80, "hostPort": 80 }] }] }' > Dockerrun.aws.json
+	@zip -r fos-$(ENV_SUFFIX)-$(IMAGE_TAG).zip  Dockerrun.aws.json
+	@aws s3 cp fos-$(ENV_SUFFIX)-$(IMAGE_TAG).zip s3://$(S3_BUCKET)/$(PROJECT)/fos-$(ENV_SUFFIX)-$(IMAGE_TAG).zip
+	@aws elasticbeanstalk create-application-version --application-name $(PROJECT) --version-label $(IMAGE_TAG)-$(ENV_SUFFIX) --source-bundle S3Bucket="$(S3_BUCKET)",S3Key="$(PROJECT)/fos-$(ENV_SUFFIX)-$(IMAGE_TAG).zip"
+	@aws elasticbeanstalk update-environment --application-name $(PROJECT) --environment-name $(DESTINATION_ENV) --version-label $(IMAGE_TAG)-$(ENV_SUFFIX)
 
 ##########################################
 # Git tagging aliases #
