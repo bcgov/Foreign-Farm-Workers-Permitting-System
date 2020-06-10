@@ -129,7 +129,7 @@ push-image:
 
 validate-image:
 	@echo "Ensuring $(PROJECT):$(IMAGE_TAG) is in container registry"
-	@aws --profile $(PROFILE) --region $(REGION) ecr describe-images --repository-name=$(PROJECT) --image-ids=imageTag=$(IMAGE_TAG)
+	@aws --region $(REGION) ecr describe-images --repository-name=$(PROJECT) --image-ids=imageTag=$(IMAGE_TAG)
 
 promote-image:
 	@echo "Creating deployment artifact for commit $(IMAGE_TAG) and promoting image to $(ENV_SUFFIX)"

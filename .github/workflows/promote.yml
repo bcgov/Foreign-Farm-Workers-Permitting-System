@@ -12,8 +12,8 @@ env:
   REGION: ca-central-1
 
 jobs:
-  setup:
-    name: Set Deployment Target
+  promote:
+    name: Promote Image
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -23,19 +23,6 @@ jobs:
         run: |
           echo ::set-env name=ENV_SUFFIX::${GITHUB_REF#refs/*/}
 
-      - name: Remove me!
-        run: |
-          echo $ENV_SUFFIX
-          echo ${{ env.ENV_SUFFIX }}
-
-  promote:
-    name: Promote Image
-    needs: setup
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v1
-
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -43,13 +30,16 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.REGION }}
 
+      - name: Validate Image
+        run: make validate-image
+
 
 
       - name: Build Image
         run: make build-image
 
       - name: Push Image
-        run: make validate-image
+        run: make push-image
 
 
 
