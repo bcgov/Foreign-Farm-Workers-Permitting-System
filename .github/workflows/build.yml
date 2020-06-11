@@ -33,7 +33,7 @@ jobs:
 
       - name: Extract Tag, Set Source and Destination Env
         run: |
-          ENV_SUFFIX=${GITHUB_REF#refs/*/}
+          export ENV_SUFFIX=${GITHUB_REF#refs/*/}
           echo ::set-env name=ENV_SUFFIX::$ENV_SUFFIX
           echo ::set-env name=DESTINATION_ENV::$(make get-latest-eb-env)
 
