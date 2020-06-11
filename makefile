@@ -6,6 +6,9 @@ export $(shell sed 's/=.*//' .env)
 export COMMIT_SHA?=$(shell git rev-parse --short=7 HEAD)
 export IMAGE_TAG=${COMMIT_SHA}
 export PROJECT:=farm-operator-screening
+export ENV_PREFIX?=fos
+export ENV_SUFFIX?=dev
+export VERSION_LABEL:=$(ENV_PREFIX)-$(ENV_SUFFIX)-$(IMAGE_TAG)
 .DEFAULT_GOAL:=print-status
 
 print-status:
@@ -17,6 +20,7 @@ print-status:
 	@echo "PROFILE: $(PROFILE)"
 	@echo "COMMIT_SHA: $(COMMIT_SHA)"
 	@echo "IMAGE_TAG: $(IMAGE_TAG)"
+	@echo "VERSION_LABEL: $(VERSION_LABEL)"
 
 # Local Development
 
@@ -46,8 +50,11 @@ local-server-tests:
 
 # Pipeline
 
-get-latest-eb-env:
-	@aws elasticbeanstalk describe-environments | jq -cr '.Environments | .[] | select(.Status == "Ready" and (.EnvironmentName | test("^fos-$(ENV_SUFFIX)(-[0-9]+)?$$"))) | .EnvironmentName' | sort | tail -n 1
+get-latest-env-name:
+	@aws elasticbeanstalk describe-environments | jq -cr '.Environments | .[] | select(.Status == "Ready" and (.EnvironmentName | test("^$(ENV_PREFIX)-$(ENV_SUFFIX)(-[0-9]+)?$$"))) | .EnvironmentName' | sort | tail -n 1
+
+create-new-env-name:
+	@echo $(ENV_PREFIX)-$(ENV_SUFFIX)-$(shell date '+%Y%m%d%H%M')
 
 build-image:
 	@echo "Building image $(PROJECT):$(IMAGE_TAG)"
@@ -66,10 +73,10 @@ validate-image:
 promote-image:
 	@echo "Creating deployment artifact for commit $(IMAGE_TAG) and promoting image to $(ENV_SUFFIX)"
 	@echo '{"AWSEBDockerrunVersion": 2, "containerDefinitions": [{ "essential": true, "name": "application", "image": "$(ACCOUNT_ID).dkr.ecr.$(REGION).amazonaws.com/$(PROJECT):$(IMAGE_TAG)", "memory": 256, "portMappings": [{ "containerPort": 80, "hostPort": 80 }] }] }' > Dockerrun.aws.json
-	@zip -r fos-$(ENV_SUFFIX)-$(IMAGE_TAG).zip  Dockerrun.aws.json
-	@aws s3 cp fos-$(ENV_SUFFIX)-$(IMAGE_TAG).zip s3://$(S3_BUCKET)/$(PROJECT)/fos-$(ENV_SUFFIX)-$(IMAGE_TAG).zip
-	@aws elasticbeanstalk create-application-version --application-name $(PROJECT) --version-label fos-$(ENV_SUFFIX)-$(IMAGE_TAG) --source-bundle S3Bucket="$(S3_BUCKET)",S3Key="$(PROJECT)/fos-$(ENV_SUFFIX)-$(IMAGE_TAG).zip"
-	@aws elasticbeanstalk update-environment --application-name $(PROJECT) --environment-name $(DESTINATION_ENV) --version-label fos-$(ENV_SUFFIX)-$(IMAGE_TAG)
+	@zip -r $(VERSION_LABEL).zip  Dockerrun.aws.json
+	@aws s3 cp $(VERSION_LABEL).zip s3://$(S3_BUCKET)/$(PROJECT)/$(VERSION_LABEL).zip
+	@aws elasticbeanstalk create-application-version --application-name $(PROJECT) --version-label $(VERSION_LABEL) --source-bundle S3Bucket="$(S3_BUCKET)",S3Key="$(PROJECT)/$(VERSION_LABEL).zip"
+	@aws elasticbeanstalk update-environment --application-name $(PROJECT) --environment-name $(DESTINATION_ENV) --version-label $(VERSION_LABEL)
 
 # Git Tagging Aliases
 

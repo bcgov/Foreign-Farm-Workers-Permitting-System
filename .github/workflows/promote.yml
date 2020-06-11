@@ -36,8 +36,8 @@ jobs:
         run: |
           export ENV_SUFFIX=${GITHUB_REF#refs/*/}
           echo ::set-env name=ENV_SUFFIX::$ENV_SUFFIX
-          echo ::set-env name=SOURCE_ENV::$(make get-latest-eb-env)
-          echo ::set-env name=DESTINATION_ENV::fos-$ENV_SUFFIX-$(date '+%Y%m%d%H%M')
+          echo ::set-env name=SOURCE_ENV::$(make get-latest-env-name)
+          echo ::set-env name=DESTINATION_ENV::$(make create-new-env-name)
 
       - name: Validate Image
         run: make validate-image

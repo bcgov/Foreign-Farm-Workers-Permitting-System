@@ -35,7 +35,7 @@ jobs:
         run: |
           export ENV_SUFFIX=${GITHUB_REF#refs/*/}
           echo ::set-env name=ENV_SUFFIX::$ENV_SUFFIX
-          echo ::set-env name=DESTINATION_ENV::$(make get-latest-eb-env)
+          echo ::set-env name=DESTINATION_ENV::$(make get-latest-env-name)
 
       - name: Build Image
         run: make build-image
