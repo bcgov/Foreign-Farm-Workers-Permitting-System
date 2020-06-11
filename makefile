@@ -82,3 +82,8 @@ tag-staging:
 	@echo "Deploying $(PROJECT):$(IMAGE_TAG) to staging env"
 	@git tag -fa staging -m "Deploying $(PROJECT):$(IMAGE_TAG) to staging env" $(IMAGE_TAG)
 	@git push --force origin refs/tags/staging:refs/tags/staging
+
+tag-prod:
+	@echo "Deploying $(PROJECT):$(IMAGE_TAG) to prod env"
+	@git tag -fa prod -m "Deploying $(PROJECT):$(IMAGE_TAG) to prod env" $(IMAGE_TAG)
+	@git push --force origin refs/tags/prod:refs/tags/prod
