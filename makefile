@@ -26,19 +26,19 @@ print-status:
 
 build-local:
 	@echo "Building local FOS image"
-	@docker-compose build
+	@docker-compose -f docker-compose.dev.yml build
 
 run-local:
 	@echo "Running local FOS container"
-	@docker-compose up
+	@docker-compose -f docker-compose.dev.yml up
 
 run-local-db:
 	@echo "Running local DB container"
-	@docker-compose up mongodb
+	@docker-compose -f docker-compose.dev.yml up mongodb
 
 close-local:
 	@echo "Stopping local FOS container"
-	@docker-compose down
+	@docker-compose -f docker-compose.dev.yml down
 
 local-db-seed:
 	@echo "Seeding local DB container"
