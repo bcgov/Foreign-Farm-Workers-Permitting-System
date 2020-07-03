@@ -181,7 +181,7 @@ export const SectionOne = ({ isDisabled }) => {
               <Typography variant="body1" gutterBottom>
                 If you have already received a site inspection, but require an inspection at an additional site, you <b>must</b> contact your inspector to
                 notify them of this additional site. Submitting your form does not automatically trigger an inspection. If you do not have your
-                inspector’s email or phone number, please contact <Link href="mailto:Michelle.Irwin@gov.bc.ca">Michelle.Irwin@gov.bc.ca</Link>
+                inspector’s email or phone number, please contact <Link href="mailto:AGRI.TFWProgram@gov.bc.ca">AGRI.TFWProgram@gov.bc.ca</Link>
               </Typography>
             </li>
             <li>

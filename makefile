@@ -25,11 +25,11 @@ print-status:
 # Local Development
 
 build-local:
-	@echo "Building local FOS image"
+	@echo "Building local app image"
 	@docker-compose -f docker-compose.dev.yml build
 
 run-local:
-	@echo "Running local FOS container"
+	@echo "Running local app container"
 	@docker-compose -f docker-compose.dev.yml up
 
 run-local-db:
@@ -37,7 +37,7 @@ run-local-db:
 	@docker-compose -f docker-compose.dev.yml up mongodb
 
 close-local:
-	@echo "Stopping local FOS container"
+	@echo "Stopping local app container"
 	@docker-compose -f docker-compose.dev.yml down
 
 local-db-seed:
@@ -45,7 +45,7 @@ local-db-seed:
 	@docker exec -it $(PROJECT)-server npm run db:seed
 
 local-server-tests:
-	@echo "Running tests in local FOS container"
+	@echo "Running tests in local app container"
 	@docker exec -it $(PROJECT)-server npm test
 
 # Pipeline
@@ -75,7 +75,7 @@ promote-image:
 	@echo '{"AWSEBDockerrunVersion": 2, "containerDefinitions": [{ "essential": true, "name": "application", "image": "$(ACCOUNT_ID).dkr.ecr.$(REGION).amazonaws.com/$(PROJECT):$(IMAGE_TAG)", "memory": 256, "portMappings": [{ "containerPort": 80, "hostPort": 80 }] }] }' > Dockerrun.aws.json
 	@zip -r $(VERSION_LABEL).zip  Dockerrun.aws.json
 	@aws s3 cp $(VERSION_LABEL).zip s3://$(S3_BUCKET)/$(PROJECT)/$(VERSION_LABEL).zip
-	@aws elasticbeanstalk create-application-version --application-name $(PROJECT) --version-label $(VERSION_LABEL) --source-bundle S3Bucket="$(S3_BUCKET)",S3Key="$(PROJECT)/$(VERSION_LABEL).zip"
+	@aws elasticbeanstalk create-application-version --application-name $(PROJECT) --version-label $(VERSION_LABEL) --source-bundle S3Bucket="$(S3_BUCKET)",S3Key="$(PROJECT)/$(VERSION_LABEL).zip" || :
 	@aws elasticbeanstalk update-environment --application-name $(PROJECT) --environment-name $(DESTINATION_ENV) --version-label $(VERSION_LABEL)
 
 # Git Tagging Aliases
