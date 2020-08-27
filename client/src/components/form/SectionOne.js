@@ -45,7 +45,7 @@ export const SectionOne = ({ isDisabled }) => {
                     rel="noreferrer noopenner"
                     target="_blank"
                   >
-                    Protecting BC Farmers and Farm Workers During the COVID-19 Pandemic
+                    Protecting Industrial Camp Workers, Contractors, and Employers Working in the Agricultural, Forestry, and Natural Resource Sectors During the COVID-19 Pandemic
                   </Link>
                 </Typography>
               </Box>
@@ -86,8 +86,7 @@ export const SectionOne = ({ isDisabled }) => {
                   </Typography>
                 </Card>
                 <Typography variant="body1" paragraph>
-                  Have you worked through all the sections in Protecting BC farmers and farm workers
-                  during the COVID-19 pandemic to identify the risks at your farm?
+                  Have you worked through all the sections in Protecting Industrial Camp Workers, Contractors, and Employers Working in the Agricultural, Forestry, and Natural Resource Sectors During the COVID-19 Pandemic to identify the risks at your farm?
                 </Typography>
               </ExpansionPanelDetails>
             </ExpansionPanel>
@@ -233,7 +232,7 @@ export const SectionOne = ({ isDisabled }) => {
               rel="noreferrer noopenner"
               target="_blank"
             >
-              Protecting BC Farmers and Farm Workers During the COVID-19 Pandemic.
+              Protecting Industrial Camp Workers, Contractors, and Employers Working in the Agricultural, Forestry, and Natural Resource Sectors During the COVID-19 Pandemic
             </Link>
           </span>
         )}
