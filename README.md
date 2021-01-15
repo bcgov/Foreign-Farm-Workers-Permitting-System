@@ -19,7 +19,9 @@ This is a digital service built in partnership with the Ministry of Health and t
 
 ## Project Status
 
-This application has been released and is in active feature development.
+[![img](https://img.shields.io/badge/Lifecycle-Stable-97ca00)](https://github.com/bcgov/repomountie/blob/master/doc/lifecycle-badges.md)
+
+This application has been released and is stable.
 
 ## Features
 
@@ -56,14 +58,6 @@ To set up and run database, backend (server), and frontend (client) applications
 To tear down your environment:
 - Run `make close-local`
 
-To migrate from dynamoDB to MongoDB/DocumentDB database:
-- Run DynamoDB 
-  - `docker run -p 8000:8000 --name dynamoDB --network=enhanced-travel-screening_frontend amazon/dynamodb-local`
-  - `enhanced-travel-screening` represents the folder name of your project directory
-  - Keep in mind if you were not using
-- Run the migration script
-  - `make local-db-migration`
-
 To seed database, run:
 - `make local-db-seed`
 
@@ -71,7 +65,7 @@ To run server tests:
 - Make sure containers are running
   - `make local`
 - Shell into the server container by running
-  - `make local-server-workspace` 
+  - `make local-server-workspace`
   - `npm test`
 - or by running
   - `make local-server-tests`
@@ -95,23 +89,17 @@ Communication from front end to back end is facilitated by [the proxy field](htt
 
 ### Front End Views
 
-##### /form
- - allows a traveller to submit their traveller data and receive a confirmation number
-
-##### /confirmation/:formId
- - redirect here after form submission, display confirmation number and retrieve the health status and isolation plan status from the server's response to the form submission.
- - display statuses as friendly icons
- - button to download a PDF version of traveller submission
+##### /
+- landing page for form submission
 
 ##### /login
 - allows an admin to login
 
 ##### /lookup
-- single input field to search for a form submission by confirmation number
+- single input field to search for a form submission
 
 ##### /form/:formId
 - render a static version of a form submission
-- allow the admin to set a status for this submission: ["accepted", "support", "rejected"] and add notes
 
 ### API Routes
 
@@ -125,7 +113,7 @@ Communication from front end to back end is facilitated by [the proxy field](htt
 
 The application uses Amazon DocumentDB, a non-relational database, fully managed, that emulates the MongoDB 3.6 API and utilizes a distributed, fault-tolerant, self-healing storage system.
 
-You can find more information at: 
+You can find more information at:
 - https://aws.amazon.com/documentdb/
 - https://docs.aws.amazon.com/documentdb/latest/developerguide/what-is.html
 
@@ -136,26 +124,6 @@ Keep in mind that DocumentDB does not support all MongoDB 3.6 features and APIs.
 For this project, there are 2 database clusters configured under private subnets inside a custom VPC. One to be used for development and staging environments and the other for the production environment.
 
 For local development, a MongoDB 3.6 container is being used.
-
-### Shelling into the Database [Development/Production]
-
-Because the database clusters are not exposed to the web, we need to create a SSH tunnel to bridge a connection with the database. To do that, we need to use a bastion host inside the same VPC but exposed to the web.
-
-
-```bash
-ssh -i "~/.ssh/ets-bastion-host.pem" -L 27017:DOCUMENT_DB_CLUSTER_URL:27017 ec2-user@BASTION_HOST_URL -N
-```
-
-- Replace DOCUMENT_DB_CLUSTER_URL with the url the document db cluster.
-- Replace BASTION_HOST_URL with the IP address or url of the bastion host.
-- Now you can connect to the database using mongo shell or any mongo client as if the server was running from your localhost.
-- Keep in mind, our DocumentDB clusters have TLS enabled and will require a public key to connect. You can downloaded it [here](https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem).
-
-
-You can find the cluster URLS, credentials, and certificates on the project folder on TeamPass.
-
-Find supplementary reference on the link below:
-- https://docs.aws.amazon.com/documentdb/latest/developerguide/connect-from-outside-a-vpc.html
 
 ## License
 
