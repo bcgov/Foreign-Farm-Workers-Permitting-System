@@ -17,7 +17,7 @@
     "classnames": "2.2.6",
     "dom-to-image": "2.6.0",
     "formik": "2.1.5",
-    "jspdf": "1.5.3",
+    "jspdf": "2.3.1",
     "lodash.orderby": "4.6.0",
     "moment": "2.27.0",
     "react": "16.13.1",
